@@ -1,0 +1,52 @@
+Since we aren't using Trello (or whatever the task management software is called) yet,
+I'll just list what we're supposed to do here.
+
+All members:
+    Shall create an About page.
+    - Shall have a picture and description about them self
+    - Shall use Bootstrap 4
+        - Go to bootstrap's website and use their CDN (CDN means remote location that is globally distributed)
+         to embed it by copying their two lines of code. No need to download anything and put it in the project
+    - Shall be made using a separate branch that branches off the "develop" branch
+        - The branch shall be named "about-firstname", e.g "about-jack"
+        - The commits shall be descriptive, e.g. "Changed image size to scale on mobile" not "Changed image"
+    - Shall follow the naming convention for the files
+        - Replace "firstname" with your first name in all examples
+        - All files shall be lowercase
+        - Your HTML file shall be static/about_firstname.html
+        - All CSS files shall go in static/css/about_firstname/, e.g static/css/about_firstname/main.css
+        - All javascript files shall go in static/js/about_firstname/, e.g static/css/about_firstname/main.js
+    - Shall have a page ready by TUESDAY 2018-09-18 at 4pm.
+
+Frontend team:
+    Shall create About page that links to other about pages
+    - File shall be static/about.html
+    - CSS files shall be in static/css/
+    - Javascript files shall be in static/js/
+    - Shall not hard code Javascript or CSS into <script> or <style> tags
+    - Page shall use Bootstrap 4
+    - Shall have a page ready by TUESDAY 2018-09-18 at 4pm.
+
+Backend team:
+    Shall create an ExpressJS server that serves the About pages.
+    - Main application shall be named app.js (root project directory)
+    - Shall make node_modules ignored by git
+        - Every member shall have to download the packages themselves by navigating to the directory and running "npm install"
+        - The only required dependency, ExpressJS, shall be specified in packages.json
+    - Shall have a settings template file named settings_template.js that is synced on git
+    - Shall use settings.js, that is identicle to settings_template.js, but not synced (add to .gitignore)
+        - The port number of the server shall use a port number in the settings.js file
+    - Shall serve the entire static directory directly as the root. e.g http://1.2.3.4/about_jack.html -> static/about_jack.html
+    - Shall branch off "develop" branch and name each feature properly
+    - Shall be done by TUESDAY 2018-09-18 at 4pm.
+
+Team Leader:
+    Shall create an AWS server that hosts the project
+    - Shall create an account and create a free instance
+    - Shall contain 2 branches of the project: master and develop
+        - master shall run on port 80
+        - develop shall run on port 8080
+    - Shall install mySQL and have it remotely accessible
+    - Shall put all login information into google drive shared with CTO
+    - Shall code review everyone's work before commiting to master
+    - Shall be done by TUESDAY 2018-09-18 at 4pm.
