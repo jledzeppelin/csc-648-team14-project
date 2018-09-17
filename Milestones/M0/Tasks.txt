@@ -14,8 +14,9 @@ All members:
         - Replace "firstname" with your first name in all examples
         - All files shall be lowercase
         - Your HTML file shall be static/about_firstname.html
-        - All CSS files shall go in static/css/about_firstname/, e.g static/css/about_firstname/main.css
-        - All javascript files shall go in static/js/about_firstname/, e.g static/css/about_firstname/main.js
+        - CSS files shall go in static/css/about_firstname/, e.g static/css/about_firstname/main.css
+        - Javascript files shall go in static/js/about_firstname/, e.g static/css/about_firstname/main.js
+        - Image files shall go in static/img/about_firstname/, e.g static/img/about_firstname/me.jpg
     - Shall have a page ready by TUESDAY 2018-09-18 at 4pm.
 
 Frontend team:
@@ -23,6 +24,7 @@ Frontend team:
     - File shall be static/about.html
     - CSS files shall be in static/css/
     - Javascript files shall be in static/js/
+    - Image files shall be in static/img/
     - Shall not hard code Javascript or CSS into <script> or <style> tags
     - Page shall use Bootstrap 4
     - Shall have a page ready by TUESDAY 2018-09-18 at 4pm.
