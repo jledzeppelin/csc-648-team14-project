@@ -1,0 +1,22 @@
+{
+  "name": "csc648team14project",
+  "version": "1.0.0",
+  "description": "1. Change the name of the repo from csc648-fa18-TeamNN. All that needs to chanage is the NN to your respective team number. Team numbers whos value is less than 10, please pad with a 0. Ex team 1 is Team01 team 11 is Team11. Please make sure to also remove the username from the repo as well.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSC-648-SFSU/csc648-fa18-Team14.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSC-648-SFSU/csc648-fa18-Team14/issues"
+  },
+  "homepage": "https://github.com/CSC-648-SFSU/csc648-fa18-Team14#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
