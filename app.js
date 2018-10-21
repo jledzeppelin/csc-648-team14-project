@@ -24,8 +24,8 @@ app.use(express.static('static'))
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/api/post/:id',function(req, res){
-    let params = req.params
-    let post = business.getPost(params.id)
+    let id = req.params.id
+    let post = business.getPost(id)
     res.json(post);
 
 });
