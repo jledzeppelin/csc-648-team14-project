@@ -81,7 +81,6 @@ class Post extends BaseModel{
 
     constructor(){
         super()
-        this._category_id = ""
 
     }
 

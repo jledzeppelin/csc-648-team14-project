@@ -13,7 +13,7 @@ class BaseModel{
      * @description Returns the name of the table in the database. Subclasses must overwrite this.
      * @returns String The table name in the database.
      * @private
-     * @author
+     * @author Jack Cole jcole2@mail.sfsu.edu
      */
     get __TABLE(){throw "Not implemented"}
 
