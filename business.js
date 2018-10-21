@@ -4,7 +4,6 @@ const SETTINGS = require('./settings')
 
 /**
  * @description This is the business layer of the application. It will process the request and return the data.
- * @param id The id of the post as it appears in the database.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 class Business{
