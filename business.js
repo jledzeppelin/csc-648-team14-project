@@ -1,5 +1,5 @@
 /**
- * @file app.js
+ * @file business.js
  * @description This is the business layer of the application. It will process the request and return the data.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */

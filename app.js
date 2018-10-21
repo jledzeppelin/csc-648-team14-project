@@ -1,5 +1,5 @@
 /**
- * app.js
+ * @file app.js
  * @description This is the controller for the ExpressJS application. It accepts HTTP requests and passes them on to the
  * business layer
  *
