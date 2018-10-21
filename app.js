@@ -8,7 +8,7 @@ const express = require('express')
 const app = express()
 
 const SETTINGS = require('./settings')
-const business = require('./business')
+const Business = require('./business')
 
 
 let port = SETTINGS.web.port
@@ -25,7 +25,7 @@ app.use(express.static('static'))
  */
 app.get('/api/post/:id',function(req, res){
     let id = req.params.id
-    let post = business.getPost(id)
+    let post = Business.getPost(id)
     res.json(post);
 
 });
