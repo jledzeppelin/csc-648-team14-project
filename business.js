@@ -1,7 +1,7 @@
 /**
  * @file app.js
  * @description This is the business layer of the application. It will process the request and return the data.
- * @authors Jack
+ * @author Jack Cole jcole2@mail.sfsu.edu
  */
 
 const Post = require('./models/Post.js')
@@ -14,7 +14,7 @@ business = {}
 /**
  * @description Returns the full details of a single post based on its id.
  * @param id The id of the post as it appears in the database.
- * @authors Jack
+ * @author Jack Cole jcole2@mail.sfsu.edu
  */
 business.getPost = function(id){
     // Convert to integer and check to see if valid

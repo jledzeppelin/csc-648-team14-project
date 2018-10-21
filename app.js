@@ -15,13 +15,13 @@ let port = SETTINGS.web.port
 
 /**
  * @description Serve static routes in static directory
- * @authors Juan
+ * @author Juan
  */
 app.use(express.static('static'))
 
 /**
  * @description Returns the full details of a single post based on its id.
- * @authors Jack
+ * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/api/post/:id',function(req, res){
     let params = req.params

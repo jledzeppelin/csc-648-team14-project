@@ -2,7 +2,7 @@ const SETTINGS = require('../settings')
 
 /**
  * @description The Model from which all other models will inherit. Has basic functionality for connecting to the DB.
- * @authors Jack
+ * @author Jack Cole jcole2@mail.sfsu.edu
  */
 class BaseModel{
 
@@ -23,7 +23,7 @@ class BaseModel{
      * @param id The id of the row as it appears in the database. Must be an integer.
      * @param model {BaseModel} The model of the object that is being created
      * @returns BaseModel The instantiated object of this class
-     * @author Jack
+     * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id, model){
         let table = model.__TABLE
@@ -37,7 +37,7 @@ class BaseModel{
      * @description Takes the response from the database, and instantiates an object of this class and fills its values with this data.
      * @param data The data from the database
      * @returns BaseModel The instantiated object of this class
-     * @author Jack
+     * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static objectMapper(data){
         let obj = BaseModel()
