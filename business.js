@@ -23,7 +23,6 @@ business.getPost = function(id){
         throw `Invalid argument for controller.getPost() "${id}". Must be an integer`
 
     // Create the Post object
-    console.log(Post)
     let post = Post.getSingleRowById(id)
 
     return post
