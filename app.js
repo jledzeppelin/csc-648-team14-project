@@ -32,10 +32,13 @@ app.use('/static',express.static(STATIC_PATH))
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/api/post/:id',function(req, res){
+app.get('/api/post/:id',async function(req, res){
     let id = req.params.id
-    let post = Business.getPost(id)
-    res.json(post);
+    let post = await Business.getPost(id).catch(function(err){
+      console.error(err)
+      return {};
+    })
+    res.json(post)
 
 });
 

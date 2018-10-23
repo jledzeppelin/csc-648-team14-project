@@ -91,14 +91,12 @@ class Post extends BaseModel{
      * @private
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    get __TABLE(){return "post"}
-
-
+    static get __TABLE(){return "post"}
 
 
     /**
      * @description Grab a sigle post matching the id from the database
-     * @returns {Post} A post with the data matching the id in the database
+     * @returns {Promise} A post with the data matching the id in the database
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
@@ -138,14 +136,14 @@ class Post extends BaseModel{
         // Take all the values and put them in the new object
         newPost.id = result.id
         newPost.user_id = result.user_id
-        newPost.category_id = result._category_id
-        newPost.create_date = result._create_date
-        newPost.post_title = result._post_title
-        newPost.post_description = result._post_description
-        newPost.post_status = result._post_status
-        newPost.price = result._price
-        newPost.is_price_negotiable = result._is_price_negotiable
-        newPost.last_revised = result._last_revised
+        newPost.category_id = result.category_id
+        newPost.create_date = result.create_date
+        newPost.post_title = result.post_title
+        newPost.post_description = result.post_description
+        newPost.post_status = result.post_status
+        newPost.price = result.price
+        newPost.is_price_negotiable = result.is_price_negotiable
+        newPost.last_revised = result.last_revised
 
         return newPost
     }
