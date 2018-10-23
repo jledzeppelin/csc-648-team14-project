@@ -11,6 +11,7 @@ class Business{
     /**
      * @description Returns the full details of a single post based on its id.
      * @param id The id of the post as it appears in the database.
+     * @returns {Promise}
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getPost(id){
