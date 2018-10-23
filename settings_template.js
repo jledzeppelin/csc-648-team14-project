@@ -1,8 +1,13 @@
-var settings = {};
+var settings = {}
 
-settings.web = {};
-//add settings for db password
+settings.web = {}
+settings.web.port = process.env.PORT || 8080
 
-settings.web.port = process.env.PORT || 8080;
+settings.db = {
+    host     : "",
+    user     : "",
+    password : "",
+    database : "",
+}
 
-module.exports = settings;
+module.exports = settings
