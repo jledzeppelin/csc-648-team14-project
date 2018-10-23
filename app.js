@@ -31,6 +31,25 @@ app.get('/api/post/:id',function(req, res){
 });
 
 /**
+ * @description Returns all post corresponding to category_id
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('api/category/:category_id',function(req,res){
+    let category_id = req.params.category_id
+    let Category = Business.getCategory(category_id)
+    res.json(Category);
+});
+
+/**
+ * @description Returns all recent approved post
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('api/post/recent',function(req,res){
+    let latestApprovedPost = Business.getLatestApprovedPost()
+    res.json(latestApprovedPost)
+});
+
+/**
  * @description Initializes the application to listen on the HTTP port
  */
 app.listen(port, () => {

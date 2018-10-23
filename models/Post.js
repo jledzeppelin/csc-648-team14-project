@@ -107,6 +107,26 @@ class Post extends BaseModel{
     }
 
     /**
+     * @description Returns all post corresponding to category_id
+     * @param category_id - id of category
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static getCategory (category_id){
+        let Category = super.getCategory(category_id, Post)
+        return Category
+    }
+
+    /**
+     * @descirption Returns recent approved Post
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getLatestApprovedPost(){
+        let latestApprovedPost = super.getLatestApprovedPost(Post)
+        return latestApprovedPost
+    }
+
+    /**
      * @description Convert the result from the DB to a new Post object
      * @param result {object} The result from the Database.
      * @returns {Post} The instantiated Post object

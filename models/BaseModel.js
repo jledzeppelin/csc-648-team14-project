@@ -34,6 +34,43 @@ class BaseModel{
     }
 
     /**
+     * @description Returns all post corresponding to category_id
+     * @param category_id - id of category
+     * @returns Category - with all post in that category
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getCategory(category_id, model){
+        let data = { category_id: category_id} // Placeholder , the actual values of the result should be stored in here.
+
+        // TODO: Add MySQL query commands lookup the item in the DB
+
+        /*
+        SELECT * FROM 'Name Of DB'
+        WHERE category_id = 'category_id' AND post_status = 'true'
+        */
+
+        return Category
+    }
+
+    /**
+     * @description Returns all recent approved post
+     * @returns latestApproved - All recent approved post
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getLatestApprovedPost(model){
+
+        // TODO: Add MySQL query commands lookup the item in the DB
+        // Get most approved recent post , number of Results : ?
+
+        /*
+        SELECT * FROM 'Name Of DB'
+        SORT BY _create_date
+        */
+
+        return lastestApproved
+    }
+
+    /**
      * @description Takes the response from the database, and instantiates an object of this class and fills its values with this data.
      * @param data The data from the database
      * @returns BaseModel The instantiated object of this class

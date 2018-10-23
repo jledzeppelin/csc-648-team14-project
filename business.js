@@ -25,6 +25,35 @@ class Business{
         return post
 
     }
+
+    /**
+     * @description Returns all post corresponding to category_id
+     * @param category_id - id of category
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getCategory(category_id){
+        // Convert to integer and check to see if valid
+        category_id = parseInt(category_id)
+        if(!Number.isInteger(category_id))
+            throw `Invalid argument for controller.getPost() "${category_id}". Must be an integer`
+
+        // Create the Post Object
+        let Category = Post.getCategory(category_id)
+        return Category
+
+    }
+
+    /**
+     * @description Returns all recent approved post
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static getLatestApprovedPost(){
+        //Creates Post Object
+        let lastestApprovedPost = Post.getLatestApprovedPost()
+        return lastestApprovedPost
+    }
+
 }
 
 // Required. This specifies what will be imported by other files
