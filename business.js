@@ -1,5 +1,5 @@
 const Post = require('./models/Post.js')
-const SETTINGS = require('./settings')
+const SETTINGS = require('./SETTINGS')
 
 
 /**
@@ -26,6 +26,57 @@ class Business{
         return post
 
     }
+
+    /**
+     * @description Returns all post corresponding to category_id
+     * @param category_id - id of category
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getCategory(category_id){
+        // Convert to integer and check to see if valid
+        category_id = parseInt(category_id)
+        if(!Number.isInteger(category_id))
+            throw `Invalid argument for controller.getPost() "${category_id}". Must be an integer`
+
+        // Create the Post Object
+        let Category = Post.getCategory(category_id)
+        return Category
+
+    }
+
+    /**
+     * @description Returns all recent approved post
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getLatestApprovedPost(){
+        //Creates Post Object
+        let lastestApprovedPost = Post.getLatestApprovedPost()
+        return lastestApprovedPost
+    }
+
+    /**
+     * @description Returns search results
+     * @param name -
+     * @param category -
+     * @param page -
+     * @param sort -
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static searchPosts(name , category , page , sort){
+        category =parseInt(category)
+        page = parseInt(page)
+
+        if(!Number.isInteger(category) && !Number.isInteger(page))
+            throw `Invalid argument for controller.getPost() "${category}" and "${page}". Must be an integer`
+        else if (!Number.isInteger(category)) throw `Invalid argument for controller.getPost() "${category}". Must be an integer`
+        else if (!Number.isInteger(page)) throw `Invalid argument for controller.getPost() "${page}". Must be an integer`
+
+        //Creates Post Object
+        let searchResults = Post.searchPosts(name , category , page , sort)
+        return searchResults
+    }
+
 }
 
 // Required. This specifies what will be imported by other files
