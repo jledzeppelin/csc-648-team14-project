@@ -139,6 +139,19 @@ class Post extends BaseModel{
     }
 
     /**
+     * @description
+     * @param title
+     * @param description
+     * @param category
+     * @param image
+     * @author Ryan Jin
+     */
+    static createPost(title, description, category, image){
+        let newPost = super.createPost(title, description, category, image, Post)
+        return newPost
+    }
+
+    /**
      * @description Convert the result from the DB to a new Post object
      * @param result {object} The result from the Database.
      * @returns {Post} The instantiated Post object

@@ -77,6 +77,19 @@ class Business{
         return searchResults
     }
 
+    /**
+     * @description
+     * @param
+     * @returns
+     * @author Ryan Jin
+     */
+    static createPost(title, description, category, image){
+
+
+        let createPost = Post.createPost(title, description, category, image)
+
+        return createPost
+    }
 }
 
 // Required. This specifies what will be imported by other files

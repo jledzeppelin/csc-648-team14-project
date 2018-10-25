@@ -87,6 +87,22 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
     res.json(searchResults)
 });
 
+/**
+ * @description Creates a post
+ * @author Ryan Jin
+ */
+app.post('/api/post/create',function(req,res){
+    let title = req.params.body
+    let description = req.params.body
+    let category = req.params.body
+    let image = req.params.body
+
+    let createPost = await Business.createPost(title, description, category, image).catch(function(err){
+        console.error(err)
+        return {};
+    })
+    res.json(createPost)
+});
 
 // -------------- PAGES -------------- //
 

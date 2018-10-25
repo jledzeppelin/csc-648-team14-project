@@ -165,6 +165,12 @@ class BaseModel{
         let obj = BaseModel()
         return obj
     }
+
+    static createPost(title, description, category, image, model){
+
+    }
+
+
 }
 
 // Required. This specifies what will be imported by other files
