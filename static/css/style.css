@@ -16,3 +16,7 @@
   height: 150px;
   cursor: pointer;
 }
+
+.post-img{
+  max-height: 300px;
+}

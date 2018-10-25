@@ -9,9 +9,9 @@ function addPostsToPage(posts){
     {
         let post = posts[i];
         let price = post.price.toFixed(2);
-        let html = $(`<div class="col-lg-4 text-right">
+        let html = $(`<div class="col-md-4 offset-md-1 text-right post">
             <li class="list-inline list-unstyled">
-                <a href="#"><img src="#" class="w-100"></a>
+                <a href="#"><img src="#" class="post-img w-100"></a>
                 <div class="product-info">
                     <h4 class="product-name">
                         <a href="#" class="text-capitalize">${post.post_title}</a></h4>

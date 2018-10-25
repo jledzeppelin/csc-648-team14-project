@@ -11,6 +11,13 @@ const fs = require('fs')
 const express = require('express')
 const app = express()
 const mustache = require('mustache-express')
+const nunjucks = require('nunjucks')
+
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app,
+
+});
 
 const SETTINGS = require('./SETTINGS')
 const Business = require('./business')
@@ -91,8 +98,7 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
 // -------------- PAGES -------------- //
 
 // Mustache engine setup to read HTML files
-app.engine('html', mustache());
-app.set('view engine', 'html');
+app.set('view engine', 'njk');
 app.set('views', VIEWS_PATH);
 
 /**
@@ -111,10 +117,7 @@ function getPage(name){
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/',function(req, res){
-  let index = getPage("index")
-  res.render('template', {
-      content: index
-  })
+  res.render('index');
 })
 
 /**
@@ -124,16 +127,18 @@ app.get('/',function(req, res){
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/search/:name/:page/:sort',function(req, res) {
-  let index = getPage("search")
   let name = req.params.name
   let page = req.params.page
   let sort = req.params.sort
-  res.render('template', {
-    content: index,
+  res.render('search', {
     name: name,
     page: page,
     sort: sort,
   })
+})
+
+app.get('/search/',function(req, res) {
+  res.render('search')
 })
 
 
