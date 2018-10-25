@@ -125,6 +125,20 @@ class Post extends BaseModel{
     }
 
     /**
+     * @description Returns search results
+     * @param name -
+     * @param category -
+     * @param page -
+     * @param sort -
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static searchPosts(name,category,page,sort){
+        let searchResults = super.searchPosts(name,category,page,sort,Post)
+        return searchResults
+    }
+
+    /**
      * @description Convert the result from the DB to a new Post object
      * @param result {object} The result from the Database.
      * @returns {Post} The instantiated Post object

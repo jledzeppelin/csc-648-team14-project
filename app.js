@@ -12,7 +12,7 @@ const express = require('express')
 const app = express()
 const mustache = require('mustache-express')
 
-const SETTINGS = require('./settings')
+const SETTINGS = require('./SETTINGS')
 const Business = require('./business')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
@@ -42,6 +42,50 @@ app.get('/api/post/:id',async function(req, res){
 
 });
 
+
+/**
+ * @description Returns all post corresponding to category_id
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('api/category/:category_id',async function(req,res){
+    let category_id = req.params.category_id
+    let Category = await Business.getCategory(category_id).catch(function(err){
+        console.error(err)
+        return {};
+    })
+    res.json(Category);
+});
+
+
+/**
+ * @description Returns all recent approved post
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('api/post/recent',async function(req,res){
+    let latestApprovedPost = await Business.getLatestApprovedPost().catch(function(err){
+        console.error(err)
+        return {};
+    })
+    res.json(latestApprovedPost)
+});
+
+
+/**
+ * @description Returns search results
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
+    let name = req.params.name
+    let category = req.params.category
+    let page = req.params.page
+    let sort = req.params.sort
+
+    let searchResults = await Business.searchPosts(name, category, page, sort).catch(function(err){
+        console.error(err)
+        return {};
+    })
+    res.json(searchResults)
+});
 
 
 // -------------- PAGES -------------- //
@@ -93,24 +137,8 @@ app.get('/search/:name/:page/:sort',function(req, res) {
 })
 
 
-/**
- * @description Returns all post corresponding to category_id
- * @author Anthony Carrasco acarras4@mail.sfsu.edu
- */
-app.get('api/category/:category_id',function(req,res){
-    let category_id = req.params.category_id
-    let Category = Business.getCategory(category_id)
-    res.json(Category);
-});
 
-/**
- * @description Returns all recent approved post
- * @author Anthony Carrasco acarras4@mail.sfsu.edu
- */
-app.get('api/post/recent',function(req,res){
-    let latestApprovedPost = Business.getLatestApprovedPost()
-    res.json(latestApprovedPost)
-});
+
 
 /**
  * @description Initializes the application to listen on the HTTP port

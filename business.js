@@ -1,5 +1,5 @@
 const Post = require('./models/Post.js')
-const SETTINGS = require('./settings')
+const SETTINGS = require('./SETTINGS')
 
 
 /**
@@ -48,11 +48,33 @@ class Business{
      * @description Returns all recent approved post
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-
     static getLatestApprovedPost(){
         //Creates Post Object
         let lastestApprovedPost = Post.getLatestApprovedPost()
         return lastestApprovedPost
+    }
+
+    /**
+     * @description Returns search results
+     * @param name -
+     * @param category -
+     * @param page -
+     * @param sort -
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static searchPosts(name , category , page , sort){
+        category =parseInt(category)
+        page = parseInt(page)
+
+        if(!Number.isInteger(category) && !Number.isInteger(page))
+            throw `Invalid argument for controller.getPost() "${category}" and "${page}". Must be an integer`
+        else if (!Number.isInteger(category)) throw `Invalid argument for controller.getPost() "${category}". Must be an integer`
+        else if (!Number.isInteger(page)) throw `Invalid argument for controller.getPost() "${page}". Must be an integer`
+
+        //Creates Post Object
+        let searchResults = Post.searchPosts(name , category , page , sort)
+        return searchResults
     }
 
 }
