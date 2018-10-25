@@ -74,14 +74,13 @@ class BaseModel{
         return new Promise(function(resolve, reject){
           let connection = BaseModel.__connect();
 
-          BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
-            if (err) throw err
-
-            let newObject = model.objectMapper(rows[0])
-            resolve(newObject)
-
-          })
-
+            BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+              if (err) throw err
+              let data = {}
+              if(rows.length !== 0)
+                data = rows[0]
+              resolve(model.objectMapper(data))
+            })
             BaseModel.__disconnect(connection);
         })
     }
