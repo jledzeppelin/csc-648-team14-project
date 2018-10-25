@@ -1,4 +1,4 @@
-const SETTINGS = require('../settings')
+const SETTINGS = require('../SETTINGS')
 const mysql = require('mysql')
 
 
@@ -82,6 +82,76 @@ class BaseModel{
               resolve(model.objectMapper(data))
             })
             BaseModel.__disconnect(connection);
+        })
+    }
+
+    /**
+     * @description Returns all post corresponding to category_id
+     * @param category_id - id of category
+     * @returns Category - with all post in that category
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static getCategory(category_id, model){
+        let data = { category_id: category_id} // Placeholder , the actual values of the result should be stored in here.
+
+        // TODO: Add MySQL query commands lookup the item in the DB
+
+        /*
+        SELECT * FROM 'Name Of DB'
+        WHERE category_id = 'category_id' AND post_status = 'true'
+        */
+
+        return Category
+    }
+
+    /**
+     * @description Returns all recent approved post
+     * @returns latestApproved - All recent approved post
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+
+    static getLatestApprovedPost(model){
+        let table = model.__TABLE
+        let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
+        return new Promise(function(resolve, reject){
+            connection.connect()
+
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                //TODO: Fix corection of rows [] to take multiple post
+                let newObject = model.objectMapper(rows[])
+                resolve(newObject)
+
+            })
+
+            connection.end()
+        })
+    }
+    //TODO: Fix sqlCommand for searchPosts()
+    /**
+     * @description Returns search results
+     * @param name -
+     * @param category -
+     * @param page -
+     * @param sort -
+     * @param model -
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    static searchPosts(name,category,page,sort,model){
+        let table = model.__TABLE
+        let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' AND category_id = ${category} AND _post_title: ${sort} `
+        return new Promise(function(resolve, reject){
+            connection.connect()
+
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                //TODO: Fix corection of rows [] to take multiple post
+                let newObject = model.objectMapper(rows[])
+                resolve(newObject)
+
+            })
+
+            connection.end()
         })
     }
 
