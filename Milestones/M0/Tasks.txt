@@ -35,9 +35,9 @@ Backend team:
     - Shall make node_modules ignored by git
         - Every member shall have to download the packages themselves by navigating to the directory and running "npm install"
         - The only required dependency, ExpressJS, shall be specified in packages.json
-    - Shall have a settings template file named settings_template.js that is synced on git
-    - Shall use settings.js, that is identicle to settings_template.js, but not synced (add to .gitignore)
-        - The port number of the server shall use a port number in the settings.js file
+    - Shall have a SETTINGS template file named settings_template.js that is synced on git
+    - Shall use SETTINGS.js, that is identicle to settings_template.js, but not synced (add to .gitignore)
+        - The port number of the server shall use a port number in the SETTINGS.js file
     - Shall serve the entire static directory directly as the root. e.g http://1.2.3.4/about_jack.html -> static/about_jack.html
     - Shall branch off "develop" branch and name each feature properly
     - Shall be done by TUESDAY 2018-09-18 at 4pm.
