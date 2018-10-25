@@ -1,2 +1,92 @@
 <!-- Example search page that fills in template. Overwrite with actual search page -->
-<h1>Search test</h1>
+<!--<h1>Search test</h1>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search resluts page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/search.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div id="top"></div>
+
+    <div class="row justify-content-start">
+        <div class="col-lg-8"></div>
+
+        <div class="pages col-lg-4">
+            <ol class="list-unstyled list-inline pagination pagination-sm">
+                <li class="list-unstyled list-inline pre-pager active"><a href="#" class="previous i-previous text-capitalize">prev</a></li>
+                <li class="list-unstyled list-inline current"><a href="#">1</a></li>
+                <li class="list-unstyled list-inline"><a href="#">2</a></li>
+                <li class="list-unstyled list-inline"><a href="#">3</a></li>
+                <li>
+                    <a class="next_jump" href="#">...</a>
+                </li>
+                <li class="list-unstyled list-inline next-pager"><a href="#" class="next i-next text-capitalize">next</a></li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-start">
+        <div class="col-lg-4">
+            <div class="span8 spacing-none">
+                <div class="section spacing-small spacing-top-small">
+                    <h4><span id="post-result-count" class="label label-default">results 1~10 of 1,000,000
+                    <span>
+                    <span class="text-danger">" "</span>
+                    </span>
+                </span></h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4"></div>
+
+        <div class="row col-lg-2"><div class="dropdown">
+            <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu1" data-toggle="dropdown">filter
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">books</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">pens</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">cellphones</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">headphones</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">laptop</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">calculators</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">sound box</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">draw board</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">TVs</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">printers</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">camera</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">video</a></li>
+            </ul>
+        </div>
+        </div>
+
+        <div class="col-lg-2"><div class="dropdown">
+            <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu2" data-toggle="dropdown">sort by
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">new arrivals</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">price (low to high)</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">price (high to low)</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+
+    <div id="posts" class="row justify-content-start">
+        <!--posts go here-->
+    </div>
+
+</div>
+
+
+</body>
