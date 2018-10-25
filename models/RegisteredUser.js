@@ -54,4 +54,35 @@ class RegisteredUser extends BaseModel {
     static get __TABLE(){
         return "registered_user"
     }
+
+    static createNewUser(newUser) {
+        let result = super.createNewUser(newUser, RegisteredUser)
+        return result
+    }
+
+    static objectMapper(result){
+        let newRegisteredUser = new RegisteredUser()
+
+        newRegisteredUser.id = result.id
+        newRegisteredUser.first_name = result.first_name
+        newRegisteredUser.last_name = result.last_name
+        newRegisteredUser.email = result.email
+        newRegisteredUser.login_password = result.login_password
+        newRegisteredUser.is_banned = result.is_banned
+
+        return newRegisteredUser
+    }
+
+    toJSON() {
+        return {
+            id : this.id,
+            first_name : this.first_name,
+            last_name : this.last_name,
+            email : this.email,
+            login_password : this.login_password,
+            is_banned : this.is_banned
+        }
+    }
 }
+
+module.exports = RegisteredUser

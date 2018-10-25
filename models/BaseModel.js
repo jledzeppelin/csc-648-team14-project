@@ -85,7 +85,8 @@ class BaseModel{
         })
     }
 
-    //insert new user
+    //insert new user 
+    //maybe this needs to be a generic insert new record function
     static createNewUser(newUser, model){
         let table = model.__TABLE
         let sqlCommand = `INSERT INTO ${table} SET ?`
@@ -103,6 +104,7 @@ class BaseModel{
 
                 resolve(model.objectMapper(data))
             })
+            connection.end();
         })
 
         //******************** LEFT OFF HERE ********************************
