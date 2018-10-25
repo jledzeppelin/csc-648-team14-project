@@ -27,6 +27,13 @@ class Business{
 
     }
 
+    //return the details of the new user that was created
+    static registerUser(newUser){
+        //do some validation (email) here, or frontend?
+        let user = RegisteredUser.createNewUser(newUser)
+        return user
+    }
+
     /**
      * @description Returns all post corresponding to category_id
      * @param category_id - id of category

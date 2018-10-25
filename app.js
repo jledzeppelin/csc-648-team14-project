@@ -12,6 +12,7 @@ const express = require('express')
 const app = express()
 const mustache = require('mustache-express')
 const nunjucks = require('nunjucks')
+const bodyParser = require('body-parser')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -93,6 +94,31 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
     })
     res.json(searchResults)
 });
+
+//register/authenticate
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
+
+app.post('/api/register', async function (req, res){
+    var newUser={
+        "first_name":req.body.first_name,
+        "last_name":req.body.email,
+        "email":req.body.email,
+        "login_password":req.body.login_password,
+        "is_banned":0
+    }
+
+    let registeredUser = await Business.registerUser(newUser).catch(function(err){
+        console.error(err)
+        return {};
+    })
+
+    res.json(registeredUser)
+})
+
+app.post('/api/login', async function (req,res){
+    //TODO
+})
 
 
 // -------------- PAGES -------------- //

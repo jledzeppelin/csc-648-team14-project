@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CSC-648-SFSU/csc648-fa18-Team14#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mustache": "^3.0.0",
     "mustache-express": "^1.2.8",

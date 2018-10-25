@@ -85,6 +85,48 @@ class BaseModel{
         })
     }
 
+    //insert new user
+    static createNewUser(newUser, model){
+        let table = model.__TABLE
+        let sqlCommand = `INSERT INTO ${table} SET ?`
+
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+
+            connection.query(sqlCommand, newUser, function (err, rows, fields) {
+                if (err) throw err
+                
+                let data = {}
+                if (rows.length !== 0) {
+                    data = rows
+                }
+
+                resolve(model.objectMapper(data))
+            })
+        })
+
+        //******************** LEFT OFF HERE ********************************
+
+        /*
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+
+            BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+
+                let data = {}
+                if (rows.length !== 0) {
+                    data = rows
+                }
+
+                resolve(model.objectMapper(data))
+            })
+
+            BaseModel.__disconnect(connection);
+        })
+        */
+    }
+
     /**
      * @description Returns all post corresponding to category_id
      * @param category_id - id of category
@@ -110,6 +152,7 @@ class BaseModel{
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
 
+     /*
     static getLatestApprovedPost(model){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
@@ -127,6 +170,9 @@ class BaseModel{
             connection.end()
         })
     }
+    */
+
+    
     //TODO: Fix sqlCommand for searchPosts()
     /**
      * @description Returns search results
@@ -137,6 +183,8 @@ class BaseModel{
      * @param model -
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
+
+     /*
     static searchPosts(name,category,page,sort,model){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' AND category_id = ${category} AND _post_title: ${sort} `
@@ -154,6 +202,7 @@ class BaseModel{
             connection.end()
         })
     }
+    */
 
     /**
      * @description Takes the response from the database, and instantiates an object of this class and fills its values with this data.
