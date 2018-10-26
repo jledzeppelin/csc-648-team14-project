@@ -128,12 +128,10 @@ class BaseModel{
 
   /**
    * @description Inserts a single object to the database
-   * @param object {BaseModel} The instantiated object being inserted
-   * @param object {BaseModel} The class of the object
    * @returns {Promise} The result of the insert
    * @author Jack Cole jcole2@mail.sfsu.edu
    */
-    static insertSingleObject(object, model){
+    insert(){
 
     }
 
