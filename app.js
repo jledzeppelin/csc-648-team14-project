@@ -26,15 +26,13 @@ const Business = require('./business')
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
 
-
 let port = SETTINGS.web.port
 
-/**
- * @description Serve static routes in static directory
- * @author  Juan
- *          Jack Cole jcole2@mail.sfsu.edu
- */
-app.use('/static',express.static(STATIC_PATH))
+// -------
+// -------
+// APIs
+// -------
+// -------
 
 /**
  * @description Returns the full details of a single post based on its id.
@@ -42,10 +40,7 @@ app.use('/static',express.static(STATIC_PATH))
  */
 app.get('/api/post/:id',async function(req, res){
     let id = req.params.id
-    let post = await Business.getPost(id).catch(function(err){
-      console.error(err)
-      return {};
-    })
+    let post = await Business.getPost(id)
     res.json(post)
 
 });
@@ -81,6 +76,7 @@ app.get('api/post/recent',async function(req,res){
 /**
  * @description Returns search results
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ * Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
     let name = req.params.name
@@ -88,11 +84,25 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
     let page = req.params.page
     let sort = req.params.sort
 
-    let searchResults = await Business.searchPosts(name, category, page, sort).catch(function(err){
+    let searchResults = await Business.searchPosts(name, category, page, sort)
+    res.json(searchResults)
+});
+
+/**
+ * @description Creates a post
+ * @author Ryan Jin
+ */
+app.post('/api/post/create',async function(req,res){
+    let title = req.params.body
+    let description = req.params.body
+    let category = req.params.body
+    let image = req.params.body
+
+    let createPost = await Business.createPost(title, description, category, image).catch(function(err){
         console.error(err)
         return {};
     })
-    res.json(searchResults)
+    res.json(createPost)
 });
 
 //register/authenticate
@@ -120,23 +130,14 @@ app.post('/api/login', async function (req,res){
     //TODO
 })
 
+// -------
+// -------
+// PAGES
+// -------
+// -------
 
-// -------------- PAGES -------------- //
-
-// Mustache engine setup to read HTML files
 app.set('view engine', 'njk');
 app.set('views', VIEWS_PATH);
-
-/**
- * @description Reads the page and returns its contents as a string.
- * e.g. getPage('index') returns the contents of views/
- * @param name {String} The file name of the page, without the extension
- * @returns {String} The contents of the file
- * @author Jack Cole jcole2@mail.sfsu.edu
- */
-function getPage(name){
-  return fs.readFileSync(`${VIEWS_PATH}/pages/${name}.html`, 'utf8')
-}
 
 /**
  * @description Home page of site. Uses index page to render.
@@ -163,12 +164,27 @@ app.get('/search/:name/:page/:sort',function(req, res) {
   })
 })
 
+/**
+ * @description Search page but without parameters
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
 app.get('/search/',function(req, res) {
   res.render('search')
 })
 
 
+// -------
+// -------
+// STATIC
+// -------
+// -------
 
+/**
+ * @description Serve static routes in static directory
+ * @author  Juan
+ *          Jack Cole jcole2@mail.sfsu.edu
+ */
+app.use('/static',express.static(STATIC_PATH))
 
 
 /**
