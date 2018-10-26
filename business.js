@@ -76,7 +76,6 @@ class Business{
         let sort_column = Business.DEFAULT_SORT
         let sort_desc = Business.DEFAULT_SORT_DESCENDING
 
-
         if(!Number.isInteger(category))
         {
             console.error(`Invalid argument for controller.searchPosts() "${category}". Must be an integer`)

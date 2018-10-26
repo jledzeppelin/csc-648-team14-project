@@ -42,10 +42,25 @@ app.get('/api/post/recent',async function(req,res){
 });
 
 /**
+ * @description Returns search results
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ * Jack Cole jcole2@mail.sfsu.edu
+ */
+app.get('/api/post/search',async function (req,res){
+    let name = req.query.name
+    let category = req.query.category
+    let page = req.query.page
+    let sort = req.query.sort
+
+    let searchResults = await Business.searchPosts(name, category, page, sort)
+    res.json(searchResults)
+});
+
+/**
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/api/post/:id',async function(req, res){
+app.get('/api/post/:id/',async function(req, res){
     let id = req.params.id
     let post = await Business.getPost(id)
     res.json(post)
@@ -57,7 +72,7 @@ app.get('/api/post/:id',async function(req, res){
  * @description Returns all post corresponding to category_id
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
-app.get('api/category/:category_id',async function(req,res){
+app.get('api/category/:category_id/',async function(req,res){
     let category_id = req.params.category_id
     let Category = await Business.getCategory(category_id).catch(function(err){
         console.error(err)
@@ -68,22 +83,6 @@ app.get('api/category/:category_id',async function(req,res){
 
 
 
-
-
-/**
- * @description Returns search results
- * @author Anthony Carrasco acarras4@mail.sfsu.edu
- * Jack Cole jcole2@mail.sfsu.edu
- */
-app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
-    let name = req.params.name
-    let category = req.params.category
-    let page = req.params.page
-    let sort = req.params.sort
-
-    let searchResults = await Business.searchPosts(name, category, page, sort)
-    res.json(searchResults)
-});
 
 /**
  * @description Creates a post
@@ -119,22 +118,6 @@ app.get('/',function(req, res){
   res.render('index');
 })
 
-/**
- * @description Search page. Requires a name, page, and sort in the arguments of the URL.
- * e.g. /search/giraffe/1/pricedesc
- * Uses search page to render.
- * @author Jack Cole jcole2@mail.sfsu.edu
- */
-app.get('/search/:name/:page/:sort',function(req, res) {
-    let name = req.params.name
-    let page = req.params.page
-    let sort = req.params.sort
-    res.render('search', {
-    name: name,
-    page: page,
-    sort: sort,
-    })
-})
 
 /**
  * @description Search page but without parameters
