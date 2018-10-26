@@ -78,12 +78,12 @@ class Post extends BaseModel{
         this._create_date = value
     }
 
-    get image_count() {
-        return this._image_count
+    get number_of_images() {
+        return this._number_of_images
     }
 
-    set image_count(value){
-        this._image_count = value
+    set number_of_images(value){
+        this._number_of_images = value
     }
 
     constructor(){
@@ -176,6 +176,7 @@ class Post extends BaseModel{
         newPost.price = result.price
         newPost.is_price_negotiable = result.is_price_negotiable
         newPost.last_revised = result.last_revised
+        newPost.number_of_images = 0
 
         return newPost
     }
@@ -197,7 +198,7 @@ class Post extends BaseModel{
             price : this.price,
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
-            image_count : this.image_count,
+            number_of_images : this.number_of_images,
         }
     }
 

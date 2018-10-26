@@ -5,6 +5,8 @@ function addPostsToPage(posts){
         let post = posts[i];
         let price = post.price.toFixed(2);
         let image_url = "/static/img/no_image_avaliable.png";
+        if(post.number_of_images > 0)
+            image_url = "/images/posts/"+post.id+"-1.jpg"
         let html = $(`<div class="col-md-4 offset-md-1 text-right post">
             <li class="list-inline list-unstyled">
                 <a href="#"><img src="${image_url}" class="post-img w-100"></a>
