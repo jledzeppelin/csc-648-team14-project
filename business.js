@@ -56,7 +56,7 @@ class Business{
      */
     static getLatestApprovedPost(){
         //Creates Post Object
-        let lastestApprovedPost = Post.getLatestApprovedPost()
+        let lastestApprovedPost = Post.getLatestApprovedPosts()
         return lastestApprovedPost
     }
 
