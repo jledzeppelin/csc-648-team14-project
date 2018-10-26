@@ -105,12 +105,12 @@ class BaseModel{
     }
 
     /**
-     * @description Returns all recent approved post
+     * @description Get multiple rows based on query
      * @returns latestApproved - All recent approved post
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
 
-    static getLatestApprovedPost(model){
+    static getMultipleFromCustomSQL(model, where){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
         return new Promise(function(resolve, reject){
@@ -119,8 +119,8 @@ class BaseModel{
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
                 //TODO: Fix corection of rows [] to take multiple post
-                let newObject = model.objectMapper(rows[])
-                resolve(newObject)
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
 
             })
 
@@ -146,7 +146,7 @@ class BaseModel{
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
                 //TODO: Fix corection of rows [] to take multiple post
-                let newObject = model.objectMapper(rows[])
+                let newObject = model.objectMapper(rows[0])
                 resolve(newObject)
 
             })
