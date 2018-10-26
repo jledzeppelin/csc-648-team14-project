@@ -176,7 +176,7 @@ class Post extends BaseModel{
         newPost.price = result.price
         newPost.is_price_negotiable = result.is_price_negotiable
         newPost.last_revised = result.last_revised
-        newPost.number_of_images = 0
+        newPost.number_of_images = result.number_of_images
 
         return newPost
     }
