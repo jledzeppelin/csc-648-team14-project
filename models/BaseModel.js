@@ -85,6 +85,26 @@ class BaseModel{
         })
     }
 
+  /**
+   * @description Retrieves multiple rows from a direct SQL command
+   * @param model {BaseModel} The model being searched in the DB
+   * @param sqlCommand {String} The full SQL command
+   * @returns {Promise} The resulting rows mapped to the passed in model
+   * @author Jack Cole jcole2@mail.sfsu.edu
+   */
+  static getMultipleBySQL(model, sqlCommand){
+    return new Promise(function(resolve, reject){
+      let connection = BaseModel.__connect();
+      connection.connect()
+      connection.query(sqlCommand, function (err, rows, fields) {
+        if (err) throw err
+        let newObjects = rows.map(model.objectMapper)
+        resolve(newObjects)
+      })
+      connection.end()
+    })
+  }
+
     /**
      * @description Returns all post corresponding to category_id
      * @param category_id - id of category
@@ -105,12 +125,11 @@ class BaseModel{
     }
 
     /**
-     * @description Get multiple rows based on query
+     * @description Returns all recent approved post
      * @returns latestApproved - All recent approved post
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-
-    static getMultipleFromCustomSQL(model, where){
+    static getLatestApprovedPost(model){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
         return new Promise(function(resolve, reject){
