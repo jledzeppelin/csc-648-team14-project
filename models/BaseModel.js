@@ -85,6 +85,7 @@ class BaseModel{
         })
     }
 
+
   /**
    * @description Retrieves multiple rows from a direct SQL command
    * @param model {BaseModel} The model being searched in the DB
@@ -104,6 +105,37 @@ class BaseModel{
       connection.end()
     })
   }
+
+    /**
+     * @description Retrieves multiple rows from a direct SQL command
+     * @param model {BaseModel} The model being searched in the DB
+     * @param sqlCommand {String} The full SQL command
+     * @returns {Promise} The resulting rows mapped to the passed in model
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     */
+    static getMultipleBySQL(model, sqlCommand){
+      return new Promise(function(resolve, reject){
+        let connection = BaseModel.__connect();
+        connection.connect()
+        connection.query(sqlCommand, function (err, rows, fields) {
+          if (err) throw err
+          let newObjects = rows.map(model.objectMapper)
+          resolve(newObjects)
+        })
+        connection.end()
+      })
+    }
+
+  /**
+   * @description Inserts a single object to the database
+   * @param object {BaseModel} The instantiated object being inserted
+   * @param object {BaseModel} The class of the object
+   * @returns {Promise} The result of the insert
+   * @author Jack Cole jcole2@mail.sfsu.edu
+   */
+    static insertSingleObject(object, model){
+
+    }
 
     /**
      * @description Returns all post corresponding to category_id
@@ -185,9 +217,7 @@ class BaseModel{
         return obj
     }
 
-    static createPost(title, description, category, image, model){
 
-    }
 
 
 }
