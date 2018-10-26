@@ -14,7 +14,7 @@ class GatorTraderAPI {
         if(page.length === 0) page = "1"
         if(sort.length === 0) sort = "default"
         let params = $.param({name:name, category:category, page:page, sort:sort})
-        let url = '/api/post/search/?'+params
+        let url = '/api/post/search?'+params
         return $.get(url,callback)
     }
 
