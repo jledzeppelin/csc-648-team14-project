@@ -33,7 +33,7 @@ let port = SETTINGS.web.port
 // -------
 
 /**
- * @description Returns all recent approved post
+ * @description Returns all recently approved Posts
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('/api/post/recent',async function(req,res){
@@ -42,7 +42,7 @@ app.get('/api/post/recent',async function(req,res){
 });
 
 /**
- * @description Returns search results
+ * @description Returns Posts based on queries passed in. The queries are "name", "category", "page", "sort"
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  * Jack Cole jcole2@mail.sfsu.edu
  */
@@ -69,7 +69,7 @@ app.get('/api/post/:id/',async function(req, res){
 
 
 /**
- * @description Returns all post corresponding to category_id
+ * @description Returns all Posts corresponding to category_id
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('api/category/:category_id/',async function(req,res){
@@ -80,8 +80,6 @@ app.get('api/category/:category_id/',async function(req,res){
     })
     res.json(Category);
 });
-
-
 
 
 /**
@@ -111,7 +109,7 @@ app.set('view engine', 'njk');
 app.set('views', VIEWS_PATH);
 
 /**
- * @description Home page of site. Uses index page to render.
+ * @description Home page of site. Renders index.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/',function(req, res){
@@ -120,7 +118,7 @@ app.get('/',function(req, res){
 
 
 /**
- * @description Search page but without parameters
+ * @description Search page. Renders search.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/search/',function(req, res) {
@@ -142,19 +140,17 @@ app.get('/search/',function(req, res) {
 // -------
 
 /**
- * @description Serve static routes in static directory
+ * @description Serves static routes in static directory
  * @author  Juan
  *          Jack Cole jcole2@mail.sfsu.edu
  */
 app.use('/static',express.static(STATIC_PATH))
 
 /**
- * @description Serve images from the image directory
+ * @description Serves images from the image directory
  * @author     Jack Cole jcole2@mail.sfsu.edu
  */
 app.use('/images',express.static(IMAGE_PATH))
-
-
 
 /**
  * @description Initializes the application to listen on the HTTP port

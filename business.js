@@ -13,7 +13,7 @@ class Business{
     static get DEFAULT_SORT_DESCENDING(){return false}
 
     /**
-     * @description Returns the full details of a single post based on its id.
+     * @description Returns the full details of a single based on its id.
      * @param id The id of the post as it appears in the database.
      * @returns {Post}
      * @author Jack Cole jcole2@mail.sfsu.edu
@@ -34,7 +34,7 @@ class Business{
     }
 
     /**
-     * @description Returns all post corresponding to category_id
+     * @description Returns all posts corresponding to category_id
      * @param category_id - id of category
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */

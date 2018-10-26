@@ -1,3 +1,9 @@
+/**
+ * @description Adds the specified Posts to the DOM.
+ * @param posts {[Object]} The Posts to be added to the page
+ * @author XiaoQian Huang
+ * Jack Cole jcole2@mail.sfsu.edu
+ */
 function addPostsToPage(posts){
 
     for(let i = 0; i < posts.length; i++)
@@ -24,7 +30,16 @@ function addPostsToPage(posts){
     }
 }
 
-
+/**
+ * @description Updates the result count on the page's DOM.
+ * The output should look like "results first~last of total "searchTerm"
+ * @param first {Number} The index of the first result
+ * @param last {Number} The index of the last result
+ * @param total {Number} The total number of results for the entire query
+ * @param searchTerm {String} The term that was used to search
+ * @author XiaoQian Huang
+ * Jack Cole jcole2@mail.sfsu.edu
+ */
 function setResultCount(first, last, total, searchTerm)
 {
     let totalformat = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -32,10 +47,19 @@ function setResultCount(first, last, total, searchTerm)
         $(".post-result-count").show();
 }
 
+/**
+ * @description Deletes all Posts on page
+ * @author XiaoQian Huang
+ */
 function clearAllPosts(){
     $("#posts").empty();
 }
 
+/**
+ * @description When the page loads, the search parameters of the page will be used to look up the Posts that need to be displayed
+ * If no search is specified, retrieve the latest posts.
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
 $(document).ready(function(){
     // get search data if search made
     if(search.name)

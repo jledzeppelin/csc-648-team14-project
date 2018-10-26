@@ -1,3 +1,7 @@
+/**
+ * @description This API allows the front end to communicate with the backend through simple functions.
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
 class GatorTraderAPI {
 
     /**
