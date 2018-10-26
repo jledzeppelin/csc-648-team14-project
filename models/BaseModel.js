@@ -175,15 +175,21 @@ class BaseModel{
     }
 
     /**
-     * @description Takes the response from the database, and instantiates an object of this class and fills its values with this data.
-     * @param data The data from the database
-     * @returns BaseModel The instantiated object of this class
-     * @author Jack Cole jcole2@mail.sfsu.edu
+     * @description
+     * @param
+     * @returns
+     * @author Ryan Jin
      */
     static objectMapper(data){
         let obj = BaseModel()
         return obj
     }
+
+    static createPost(title, description, category, image, model){
+
+    }
+
+
 }
 
 // Required. This specifies what will be imported by other files
