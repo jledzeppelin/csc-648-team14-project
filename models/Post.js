@@ -78,6 +78,14 @@ class Post extends BaseModel{
         this._create_date = value
     }
 
+    get image_count() {
+        return this._image_count
+    }
+
+    set image_count(value){
+        this._image_count = value
+    }
+
     constructor(){
         super()
     }
@@ -189,6 +197,7 @@ class Post extends BaseModel{
             price : this.price,
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
+            image_count : this.image_count,
         }
     }
 
