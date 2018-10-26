@@ -70,7 +70,7 @@ class BaseModel{
     static getSingleRowById(model, {id}){
       let table = model.__TABLE
       let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
-
+        console.log("getSingleRowById() SQL:", sqlCommand)
       return new Promise(function(resolve, reject){
         let connection = BaseModel.__connect();
 
@@ -97,16 +97,17 @@ class BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getMultipleBySQL(model, sqlCommand){
-      return new Promise(function(resolve, reject){
-        let connection = BaseModel.__connect();
-        connection.connect()
-        connection.query(sqlCommand, function (err, rows, fields) {
-          if (err) throw err
-          let newObjects = rows.map(model.objectMapper)
-          resolve(newObjects)
+        console.log("getMultipleBySQL() SQL:", sqlCommand)
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+            connection.connect()
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
+            })
+            connection.end()
         })
-        connection.end()
-      })
     }
 
     /**
@@ -158,7 +159,7 @@ class BaseModel{
         }
 
         let sqlCommand = `SELECT * FROM ${table} ${whereClause} ${orderByClause} ${limitClause}`
-        console.debug("getMultipleByFilters() SQL:", sqlCommand)
+        console.log("getMultipleByFilters() SQL:", sqlCommand)
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
             connection.query(sqlCommand, function (err, rows, fields) {

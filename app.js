@@ -127,7 +127,6 @@ app.get('/search/',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
-    console.log(req.query)
     res.render('search', {
         name: name,
         page: page,
