@@ -78,12 +78,9 @@ class Post extends BaseModel{
         this._create_date = value
     }
 
-
     constructor(){
         super()
-
     }
-
 
     /**
      * @description The table in the database that Post is stored in.
@@ -100,8 +97,7 @@ class Post extends BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
-        let result = super.getSingleRowById(id, Post)
-        return result
+        return super.getSingleRowById(Post, id)
     }
 
     /**
@@ -134,7 +130,8 @@ class Post extends BaseModel{
      */
 
     static searchPosts(name,category,page,sort){
-        let searchResults = super.searchPosts(name,category,page,sort,Post)
+        let sql = `SELECT * FROM ${this.__TABLE} WHERE `
+        let searchResults = super.getMultipleBySQL(Post, )
         return searchResults
     }
 

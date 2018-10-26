@@ -41,10 +41,7 @@ app.use('/static',express.static(STATIC_PATH))
  */
 app.get('/api/post/:id',async function(req, res){
     let id = req.params.id
-    let post = await Business.getPost(id).catch(function(err){
-      console.error(err)
-      return {};
-    })
+    let post = await Business.getPost(id)
     res.json(post)
 
 });
@@ -87,10 +84,7 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
     let page = req.params.page
     let sort = req.params.sort
 
-    let searchResults = await Business.searchPosts(name, category, page, sort).catch(function(err){
-        console.error(err)
-        return {};
-    })
+    let searchResults = await Business.searchPosts(name, category, page, sort)
     res.json(searchResults)
 });
 

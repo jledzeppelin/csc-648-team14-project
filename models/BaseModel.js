@@ -1,9 +1,6 @@
 const SETTINGS = require('../SETTINGS')
 const mysql = require('mysql')
 
-
-
-
 /**
  * @description The Model from which all other models will inherit. Has basic functionality for connecting to the DB.
  * @author Jack Cole jcole2@mail.sfsu.edu
@@ -62,49 +59,33 @@ class BaseModel{
     /**
      * @description Returns an Object containing the values from a single row. Since this shall be statically called, we need
      * to pass in the super class in the argument "model".
-     * @param id The id of the row as it appears in the database. Must be an integer.
      * @param model {BaseModel} The model of the object that is being created
+     * @param id The id of the row as it appears in the database. Must be an integer.
      * @returns {Promise} The instantiated object of this class
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    static getSingleRowById(id, model){
-        let table = model.__TABLE
-        let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
+    static getSingleRowById(model, id){
+      let table = model.__TABLE
+      let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
 
-        return new Promise(function(resolve, reject){
-          let connection = BaseModel.__connect();
+      return new Promise(function(resolve, reject){
+        let connection = BaseModel.__connect();
 
-            BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
-              if (err) throw err
-              let data = {}
-              if(rows.length !== 0)
-                data = rows[0]
-              resolve(model.objectMapper(data))
-            })
-            BaseModel.__disconnect(connection);
+        BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+          if (err) throw err
+          console.debug(rows)
+          let data = {}
+          if(rows.length !== 0)
+            data = rows[0]
+          resolve(model.objectMapper(data))
         })
+        BaseModel.__disconnect(connection);
+      })
+
+
+
     }
 
-
-  /**
-   * @description Retrieves multiple rows from a direct SQL command
-   * @param model {BaseModel} The model being searched in the DB
-   * @param sqlCommand {String} The full SQL command
-   * @returns {Promise} The resulting rows mapped to the passed in model
-   * @author Jack Cole jcole2@mail.sfsu.edu
-   */
-  static getMultipleBySQL(model, sqlCommand){
-    return new Promise(function(resolve, reject){
-      let connection = BaseModel.__connect();
-      connection.connect()
-      connection.query(sqlCommand, function (err, rows, fields) {
-        if (err) throw err
-        let newObjects = rows.map(model.objectMapper)
-        resolve(newObjects)
-      })
-      connection.end()
-    })
-  }
 
     /**
      * @description Retrieves multiple rows from a direct SQL command
@@ -125,6 +106,32 @@ class BaseModel{
         connection.end()
       })
     }
+
+    /**
+    * @description Retrieves multiple rows from a direct SQL command
+    * @param model {BaseModel} The model being searched in the DB
+    * @param filters [String] An array of SQL comparisons
+    * @returns {Promise} The resulting rows mapped to the passed in model
+    * @author Jack Cole jcole2@mail.sfsu.edu
+    */
+    static getMultipleByFilters(model, filters, page, sort){
+        let table = model.__TABLE
+        let whereClause = `WHERE ${filters.join(" AND ")}`
+        let sqlCommand = `SELECT * FROM ${table} ${whereClause}`
+        console.debug("getMultipleByFilters() SQL:", sqlCommand)
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                console.debug("getMultipleByFilters() results:", rows)
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
+            })
+            connection.end()
+        })
+
+    }
+
 
   /**
    * @description Inserts a single object to the database
