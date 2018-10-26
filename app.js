@@ -7,10 +7,8 @@
 
 
 const path = require('path')
-const fs = require('fs')
 const express = require('express')
 const app = express()
-const mustache = require('mustache-express')
 const nunjucks = require('nunjucks')
 
 nunjucks.configure('views', {
@@ -24,6 +22,7 @@ const Business = require('./business')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
+const IMAGE_PATH = path.join(__dirname, '/images')
 
 let port = SETTINGS.web.port
 
@@ -167,6 +166,13 @@ app.get('/search/',function(req, res) {
  *          Jack Cole jcole2@mail.sfsu.edu
  */
 app.use('/static',express.static(STATIC_PATH))
+
+/**
+ * @description Serve images from the image directory
+ * @author     Jack Cole jcole2@mail.sfsu.edu
+ */
+app.use('/images',express.static(IMAGE_PATH))
+
 
 
 /**
