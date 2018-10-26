@@ -85,9 +85,15 @@ class Business{
      */
     static createPost(title, description, category, image){
 
-        let createPost = Post.createPost(title, description, category, image)
+        let createPost = new Post()
+        createPost.title = title
+        createPost.description = description
+        createPost.category = cateogry
+        createPost.image = image
+        let response = createPost.insert()
+        // Post.createPost(title, description, category, image)
 
-        return createPost
+        return response
     }
 }
 

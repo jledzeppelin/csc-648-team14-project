@@ -98,7 +98,7 @@ app.get('/api/post/search/:name/:category/:page/:sort',async function (req,res){
  * @description Creates a post
  * @author Ryan Jin
  */
-app.post('/api/post/create',function(req,res){
+app.post('/api/post/create',async function(req,res){
     let title = req.params.body
     let description = req.params.body
     let category = req.params.body
