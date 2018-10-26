@@ -76,7 +76,6 @@ class BaseModel{
 
         BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
           if (err) throw err
-          console.debug(rows)
           let data = {}
           if(rows.length !== 0)
             data = rows[0]
@@ -164,7 +163,6 @@ class BaseModel{
             let connection = BaseModel.__connect();
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
-                console.debug("getMultipleByFilters() results:", rows)
                 let newObjects = rows.map(model.objectMapper)
                 resolve(newObjects)
             })
