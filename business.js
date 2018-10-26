@@ -1,5 +1,5 @@
 const Post = require('./models/Post.js')
-const SETTINGS = require('./SETTINGS')
+const SETTINGS = require('./settings')
 
 
 /**

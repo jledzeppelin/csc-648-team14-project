@@ -1,4 +1,4 @@
-const SETTINGS = require('../SETTINGS')
+const SETTINGS = require('../settings')
 const mysql = require('mysql')
 
 /**

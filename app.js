@@ -17,7 +17,7 @@ nunjucks.configure('views', {
 
 });
 
-const SETTINGS = require('./SETTINGS')
+const SETTINGS = require('./settings')
 const Business = require('./business')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
