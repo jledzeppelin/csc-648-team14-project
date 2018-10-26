@@ -78,12 +78,17 @@ class Post extends BaseModel{
         this._create_date = value
     }
 
+    get number_of_images() {
+        return this._number_of_images
+    }
+
+    set number_of_images(value){
+        this._number_of_images = value
+    }
 
     constructor(){
         super()
-
     }
-
 
     /**
      * @description The table in the database that Post is stored in.
@@ -100,8 +105,7 @@ class Post extends BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
-        let result = super.getSingleRowById(id, Post)
-        return result
+        return super.getSingleRowById(Post, {id:id})
     }
 
     /**
@@ -116,11 +120,11 @@ class Post extends BaseModel{
     }
 
     /**
-     * @descirption Returns recent approved Post
+     * @descirption Returns recent approved Posts
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getLatestApprovedPost(){
-        let latestApprovedPost = super.getLatestApprovedPost(Post)
+    static getLatestApprovedPosts(){
+        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
         return latestApprovedPost
     }
 
@@ -134,8 +138,22 @@ class Post extends BaseModel{
      */
 
     static searchPosts(name,category,page,sort){
-        let searchResults = super.searchPosts(name,category,page,sort,Post)
+        let sql = `SELECT * FROM ${this.__TABLE} WHERE `
+        let searchResults = super.getMultipleBySQL(Post, )
         return searchResults
+    }
+
+    /**
+     * @description
+     * @param title
+     * @param description
+     * @param category
+     * @param image
+     * @author Ryan Jin
+     */
+    static createPost(title, description, category, image){
+        let newPost = super.createPost(title, description, category, image, Post)
+        return newPost
     }
 
     /**
@@ -158,6 +176,7 @@ class Post extends BaseModel{
         newPost.price = result.price
         newPost.is_price_negotiable = result.is_price_negotiable
         newPost.last_revised = result.last_revised
+        newPost.number_of_images = result.number_of_images
 
         return newPost
     }
@@ -179,6 +198,7 @@ class Post extends BaseModel{
             price : this.price,
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
+            number_of_images : this.number_of_images,
         }
     }
 

@@ -1,14 +1,14 @@
-const SETTINGS = require('../SETTINGS')
+const SETTINGS = require('../settings')
 const mysql = require('mysql')
-
-
-
 
 /**
  * @description The Model from which all other models will inherit. Has basic functionality for connecting to the DB.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 class BaseModel{
+
+    static get BASE_LIMIT_OF_RESULTS(){return 25}
+
 
     constructor(){
     }
@@ -62,27 +62,124 @@ class BaseModel{
     /**
      * @description Returns an Object containing the values from a single row. Since this shall be statically called, we need
      * to pass in the super class in the argument "model".
-     * @param id The id of the row as it appears in the database. Must be an integer.
      * @param model {BaseModel} The model of the object that is being created
+     * @param id The id of the row as it appears in the database. Must be an integer.
      * @returns {Promise} The instantiated object of this class
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    static getSingleRowById(id, model){
-        let table = model.__TABLE
-        let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
+    static getSingleRowById(model, {id}){
+      let table = model.__TABLE
+      let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
+        console.log("getSingleRowById() SQL:", sqlCommand)
+      return new Promise(function(resolve, reject){
+        let connection = BaseModel.__connect();
 
-        return new Promise(function(resolve, reject){
-          let connection = BaseModel.__connect();
-
-            BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
-              if (err) throw err
-              let data = {}
-              if(rows.length !== 0)
-                data = rows[0]
-              resolve(model.objectMapper(data))
-            })
-            BaseModel.__disconnect(connection);
+        BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+          if (err) throw err
+          let data = {}
+          if(rows.length !== 0)
+            data = rows[0]
+          resolve(model.objectMapper(data))
         })
+        BaseModel.__disconnect(connection);
+      })
+
+
+
+    }
+
+
+    /**
+     * @description Retrieves multiple rows from a direct SQL command
+     * @param model {BaseModel} The model being searched in the DB
+     * @param sqlCommand {String} The full SQL command
+     * @returns {Promise} The resulting rows mapped to the passed in model
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     */
+    static getMultipleBySQL(model, sqlCommand){
+        console.log("getMultipleBySQL() SQL:", sqlCommand)
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+            connection.connect()
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
+            })
+            connection.end()
+        })
+    }
+
+    /**
+     * @description Retrieves multiple rows from filters. All filters are optional
+     * @param model {BaseModel} The model being searched in the DB
+     * @param filters [String] An array of SQL comparisons
+     * @param page {Number} The page to view
+     * @param count {Number} The number of entries to get. By default, will only get 25
+     * @param sort {String} The column to sort by
+     * @param sort_desc {boolean} The direction to sort. By default, ascending. If true, then descending
+     * @returns {Promise} The resulting rows mapped to the passed in model
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     */
+    static getMultipleByFilters(model, {filters, page, limit, sort, sort_desc}){
+        let table = model.__TABLE
+        let whereClause = ""
+        let orderByClause = ""
+        let offset = 0
+        let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
+
+        // If filters is an array
+        if(typeof filters !== "undefined" && Array.isArray(filters))
+            whereClause = `WHERE ${filters.join(" AND ")}`
+
+        // Handling page and limit numbers. Have to check if limit is a valid number, then we can generated the offset
+        // from the page number if that's a number. Then we combine them all.
+        if(typeof limit !== "undefined")
+        {
+            limit = parseInt(limit)
+            if( Number.isInteger(limit))
+            {
+                if(typeof page !== "undefined")
+                {
+                    page = parseInt(page)
+                    if(Number.isInteger(page))
+                        offset = (page-1) * limit
+                }
+                limitClause = `LIMIT ${offset}, ${limit}`
+            }
+
+        }
+
+        // Use the sort to dtermine the column to sort by, and sort_desc (if set) will determine the direction
+        if(typeof sort === "string"){
+            let sort_direction = "ASC"
+            if(typeof sort_desc === "boolean" && sort_desc)
+                sort_direction = "DESC"
+            orderByClause = `ORDER BY ${sort} ${sort_direction}`
+        }
+
+        let sqlCommand = `SELECT * FROM ${table} ${whereClause} ${orderByClause} ${limitClause}`
+        console.log("getMultipleByFilters() SQL:", sqlCommand)
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
+            connection.query(sqlCommand, function (err, rows, fields) {
+                if (err) throw err
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
+            })
+            connection.end()
+        })
+
+    }
+
+
+  /**
+   * @description Inserts a single object to the database
+   * @returns {Promise} The result of the insert
+   * @author Jack Cole jcole2@mail.sfsu.edu
+   */
+    insert(){
+
     }
 
     /**
@@ -109,7 +206,6 @@ class BaseModel{
      * @returns latestApproved - All recent approved post
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-
     static getLatestApprovedPost(model){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
@@ -119,8 +215,8 @@ class BaseModel{
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
                 //TODO: Fix corection of rows [] to take multiple post
-                let newObject = model.objectMapper(rows[])
-                resolve(newObject)
+                let newObjects = rows.map(model.objectMapper)
+                resolve(newObjects)
 
             })
 
@@ -146,7 +242,7 @@ class BaseModel{
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
                 //TODO: Fix corection of rows [] to take multiple post
-                let newObject = model.objectMapper(rows[])
+                let newObject = model.objectMapper(rows[0])
                 resolve(newObject)
 
             })
@@ -156,15 +252,19 @@ class BaseModel{
     }
 
     /**
-     * @description Takes the response from the database, and instantiates an object of this class and fills its values with this data.
-     * @param data The data from the database
-     * @returns BaseModel The instantiated object of this class
-     * @author Jack Cole jcole2@mail.sfsu.edu
+     * @description
+     * @param
+     * @returns
+     * @author Ryan Jin
      */
     static objectMapper(data){
         let obj = BaseModel()
         return obj
     }
+
+
+
+
 }
 
 // Required. This specifies what will be imported by other files

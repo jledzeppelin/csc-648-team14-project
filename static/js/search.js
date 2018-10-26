@@ -1,17 +1,21 @@
-let posts = [
-    {"id":1,"user_id":1,"category_id":1,"create_date":"2018-10-24T05:15:19.000Z","post_title":"Test Post Title","post_description":"Here is the description of this post. This post is a test. ","post_status":"approved","price":5,"last_revised":"2018-10-24T05:15:17.000Z"},
-    {"id":2,"user_id":1,"category_id":1,"create_date":"2018-10-22T05:15:19.000Z","post_title":"Second Test Post Title","post_description":"Here is the description of this second post. This post is another test. ","post_status":"approved","price":6,"last_revised":"2018-10-22T05:15:17.000Z"},
-]
-
+/**
+ * @description Adds the specified Posts to the DOM.
+ * @param posts {[Object]} The Posts to be added to the page
+ * @author XiaoQian Huang
+ * Jack Cole jcole2@mail.sfsu.edu
+ */
 function addPostsToPage(posts){
 
     for(let i = 0; i < posts.length; i++)
     {
         let post = posts[i];
         let price = post.price.toFixed(2);
-        let html = $(`<div class="col-lg-4 text-right">
+        let image_url = "/static/img/no_image_avaliable.png";
+        if(post.number_of_images > 0)
+            image_url = "/images/posts/"+post.id+"-1.jpg"
+        let html = $(`<div class="col-md-4 offset-md-1 text-right post">
             <li class="list-inline list-unstyled">
-                <a href="#"><img src="#" class="w-100"></a>
+                <a href="#"><img src="${image_url}" class="post-img w-100"></a>
                 <div class="product-info">
                     <h4 class="product-name">
                         <a href="#" class="text-capitalize">${post.post_title}</a></h4>
@@ -26,13 +30,53 @@ function addPostsToPage(posts){
     }
 }
 
-
+/**
+ * @description Updates the result count on the page's DOM.
+ * The output should look like "results first~last of total "searchTerm"
+ * @param first {Number} The index of the first result
+ * @param last {Number} The index of the last result
+ * @param total {Number} The total number of results for the entire query
+ * @param searchTerm {String} The term that was used to search
+ * @author XiaoQian Huang
+ * Jack Cole jcole2@mail.sfsu.edu
+ */
 function setResultCount(first, last, total, searchTerm)
 {
     let totalformat = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    $("#post-result-count").empty().append(`results ${first}~${last} of ${totalformat} "${searchTerm}"`);
+    $(".post-result-count-text").empty().append(`results ${first}~${last} of ${totalformat} "${searchTerm}"`)
+        $(".post-result-count").show();
 }
 
+/**
+ * @description Deletes all Posts on page
+ * @author XiaoQian Huang
+ */
 function clearAllPosts(){
     $("#posts").empty();
 }
+
+/**
+ * @description When the page loads, the search parameters of the page will be used to look up the Posts that need to be displayed
+ * If no search is specified, retrieve the latest posts.
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
+$(document).ready(function(){
+    // get search data if search made
+    if(search.name)
+        GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, function(results){
+            addPostsToPage(results);
+            setResultCount(0, results.length, results.length, search.name)
+            console.log("Fetched results", results);
+        }).catch(function(err){
+            console.error("Could not get posts", err);
+        })
+    // Get any posts if no search has been made
+    else
+        GatorTraderAPI.getRecentPosts(function(results){
+            addPostsToPage(results);
+            setResultCount(0, results.length, results.length, "")
+            console.log("Fetched results", results);
+        }).catch(function(err){
+            console.error("Could not get posts", err);
+        })
+})

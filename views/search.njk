@@ -1,20 +1,39 @@
-<!-- Example search page that fills in template. Overwrite with actual search page -->
-<!--<h1>Search test</h1>-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Search resluts page</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/static/js/search.js"></script>
-</head>
+{% extends "template.njk" %}
 
-<body>
+{% block title %}
+{# Displays the name and page number if name is defined #}
+- Search {% if name %} "{{ name }}" Page {{page}} {% endif %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/search.js"></script>
+<script>
+    search = {}
+    {% if name %}
+    search.name = "{{ name }}"
+    search.page = "{{ page }}"
+    search.sort = "{{ sort }}"
+    search.category = "{{ category }}"
+    {% endif %}
+</script>
+{% endblock %}
+
+{% block container %}
 <div class="container">
-    <div id="top"></div>
+    <!-- Search form -->
+    <form action="search" method="get">
+        <div id="search-form" class="row">
+            <div  class="form-group col-md-6 offset-md-1">
+                <input class="form-control" type="text" name="name" title="Product name search" value="{{ name }}">
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" type="submit" title="Search">Search</button>
+            </div>
+        </div>
+    </form>
 
     <div class="row justify-content-start">
         <div class="col-lg-8"></div>
@@ -34,12 +53,13 @@
     </div>
 
 
+
     <div class="row justify-content-start">
         <div class="col-lg-4">
-            <div class="span8 spacing-none">
+            <!-- Number of results -->
+            <div class="span8 spacing-none post-result-count">
                 <div class="section spacing-small spacing-top-small">
-                    <h4><span id="post-result-count" class="label label-default">results 1~10 of 1,000,000
-                    <span>
+                    <h4><span class="badge badge-secondary post-result-count-text"><span>
                     <span class="text-danger">" "</span>
                     </span>
                 </span></h4>
@@ -87,6 +107,4 @@
     </div>
 
 </div>
-
-
-</body>
+{% endblock %}
