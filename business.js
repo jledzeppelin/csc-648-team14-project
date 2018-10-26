@@ -8,6 +8,10 @@ const SETTINGS = require('./SETTINGS')
  */
 class Business{
 
+
+    static get DEFAULT_SORT(){return "price"}
+    static get DEFAULT_SORT_DESCENDING(){return false}
+
     /**
      * @description Returns the full details of a single post based on its id.
      * @param id The id of the post as it appears in the database.
@@ -69,6 +73,9 @@ class Business{
     static async searchPosts(name , category , page , sort){
         category = parseInt(category)
         page = parseInt(page)
+        let sort_column = Business.DEFAULT_SORT
+        let sort_desc = Business.DEFAULT_SORT_DESCENDING
+
 
         if(!Number.isInteger(category))
         {
@@ -86,6 +93,11 @@ class Business{
             return []
         }
 
+        if(sort !== "default")
+        {
+            sort_column = sort
+        }
+
         let filters = [
            `post_title LIKE '%${name}%'`,
         ]
@@ -95,7 +107,8 @@ class Business{
             filters.push(`category_id = '${category}'`)
 
         // Creates Post Object
-        let searchResults = await Post.getMultipleByFilters(Post, filters, page, sort).catch(function(err){
+        let searchResults = await Post.getMultipleByFilters(Post, {filters : filters, page: page, sort: sort_column, sort_desc: sort_desc})
+            .catch(function(err){
             console.error(`Business.getCategory() error: ${err}`)
         })
         return searchResults

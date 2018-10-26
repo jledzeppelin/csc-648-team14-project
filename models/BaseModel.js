@@ -7,6 +7,9 @@ const mysql = require('mysql')
  */
 class BaseModel{
 
+    static get BASE_LIMIT_OF_RESULTS(){return 25}
+
+
     constructor(){
     }
 
@@ -64,7 +67,7 @@ class BaseModel{
      * @returns {Promise} The instantiated object of this class
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    static getSingleRowById(model, id){
+    static getSingleRowById(model, {id}){
       let table = model.__TABLE
       let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
 
@@ -108,16 +111,54 @@ class BaseModel{
     }
 
     /**
-    * @description Retrieves multiple rows from a direct SQL command
-    * @param model {BaseModel} The model being searched in the DB
-    * @param filters [String] An array of SQL comparisons
-    * @returns {Promise} The resulting rows mapped to the passed in model
-    * @author Jack Cole jcole2@mail.sfsu.edu
-    */
-    static getMultipleByFilters(model, filters, page, sort){
+     * @description Retrieves multiple rows from filters. All filters are optional
+     * @param model {BaseModel} The model being searched in the DB
+     * @param filters [String] An array of SQL comparisons
+     * @param page {Number} The page to view
+     * @param count {Number} The number of entries to get. By default, will only get 25
+     * @param sort {String} The column to sort by
+     * @param sort_desc {boolean} The direction to sort. By default, ascending. If true, then descending
+     * @returns {Promise} The resulting rows mapped to the passed in model
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     */
+    static getMultipleByFilters(model, {filters, page, limit, sort, sort_desc}){
         let table = model.__TABLE
-        let whereClause = `WHERE ${filters.join(" AND ")}`
-        let sqlCommand = `SELECT * FROM ${table} ${whereClause}`
+        let whereClause = ""
+        let orderByClause = ""
+        let offset = 0
+        let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
+
+        // If filters is an array
+        if(typeof filters !== "undefined" && Array.isArray(filters))
+            whereClause = `WHERE ${filters.join(" AND ")}`
+
+        // Handling page and limit numbers. Have to check if limit is a valid number, then we can generated the offset
+        // from the page number if that's a number. Then we combine them all.
+        if(typeof limit !== "undefined")
+        {
+            limit = parseInt(limit)
+            if( Number.isInteger(limit))
+            {
+                if(typeof page !== "undefined")
+                {
+                    page = parseInt(page)
+                    if(Number.isInteger(page))
+                        offset = (page-1) * limit
+                }
+                limitClause = `LIMIT ${offset}, ${limit}`
+            }
+
+        }
+
+        // Use the sort to dtermine the column to sort by, and sort_desc (if set) will determine the direction
+        if(typeof sort === "string"){
+            let sort_direction = "ASC"
+            if(typeof sort_desc === "boolean" && sort_desc)
+                sort_direction = "DESC"
+            orderByClause = `ORDER BY ${sort} ${sort_direction}`
+        }
+
+        let sqlCommand = `SELECT * FROM ${table} ${whereClause} ${orderByClause} ${limitClause}`
         console.debug("getMultipleByFilters() SQL:", sqlCommand)
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();

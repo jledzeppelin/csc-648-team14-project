@@ -97,7 +97,7 @@ class Post extends BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
-        return super.getSingleRowById(Post, id)
+        return super.getSingleRowById(Post, {id:id})
     }
 
     /**
@@ -116,7 +116,7 @@ class Post extends BaseModel{
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     static getLatestApprovedPost(){
-        let latestApprovedPost = super.getLatestApprovedPost(Post)
+        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
         return latestApprovedPost
     }
 

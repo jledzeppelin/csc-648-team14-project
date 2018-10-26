@@ -33,6 +33,15 @@ let port = SETTINGS.web.port
 // -------
 
 /**
+ * @description Returns all recent approved post
+ * @author Anthony Carrasco acarras4@mail.sfsu.edu
+ */
+app.get('/api/post/recent',async function(req,res){
+    let latestApprovedPost = await Business.getLatestApprovedPost()
+    res.json(latestApprovedPost)
+});
+
+/**
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
@@ -58,17 +67,7 @@ app.get('api/category/:category_id',async function(req,res){
 });
 
 
-/**
- * @description Returns all recent approved post
- * @author Anthony Carrasco acarras4@mail.sfsu.edu
- */
-app.get('api/post/recent',async function(req,res){
-    let latestApprovedPost = await Business.getLatestApprovedPost().catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(latestApprovedPost)
-});
+
 
 
 /**
