@@ -4,9 +4,10 @@ function addPostsToPage(posts){
     {
         let post = posts[i];
         let price = post.price.toFixed(2);
+        let image_url = "/static/img/no_image_avaliable.png";
         let html = $(`<div class="col-md-4 offset-md-1 text-right post">
             <li class="list-inline list-unstyled">
-                <a href="#"><img src="#" class="post-img w-100"></a>
+                <a href="#"><img src="${image_url}" class="post-img w-100"></a>
                 <div class="product-info">
                     <h4 class="product-name">
                         <a href="#" class="text-capitalize">${post.post_title}</a></h4>
@@ -31,3 +32,22 @@ function setResultCount(first, last, total, searchTerm)
 function clearAllPosts(){
     $("#posts").empty();
 }
+
+$(document).ready(function(){
+    // get search data if search made
+    if(search.name)
+        GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, function(results){
+            addPostsToPage(results);
+            console.log("Fetched results", results);
+        }).catch(function(err){
+            console.error("Could not get posts", err);
+        })
+    // Get any posts if no search has been made
+    else
+        GatorTraderAPI.getRecentPosts(function(results){
+            addPostsToPage(results);
+            console.log("Fetched results", results);
+        }).catch(function(err){
+            console.error("Could not get posts", err);
+        })
+})

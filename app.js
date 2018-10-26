@@ -127,14 +127,14 @@ app.get('/',function(req, res){
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/search/:name/:page/:sort',function(req, res) {
-  let name = req.params.name
-  let page = req.params.page
-  let sort = req.params.sort
-  res.render('search', {
+    let name = req.params.name
+    let page = req.params.page
+    let sort = req.params.sort
+    res.render('search', {
     name: name,
     page: page,
     sort: sort,
-  })
+    })
 })
 
 /**
