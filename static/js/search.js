@@ -26,7 +26,8 @@ function addPostsToPage(posts){
 function setResultCount(first, last, total, searchTerm)
 {
     let totalformat = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    $("#post-result-count").empty().append(`results ${first}~${last} of ${totalformat} "${searchTerm}"`);
+    $(".post-result-count-text").empty().append(`results ${first}~${last} of ${totalformat} "${searchTerm}"`)
+        $(".post-result-count").show();
 }
 
 function clearAllPosts(){
@@ -38,6 +39,7 @@ $(document).ready(function(){
     if(search.name)
         GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, function(results){
             addPostsToPage(results);
+            setResultCount(0, results.length, results.length, search.name)
             console.log("Fetched results", results);
         }).catch(function(err){
             console.error("Could not get posts", err);
@@ -46,6 +48,7 @@ $(document).ready(function(){
     else
         GatorTraderAPI.getRecentPosts(function(results){
             addPostsToPage(results);
+            setResultCount(0, results.length, results.length, "")
             console.log("Fetched results", results);
         }).catch(function(err){
             console.error("Could not get posts", err);
