@@ -63,6 +63,7 @@ class Business{
      * @param page {String} -
      * @param sort {String} -
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     * Jack Cole jcole2@mail.sfsu.edu
      */
 
     static async searchPosts(name , category , page , sort){

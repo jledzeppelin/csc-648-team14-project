@@ -1,8 +1,3 @@
-let posts = [
-    {"id":1,"user_id":1,"category_id":1,"create_date":"2018-10-24T05:15:19.000Z","post_title":"Test Post Title","post_description":"Here is the description of this post. This post is a test. ","post_status":"approved","price":5,"last_revised":"2018-10-24T05:15:17.000Z"},
-    {"id":2,"user_id":1,"category_id":1,"create_date":"2018-10-22T05:15:19.000Z","post_title":"Second Test Post Title","post_description":"Here is the description of this second post. This post is another test. ","post_status":"approved","price":6,"last_revised":"2018-10-22T05:15:17.000Z"},
-]
-
 function addPostsToPage(posts){
 
     for(let i = 0; i < posts.length; i++)
