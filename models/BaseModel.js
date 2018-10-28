@@ -83,9 +83,6 @@ class BaseModel{
         })
         BaseModel.__disconnect(connection);
       })
-
-
-
     }
 
 
@@ -172,58 +169,36 @@ class BaseModel{
 
     }
 
-
-  /**
-   * @description Inserts a single object to the database
-   * @returns {Promise} The result of the insert
-   * @author Jack Cole jcole2@mail.sfsu.edu
-   */
-    insert(){
-
-    }
-
-    //insert new user 
-    //maybe this needs to be a generic insert new record function
-    static createNewUser(newUser, model){
+    /**
+     * @description Inserts a new record to database
+     * @param model {BaseModel} The model of the object being created
+     * @param newRecord The new record to insert
+     * @returns {Promise} The instantiated object of this class
+     * @author Juan Ledezma
+     */
+    static insertNewRecord(model, newRecord){
         let table = model.__TABLE
         let sqlCommand = `INSERT INTO ${table} SET ?`
+        console.log("insertNewRecord() SQL:", sqlCommand)
 
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
 
-            connection.query(sqlCommand, newUser, function (err, rows, fields) {
-                if (err) throw err
-                
-                let data = {}
-                if (rows.length !== 0) {
-                    data = rows
+            connection.query(sqlCommand, newRecord, function (err, results, fields) {
+                if (err) {
+                    throw err
+                } else {
+                    let confirmation = {
+                        status:true,
+                        data:results,
+                        message:"Record inserted successfully"
+                    }
+                    resolve(confirmation)
                 }
-
-                resolve(model.objectMapper(data))
             })
+
             connection.end();
         })
-
-        //******************** LEFT OFF HERE ********************************
-
-        /*
-        return new Promise(function(resolve, reject){
-            let connection = BaseModel.__connect();
-
-            BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
-                if (err) throw err
-
-                let data = {}
-                if (rows.length !== 0) {
-                    data = rows
-                }
-
-                resolve(model.objectMapper(data))
-            })
-
-            BaseModel.__disconnect(connection);
-        })
-        */
     }
 
     /**
@@ -310,9 +285,6 @@ class BaseModel{
         let obj = BaseModel()
         return obj
     }
-
-
-
 
 }
 

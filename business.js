@@ -1,6 +1,6 @@
 const Post = require('./models/Post.js')
 const SETTINGS = require('./settings')
-
+const RegisteredUser = require('./models/RegisteredUser.js')
 
 /**
  * @description This is the business layer of the application. It will process the request and return the data.
@@ -33,10 +33,17 @@ class Business{
 
     }
 
-    //return the details of the new user that was created
-    static registerUser(newUser){
-        //do some validation (email) here, or frontend?
-        let user = RegisteredUser.createNewUser(newUser)
+    /**
+     * @description Registers a new user, returns a confirmation
+     * @param newUser Full details of a new user
+     * @returns {RegisteredUser}
+     * @author Juan Ledezma
+     */
+    static async registerUser(newUser){
+        //TO DO: validation (email format, unique email), or done in form?
+        let user = await RegisteredUser.insertNewRecord(newUser).catch(function(err) {
+            console.error(`Business.registerUser() error: ${err}`)
+        })
         return user
     }
 

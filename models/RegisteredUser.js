@@ -33,7 +33,9 @@ class RegisteredUser extends BaseModel {
         this._email = email
     }
 
-    //need a get password?
+    get login_password(){
+        return this._login_password
+    }
 
     set login_password(pw){
         this._login_password = pw 
@@ -55,8 +57,8 @@ class RegisteredUser extends BaseModel {
         return "registered_user"
     }
 
-    static createNewUser(newUser) {
-        let result = super.createNewUser(newUser, RegisteredUser)
+    static insertNewRecord(newUser) {
+        let result = super.insertNewRecord(RegisteredUser, newUser)
         return result
     }
 
