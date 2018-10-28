@@ -78,6 +78,14 @@ class Post extends BaseModel{
         this._create_date = value
     }
 
+    get number_of_images() {
+        return this._number_of_images
+    }
+
+    set number_of_images(value){
+        this._number_of_images = value
+    }
+
     constructor(){
         super()
     }
@@ -97,7 +105,7 @@ class Post extends BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
-        return super.getSingleRowById(Post, id)
+        return super.getSingleRowById(Post, {id:id})
     }
 
     /**
@@ -112,11 +120,11 @@ class Post extends BaseModel{
     }
 
     /**
-     * @descirption Returns recent approved Post
+     * @descirption Returns recent approved Posts
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getLatestApprovedPost(){
-        let latestApprovedPost = super.getLatestApprovedPost(Post)
+    static getLatestApprovedPosts(){
+        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
         return latestApprovedPost
     }
 
@@ -168,6 +176,7 @@ class Post extends BaseModel{
         newPost.price = result.price
         newPost.is_price_negotiable = result.is_price_negotiable
         newPost.last_revised = result.last_revised
+        newPost.number_of_images = result.number_of_images
 
         return newPost
     }
@@ -189,6 +198,7 @@ class Post extends BaseModel{
             price : this.price,
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
+            number_of_images : this.number_of_images,
         }
     }
 
