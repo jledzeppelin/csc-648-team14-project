@@ -48,6 +48,17 @@ class Business{
     }
 
     /**
+     * @description Login for registered user, returns a confirmation
+     * @param email User's email
+     * @param login_password User's login password (encrypted)
+     * @returns {RegisteredUser}
+     * @author Juan Ledezma
+     */
+    static async loginUser(email, login_password){
+        //TO DO: implement basemodel function to get user record by email, or use getMultipleByFilters?
+    }
+
+    /**
      * @description Returns all posts corresponding to category_id
      * @param category_id - id of category
      * @author Anthony Carrasco acarras4@mail.sfsu.edu

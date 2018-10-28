@@ -107,7 +107,7 @@ app.post('/api/post/create',async function(req,res){
  * @description Registers a new user, returns a confirmation
  * @author Juan Ledezma
  */
-app.post('/api/register', async function (req, res){
+app.post('/api/register', async function(req, res){
     var newUser={
         "first_name":req.body.first_name,
         "last_name":req.body.last_name,
@@ -120,8 +120,16 @@ app.post('/api/register', async function (req, res){
     res.json(registeredUser)
 })
 
-app.post('/api/login', async function (req,res){
-    //TODO
+/**
+ * @description Login for registered user, returns a confirmation
+ * @author Juan Ledezma
+ */
+app.post('/api/login', async function(req, res){
+    let email = req.body.email
+    let login_password = red.body.login_password
+
+    let userLogin = await Business.loginUser(email, login_password)
+    res.json(userLogin)
 })
 
 // -------
