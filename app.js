@@ -10,6 +10,7 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks')
+const bodyParser = require('body-parser')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -25,6 +26,9 @@ const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
 
 let port = SETTINGS.web.port
+
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
 
 // -------
 // -------
@@ -98,6 +102,35 @@ app.post('/api/post/create',async function(req,res){
     })
     res.json(createPost)
 });
+
+/**
+ * @description Registers a new user, returns a confirmation
+ * @author Juan Ledezma
+ */
+app.post('/api/register', async function(req, res){
+    var newUser={
+        "first_name":req.body.first_name,
+        "last_name":req.body.last_name,
+        "email":req.body.email,
+        "login_password":req.body.login_password,
+        "is_banned":0
+    }
+
+    let registeredUser = await Business.registerUser(newUser)
+    res.json(registeredUser)
+})
+
+/**
+ * @description Login for registered user, returns a confirmation
+ * @author Juan Ledezma
+ */
+app.post('/api/login', async function(req, res){
+    let email = req.body.email
+    let login_password = red.body.login_password
+
+    let userLogin = await Business.loginUser(email, login_password)
+    res.json(userLogin)
+})
 
 // -------
 // -------

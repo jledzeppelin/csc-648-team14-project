@@ -83,9 +83,6 @@ class BaseModel{
         })
         BaseModel.__disconnect(connection);
       })
-
-
-
     }
 
 
@@ -172,14 +169,36 @@ class BaseModel{
 
     }
 
+    /**
+     * @description Inserts a new record to database
+     * @param model {BaseModel} The model of the object being created
+     * @param newRecord The new record to insert
+     * @returns {Promise} The instantiated object of this class
+     * @author Juan Ledezma
+     */
+    static insertNewRecord(model, newRecord){
+        let table = model.__TABLE
+        let sqlCommand = `INSERT INTO ${table} SET ?`
+        console.log("insertNewRecord() SQL:", sqlCommand)
 
-  /**
-   * @description Inserts a single object to the database
-   * @returns {Promise} The result of the insert
-   * @author Jack Cole jcole2@mail.sfsu.edu
-   */
-    insert(){
+        return new Promise(function(resolve, reject){
+            let connection = BaseModel.__connect();
 
+            connection.query(sqlCommand, newRecord, function (err, results, fields) {
+                if (err) {
+                    throw err
+                } else {
+                    let confirmation = {
+                        status:true,
+                        data:results,
+                        message:"Record inserted successfully"
+                    }
+                    resolve(confirmation)
+                }
+            })
+
+            connection.end();
+        })
     }
 
     /**
@@ -223,6 +242,8 @@ class BaseModel{
             connection.end()
         })
     }
+
+    
     //TODO: Fix sqlCommand for searchPosts()
     /**
      * @description Returns search results
@@ -233,6 +254,8 @@ class BaseModel{
      * @param model -
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
+
+     /*
     static searchPosts(name,category,page,sort,model){
         let table = model.__TABLE
         let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' AND category_id = ${category} AND _post_title: ${sort} `
@@ -250,6 +273,7 @@ class BaseModel{
             connection.end()
         })
     }
+    */
 
     /**
      * @description
@@ -261,9 +285,6 @@ class BaseModel{
         let obj = BaseModel()
         return obj
     }
-
-
-
 
 }
 
