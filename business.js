@@ -139,22 +139,18 @@ class Business{
     }
 
     /**
-     * @description
-     * @param
-     * @returns
+     * @description Creates a new post, returns confirmation
+     * @param newPost All details for a new post
+     * @returns {Post}
      * @author Ryan Jin
      */
-    static createPost(title, description, category, image){
+    static async createPost(newPost){
+        // TO DO: validation? user exists in db
 
-        let createPost = new Post()
-        createPost.title = title
-        createPost.description = description
-        createPost.category = cateogry
-        createPost.image = image
-        let response = createPost.insert()
-        // Post.createPost(title, description, category, image)
-
-        return response
+        let post = await Post.insertNewRecord(newPost).catch(function(err) {
+            console.error(`Business.createPost() error: ${err}`)
+        })
+        return post
     }
 }
 

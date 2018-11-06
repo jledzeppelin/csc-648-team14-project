@@ -98,6 +98,15 @@ class Post extends BaseModel{
      */
     static get __TABLE(){return "post"}
 
+    /**
+     * @description Inserts new post to db
+     * @returns {Promise} A confirmation of the new post being added
+     * @author Juan Ledezma
+     */
+    static insertNewRecord(newPost) {
+        let result = super.insertNewRecord(Post, newPost)
+        return result
+    }
 
     /**
      * @description Grab a sigle post matching the id from the database

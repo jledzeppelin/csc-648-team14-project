@@ -221,61 +221,6 @@ class BaseModel{
     }
 
     /**
-     * @description Returns all recent approved post
-     * @returns latestApproved - All recent approved post
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-    static getLatestApprovedPost(model){
-        let table = model.__TABLE
-        let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' ORDER BY _create_date DESC  `
-        return new Promise(function(resolve, reject){
-            connection.connect()
-
-            connection.query(sqlCommand, function (err, rows, fields) {
-                if (err) throw err
-                //TODO: Fix corection of rows [] to take multiple post
-                let newObjects = rows.map(model.objectMapper)
-                resolve(newObjects)
-
-            })
-
-            connection.end()
-        })
-    }
-
-    
-    //TODO: Fix sqlCommand for searchPosts()
-    /**
-     * @description Returns search results
-     * @param name -
-     * @param category -
-     * @param page -
-     * @param sort -
-     * @param model -
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-
-     /*
-    static searchPosts(name,category,page,sort,model){
-        let table = model.__TABLE
-        let sqlCommand = `SELECT * FROM ${table} WHERE post_status = 'Approved' AND category_id = ${category} AND _post_title: ${sort} `
-        return new Promise(function(resolve, reject){
-            connection.connect()
-
-            connection.query(sqlCommand, function (err, rows, fields) {
-                if (err) throw err
-                //TODO: Fix corection of rows [] to take multiple post
-                let newObject = model.objectMapper(rows[0])
-                resolve(newObject)
-
-            })
-
-            connection.end()
-        })
-    }
-    */
-
-    /**
      * @description
      * @param
      * @returns
