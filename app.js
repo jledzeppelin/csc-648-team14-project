@@ -168,16 +168,15 @@ app.get('/search/',function(req, res) {
  * @description About Page, returns about.njk
  * @author Ryan Jin
  */
-app.get('/about/', function(req, res){
+app.get('/about', function(req, res){
     res.render('about');
-
 })
 
 /**
  * @description Admin Page, returns admin.njk
  * @author Ryan Jin
  */
-app.get('/admin/', function(req, res){
+app.get('/admin', function(req, res){
     res.render('admin');
 })
 
@@ -185,7 +184,7 @@ app.get('/admin/', function(req, res){
  * @description User Page, returns user.njk
  * @author Ryan Jin
  */
-app.get('/user/', function(req, res){
+app.get('/user', function(req, res){
     res.render('user')
 })
 
@@ -204,7 +203,7 @@ app.get('/user/', function(req, res){
  * @description Login Page, returns login.njk
  * @author Ryan Jin
  */
-app.get('/login/', function(req, res){
+app.get('/login', function(req, res){
     res.render('login')
 })
 
@@ -212,7 +211,7 @@ app.get('/login/', function(req, res){
  * @description Register Page, returns register.njk
  * @author Ryan Jin
  */
-app.get('/register/', function(req, res){
+app.get('/register', function(req, res){
     res.render('register');
 
 })
@@ -221,7 +220,7 @@ app.get('/register/', function(req, res){
  * @description Create a post Page, returns createpost.njk
  * @author Ryan Jin
  */
-app.get('/createpost/', function(req, res){
+app.get('/createpost', function(req, res){
     res.render('createpost');
 })
 
@@ -229,7 +228,7 @@ app.get('/createpost/', function(req, res){
  * @description Post Confirmation Page, returns postconfirm.njk
  * @author Ryan Jin
  */
-app.get('/postconfirm/', function(req, res){
+app.get('/postconfirm', function(req, res){
     res.render('postconfirm');
 })
 
