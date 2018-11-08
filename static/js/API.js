@@ -50,8 +50,9 @@ class GatorTraderAPI {
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static getAllPostsByCategory(category_id, callback){
-        let params = $.params({category_id:category_id})
-        let url ='api/category/'+params
-        return $.get(url,callback)
+    static getAllPostsByCategory(category_id, callback) {
+        let params = $.params({category_id: category_id})
+        let url = 'api/category/' + params
+        return $.get(url, callback)
+    }
 }
