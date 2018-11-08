@@ -164,6 +164,85 @@ app.get('/search/',function(req, res) {
     })
 })
 
+/**
+ * @description About Page, returns about.njk
+ * @author Ryan Jin
+ */
+app.get('/about/', function(req, res){
+    res.render('about');
+
+})
+
+/**
+ * @description Admin Page, returns admin.njk
+ * @author Ryan Jin
+ */
+app.get('/admin/', function(req, res){
+    res.render('admin');
+})
+
+/**
+ * @description User Page, returns user.njk
+ * @author Ryan Jin
+ */
+app.get('/user/', function(req, res){
+    res.render('user')
+})
+
+/**
+ * @description User Page with ID, returns user.njk
+ * @author Ryan Jin
+ */
+app.get('/user/', function(req, res){
+    let id = req.query.id
+    res.render('user',{
+        id: id
+    })
+})
+
+/**
+ * @description Login Page, returns login.njk
+ * @author Ryan Jin
+ */
+app.get('/login/', function(req, res){
+    res.render('login')
+})
+
+/**
+ * @description Register Page, returns register.njk
+ * @author Ryan Jin
+ */
+app.get('/register/', function(req, res){
+    res.render('register');
+
+})
+
+/**
+ * @description Create a post Page, returns createpost.njk
+ * @author Ryan Jin
+ */
+app.get('/createpost/', function(req, res){
+    res.render('createpost');
+})
+
+/**
+ * @description Post Confirmation Page, returns postconfirm.njk
+ * @author Ryan Jin
+ */
+app.get('/postconfirm/', function(req, res){
+    res.render('postconfirm');
+})
+
+/**
+ * @description Product Page with ID, returns product.njk
+ * @author Ryan Jin
+ */
+app.get('/product/', function(req, res){
+    let id = req.query.id
+    res.render('product', {
+        id: id
+    })
+})
 
 
 
