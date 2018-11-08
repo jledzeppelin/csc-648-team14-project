@@ -182,6 +182,16 @@ app.get('/admin/', function(req, res){
     res.render('admin');
 })
 
+/**
+ * @description User Page, returns user.njk
+ * @author Ryan Jin
+ */
+app.get('/user/', function(req, res){
+    res.render('user')
+})
+
+
+
 
 
 
