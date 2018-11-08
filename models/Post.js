@@ -108,16 +108,6 @@ class Post extends BaseModel{
         return super.getSingleRowById(Post, {id:id})
     }
 
-    /**
-     * @description Returns all post corresponding to category_id
-     * @param category_id - id of category
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-
-    static getCategory (category_id){
-        let Category = super.getCategory(category_id, Post)
-        return Category
-    }
 
     /**
      * @descirption Returns recent approved Posts
