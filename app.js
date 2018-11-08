@@ -174,6 +174,15 @@ app.get('/about/', function(req, res){
 
 })
 
+/**
+ * @description Admin Page, returns admin.njk
+ * @author Ryan Jin
+ */
+app.get('/admin/', function(req, res){
+    res.render('admin');
+})
+
+
 
 
 // -------
