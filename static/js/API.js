@@ -101,5 +101,16 @@ class GatorTraderAPI {
         return $.get(url, callback)
     }
 
+    /**
+     * @description Returns all the categories
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static getAllCategories(callback){
+        let url = 'api/categories'
+        return $.get(url, callback)
+    }
+
+
 
 }
