@@ -20,6 +20,7 @@ nunjucks.configure('views', {
 
 const SETTINGS = require('./settings')
 const Business = require('./business')
+const resize = require('./static/js/resize')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
@@ -171,6 +172,12 @@ app.get('/search/',function(req, res) {
         page: page,
         sort: sort,
     })
+})
+
+//testing image resizing
+app.get('/images/', (req, res) => {
+    res.type('image/jpg')
+    resize()
 })
 
 
