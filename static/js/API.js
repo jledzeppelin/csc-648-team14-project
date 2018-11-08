@@ -79,13 +79,25 @@ class GatorTraderAPI {
     /**
      * @description Returns all the messages for a specifc post that the user owns
      * @param postid
-     * @Param message
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static getPostMessages(postid, message, callback){
-        let params = $.params({postid: postid, message: message})
+    static getPostMessages(postid, callback){
+        let params = $.params({postid: postid})
         let url = 'apl/message/read' + params
+        return $.get(url, callback)
+    }
+
+    /**
+     * @description Returns all the messages for a specifc post that the user owns
+     * @param postid
+     * @parma message
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static getPostMessages2(postid, message, callback){
+        let params = $.params({postid: postid, message: message})
+        let url = 'apl/message/send' + params
         return $.get(url, callback)
     }
 
