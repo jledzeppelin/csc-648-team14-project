@@ -235,6 +235,15 @@ app.get('/createpost/', function(req, res){
     res.render('createpost');
 })
 
+/**
+ * @description Post Confirmation Page, returns postconfirm.njk
+ * @author Ryan Jin
+ */
+app.get('/postconfirm', function(req, res){
+    res.render('postconfirm');
+})
+
+
 // -------
 // -------
 // STATIC
