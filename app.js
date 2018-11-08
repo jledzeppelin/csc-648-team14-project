@@ -218,6 +218,16 @@ app.get('/login/', function(req, res){
     res.render('login')
 })
 
+/**
+ * @description Register Page, returns register.njk
+ * @author Ryan Jin
+ */
+app.get('/register/', function(req, res){
+    res.render('register');
+
+})
+
+
 
 // -------
 // -------
