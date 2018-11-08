@@ -111,6 +111,19 @@ class GatorTraderAPI {
         return $.get(url, callback)
     }
 
+    /**
+     * @description Logs the user into the site and stores their session as a cookie
+     * @param username
+     * @param password
+     * @param captcha
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static registerUser(username, password, captcha, callback){
+        let params = $.params({username: username, password: password, captcha: captcha})
+        let url = 'api/register' + params
+        return $.get(url, callback)
+    }
 
 
 }
