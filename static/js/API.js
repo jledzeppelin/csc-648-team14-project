@@ -40,13 +40,13 @@ class GatorTraderAPI {
      */
     static getPostDetails(id, callback){
         let params = $.param({id:id})
-        let url = '/api/post/'+params
+        let url = 'api/post/'+params
         return $.get(url,callback)
     }
 
     /**
-     * @description Gets the Post Details based on ID
-     * @param id
+     * @description Gets the Posts based on category_id
+     * @param category_id
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
@@ -55,4 +55,15 @@ class GatorTraderAPI {
         let url = 'api/category/' + params
         return $.get(url, callback)
     }
+
+    /**
+     * @description Returns all the current logged in user's posts
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static returnAllPosts(callback){
+        let url = 'api/post/self'
+        return $.get(url,callback)
+    }
+
 }
