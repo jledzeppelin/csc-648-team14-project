@@ -227,7 +227,13 @@ app.get('/register/', function(req, res){
 
 })
 
-
+/**
+ * @description Create a post Page, returns createpost.njk
+ * @author Ryan Jin
+ */
+app.get('/createpost/', function(req, res){
+    res.render('createpost');
+})
 
 // -------
 // -------
