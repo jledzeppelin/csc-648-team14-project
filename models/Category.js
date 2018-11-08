@@ -1,6 +1,6 @@
 const BaseModel = require('./BaseModel')
 /**
- * @description The model for a Category. It inherits the BaseModel's generic functionality.
+ * @description The model for Category. It inherits the BaseModel's generic functionality.
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 
@@ -43,7 +43,7 @@ class Category extends BaseModel{
      */
 
     static getAllCategories (){
-        let sql =  `SELECT _category_name FROM ${this.__TABLE}`
+        let sql =  `SELECT * FROM ${this.__TABLE} `
         let allCategories = super.getMultipleBySQL(Category , sql )
         return allCategories
     }
@@ -66,7 +66,7 @@ class Category extends BaseModel{
 
     /**
      * @description This is what will be returned when converting the object to JSON.
-     * @returns {{id: *, category_name: *, parent_category_id: *}}
+     * @returns {{id: *, category_name: *}
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     toJSON() {
