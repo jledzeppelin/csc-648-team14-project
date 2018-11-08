@@ -33,6 +33,16 @@ class GatorTraderAPI {
     }
 
     /**
+     * @description Creates a post
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static createPost(callback){
+        let url = 'api/post/create'
+        return $.get(url, callback)
+    }
+
+    /**
      * @description Gets the Post Details based on ID
      * @param id
      * @param callback {function} The function to be called after results are found
@@ -84,7 +94,7 @@ class GatorTraderAPI {
      */
     static getPostMessages(postid, callback){
         let params = $.params({postid: postid})
-        let url = 'api/message/read' + params
+        let url = 'api/message/read/' + params
         return $.get(url, callback)
     }
 
@@ -97,7 +107,7 @@ class GatorTraderAPI {
      */
     static sendPostMessages(postid, message, callback){
         let params = $.params({postid: postid, message: message})
-        let url = 'api/message/send' + params
+        let url = 'api/message/send/' + params
         return $.get(url, callback)
     }
 
