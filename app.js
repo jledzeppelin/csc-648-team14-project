@@ -190,15 +190,6 @@ app.get('/user/', function(req, res){
     res.render('user')
 })
 
-
-/**
- * @description User Page, returns user.njk
- * @author Ryan Jin
- */
-app.get('/user/', function(req, res){
-    res.render('user')
-})
-
 /**
  * @description User Page with ID, returns user.njk
  * @author Ryan Jin
