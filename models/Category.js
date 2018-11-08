@@ -59,7 +59,7 @@ class Category extends BaseModel{
 
         // Take all the values and put them in the new object
         newCategory.id = result.id
-        newCategory.category_name = result._category_name
+        newCategory.category_name = result.category_name
 
         return newCategory
     }
@@ -72,7 +72,7 @@ class Category extends BaseModel{
     toJSON() {
         return {
             id: this.id,
-            category_name : this._category_name,
+            category_name : this.category_name
         }
     }
 
