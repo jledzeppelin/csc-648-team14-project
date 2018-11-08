@@ -165,6 +165,16 @@ app.get('/search/',function(req, res) {
     })
 })
 
+/**
+ * @description About Page, returns about.njk
+ * @author Ryan Jin
+ */
+app.get('/about/', function(req, res){
+    res.render('about');
+
+})
+
+
 
 // -------
 // -------
