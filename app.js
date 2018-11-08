@@ -73,16 +73,15 @@ app.get('/api/post/:id/',async function(req, res){
 
 
 /**
- * @description Returns all Posts corresponding to category_id
+ * @description Returns all Categories
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
-app.get('api/category/:category_id/',async function(req,res){
-    let category_id = req.params.category_id
-    let Category = await Business.getCategory(category_id).catch(function(err){
+app.get('/api/categories',async function(req,res){
+    let allCategories = await Business.getAllCategories().catch(function(err){
         console.error(err)
         return {};
     })
-    res.json(Category);
+    res.json(allCategories);
 });
 
 
@@ -244,6 +243,8 @@ app.get('/product/', function(req, res){
         id: id
     })
 })
+
+
 
 // -------
 // -------

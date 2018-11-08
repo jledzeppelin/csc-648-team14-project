@@ -1,6 +1,7 @@
 const Post = require('./models/Post.js')
 const SETTINGS = require('./settings')
 const RegisteredUser = require('./models/RegisteredUser.js')
+const Category = require('./models/Category')
 
 /**
  * @description This is the business layer of the application. It will process the request and return the data.
@@ -59,19 +60,13 @@ class Business{
     }
 
     /**
-     * @description Returns all posts corresponding to category_id
-     * @param category_id - id of category
+     * @description Returns all Categories
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getCategory(category_id){
-        // Convert to integer and check to see if valid
-        category_id = parseInt(category_id)
-        if(!Number.isInteger(category_id))
-            throw `Invalid argument for controller.getPost() "${category_id}". Must be an integer`
-
-        // Create the Post Object
-        let Category = Post.getCategory(category_id)
-        return Category
+    static getAllCategories(){
+        // Create the Category Object
+        let allCategories = Category.getAllCategories()
+        return allCategories
 
     }
 
