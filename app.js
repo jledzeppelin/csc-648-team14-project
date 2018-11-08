@@ -243,6 +243,16 @@ app.get('/postconfirm', function(req, res){
     res.render('postconfirm');
 })
 
+/**
+ * @description Product Page with ID, returns product.njk
+ * @author Ryan Jin
+ */
+app.get('/product/', function(req, res){
+    let id = req.query.id
+    res.render('product', {
+        id: id
+    })
+})
 
 // -------
 // -------
