@@ -61,9 +61,19 @@ class GatorTraderAPI {
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static returnAllPosts(callback){
+    static getAllPosts(callback){
         let url = 'api/post/self'
-        return $.get(url,callback)
+        return $.get(url, callback)
+    }
+
+    /**
+     * @description Returns all messages for any active posts for the currently logged in user
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static getActivePostMessages(callback){
+        let url = 'api/message/read'
+        return $.get(url, callback)
     }
 
 }
