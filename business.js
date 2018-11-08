@@ -63,9 +63,11 @@ class Business{
      * @description Returns all Categories
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getAllCategories(){
+    static async getAllCategories(){
         // Create the Category Object
-        let allCategories = Category.getAllCategories()
+        let allCategories = await Category.getAllCategories().catch(function(err){
+            console.error(`Business.getAllCAtegories() error: ${err}`)
+        })
         return allCategories
 
     }

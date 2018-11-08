@@ -97,7 +97,7 @@ class BaseModel{
         console.log("getMultipleBySQL() SQL:", sqlCommand)
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
-            connection.connect()
+         // connection.connect()
             connection.query(sqlCommand, function (err, rows, fields) {
                 if (err) throw err
                 let newObjects = rows.map(model.objectMapper)
@@ -105,6 +105,8 @@ class BaseModel{
             })
             connection.end()
         })
+
+
     }
 
     /**
