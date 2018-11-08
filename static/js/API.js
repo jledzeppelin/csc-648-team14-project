@@ -84,7 +84,7 @@ class GatorTraderAPI {
      */
     static getPostMessages(postid, callback){
         let params = $.params({postid: postid})
-        let url = 'apl/message/read' + params
+        let url = 'api/message/read' + params
         return $.get(url, callback)
     }
 
@@ -97,7 +97,7 @@ class GatorTraderAPI {
      */
     static sendPostMessages(postid, message, callback){
         let params = $.params({postid: postid, message: message})
-        let url = 'apl/message/send' + params
+        let url = 'api/message/send' + params
         return $.get(url, callback)
     }
 
