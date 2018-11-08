@@ -210,8 +210,13 @@ app.get('/user/', function(req, res){
     })
 })
 
-
-
+/**
+ * @description Login Page, returns login.njk
+ * @author Ryan Jin
+ */
+app.get('/login/', function(req, res){
+    res.render('login')
+})
 
 
 // -------
