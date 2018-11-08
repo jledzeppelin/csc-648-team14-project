@@ -40,10 +40,18 @@ class GatorTraderAPI {
      */
     static getPostDetails(id, callback){
         let params = $.param({id:id})
-        let url = '/api/post/:id/'+params
+        let url = '/api/post/'+params
         return $.get(url,callback)
     }
 
-
-
+    /**
+     * @description Gets the Post Details based on ID
+     * @param id
+     * @param callback {function} The function to be called after results are found
+     * @author Ryan Jin
+     */
+    static getAllPostsByCategory(category_id, callback){
+        let params = $.params({category_id:category_id})
+        let url ='api/category/'+params
+        return $.get(url,callback)
 }
