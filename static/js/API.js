@@ -95,7 +95,7 @@ class GatorTraderAPI {
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static getPostMessages2(postid, message, callback){
+    static sendPostMessages(postid, message, callback){
         let params = $.params({postid: postid, message: message})
         let url = 'apl/message/send' + params
         return $.get(url, callback)
@@ -137,6 +137,6 @@ class GatorTraderAPI {
         let url = 'api/login' + params
         return $.get(url, callback)
     }
-    
+
 
 }
