@@ -43,8 +43,8 @@ class Category extends BaseModel{
      */
 
     static getAllCategories (){
-        let sql =  `SELECT * FROM ${this.__TABLE} `
-        let allCategories = super.getMultipleBySQL(Category , sql )
+        let sql =  `SELECT * FROM ${this.__TABLE}`
+        let allCategories = super.getMultipleBySQL(Category , sql)
         return allCategories
     }
 

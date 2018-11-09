@@ -128,34 +128,6 @@ class Post extends BaseModel{
     }
 
     /**
-     * @description Returns search results
-     * @param name -
-     * @param category -
-     * @param page -
-     * @param sort -
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-
-    static searchPosts(name,category,page,sort){
-        let sql = `SELECT * FROM ${this.__TABLE} WHERE `
-        let searchResults = super.getMultipleBySQL(Post, )
-        return searchResults
-    }
-
-    /**
-     * @description
-     * @param title
-     * @param description
-     * @param category
-     * @param image
-     * @author Ryan Jin
-     */
-    static createPost(title, description, category, image){
-        let newPost = super.createPost(title, description, category, image, Post)
-        return newPost
-    }
-
-    /**
      * @description Convert the result from the DB to a new Post object
      * @param result {object} The result from the Database.
      * @returns {Post} The instantiated Post object

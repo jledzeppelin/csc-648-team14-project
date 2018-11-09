@@ -20,7 +20,7 @@ nunjucks.configure('views', {
 
 const SETTINGS = require('./settings')
 const Business = require('./business')
-const resize = require('./static/js/resize')
+//const resize = require('./static/js/resize')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
@@ -69,7 +69,6 @@ app.get('/api/post/:id/',async function(req, res){
     let id = req.params.id
     let post = await Business.getPost(id)
     res.json(post)
-
 });
 
 
@@ -78,11 +77,8 @@ app.get('/api/post/:id/',async function(req, res){
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('/api/categories',async function(req,res){
-    let allCategories = await Business.getAllCategories().catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(allCategories);
+    let allCategories = await Business.getAllCategories()
+    res.json(allCategories)
 });
 
 

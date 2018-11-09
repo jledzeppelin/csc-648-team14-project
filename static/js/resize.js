@@ -1,3 +1,6 @@
+//TO DO: complete implementing resizing after doing the upload image api
+
+/*
 const fileSystem = require('fs')
 const sharp = require('sharp')
 
@@ -17,3 +20,4 @@ function resize(path, format, width, height) {
 }
 
 module.exports = resize
+*/
