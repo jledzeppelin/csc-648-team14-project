@@ -1,5 +1,9 @@
 const BaseModel = require('./BaseModel')
 
+/**
+ * @description The model for a registeredUser. It inherits the BaseModel's generic functionality.
+ * @author Juan Ledezma
+ */
 class RegisteredUser extends BaseModel {
     get id(){
         return this.__id
@@ -57,6 +61,11 @@ class RegisteredUser extends BaseModel {
         return "registered_user"
     }
 
+    /**
+     * @description Inserts new post to db
+     * @returns {Promise} A confirmation of the new post being added
+     * @author Juan Ledezma
+     */
     static insertNewRecord(newUser) {
         let result = super.insertNewRecord(RegisteredUser, newUser)
         return result

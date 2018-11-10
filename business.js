@@ -63,11 +63,13 @@ class Business{
      * @description Returns all Categories
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getAllCategories(){
+    static async getAllCategories(){
         // Create the Category Object
-        let allCategories = Category.getAllCategories()
-        return allCategories
+        let allCategories = await Category.getAllCategories().catch(function(err){
+            console.error(`Business.getAllCAtegories() error: ${err}`)
+        })
 
+        return allCategories
     }
 
     /**
@@ -76,20 +78,22 @@ class Business{
      */
     static getLatestApprovedPost(){
         //Creates Post Object
-        let lastestApprovedPost = Post.getLatestApprovedPosts()
+        let lastestApprovedPost = Post.getLatestApprovedPosts().catch(function(err){
+            console.error(`Business.getLatestApprovedPost() error: ${err}`)
+        })
+
         return lastestApprovedPost
     }
 
     /**
      * @description Returns search results
-     * @param name {String} -
-     * @param category {String} -
-     * @param page {String} -
-     * @param sort {String} -
+     * @param name {String} Search input
+     * @param category {Number} Search by category (category_id)
+     * @param page {Number} Search results in a given page
+     * @param sort {String} Sort results by price or newest first, default is by increasing price
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      * Jack Cole jcole2@mail.sfsu.edu
      */
-
     static async searchPosts(name , category , page , sort){
         category = parseInt(category)
         page = parseInt(page)
@@ -134,22 +138,18 @@ class Business{
     }
 
     /**
-     * @description
-     * @param
-     * @returns
+     * @description Creates a new post, returns confirmation
+     * @param newPost All details for a new post
+     * @returns {Post}
      * @author Ryan Jin
      */
-    static createPost(title, description, category, image){
+    static async createPost(newPost){
+        // TO DO: validation? user exists in db
+        let post = await Post.insertNewRecord(newPost).catch(function(err) {
+            console.error(`Business.createPost() error: ${err}`)
+        })
 
-        let createPost = new Post()
-        createPost.title = title
-        createPost.description = description
-        createPost.category = cateogry
-        createPost.image = image
-        let response = createPost.insert()
-        // Post.createPost(title, description, category, image)
-
-        return response
+        return post
     }
 }
 

@@ -20,6 +20,7 @@ nunjucks.configure('views', {
 
 const SETTINGS = require('./settings')
 const Business = require('./business')
+//const resize = require('./static/js/resize')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
@@ -68,7 +69,6 @@ app.get('/api/post/:id/',async function(req, res){
     let id = req.params.id
     let post = await Business.getPost(id)
     res.json(post)
-
 });
 
 
@@ -77,11 +77,8 @@ app.get('/api/post/:id/',async function(req, res){
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('/api/categories',async function(req,res){
-    let allCategories = await Business.getAllCategories().catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(allCategories);
+    let allCategories = await Business.getAllCategories()
+    res.json(allCategories)
 });
 
 
@@ -89,18 +86,26 @@ app.get('/api/categories',async function(req,res){
  * @description Creates a post
  * @author Ryan Jin
  */
-app.post('/api/post/create',async function(req,res){
-    let title = req.params.body
-    let description = req.params.body
-    let category = req.params.body
-    let image = req.params.body
+app.post('/api/post/create', async function(req,res){
+    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-    let createPost = await Business.createPost(title, description, category, image).catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(createPost)
+    var newPost={
+        "user_id":req.body.user_id,
+        "category_id":req.body.category_id,
+        "post_title":req.body.post_title,
+        "post_description":req.body.post_description,
+        "post_status":"pending",
+        "price":req.body.price,
+        "price_is_negotiable":req.body.price_is_negotiable,
+        "last_revised":dateTime,
+        "create_date":dateTime,
+        "number_of_images":req.body.number_of_images
+    }
+
+    let post = await Business.createPost(newPost)
+    res.json(post)
 });
+
 
 /**
  * @description Registers a new user, returns a confirmation
@@ -168,16 +173,15 @@ app.get('/search/',function(req, res) {
  * @description About Page, returns about.njk
  * @author Ryan Jin
  */
-app.get('/about/', function(req, res){
+app.get('/about', function(req, res){
     res.render('about');
-
 })
 
 /**
  * @description Admin Page, returns admin.njk
  * @author Ryan Jin
  */
-app.get('/admin/', function(req, res){
+app.get('/admin', function(req, res){
     res.render('admin');
 })
 
@@ -185,7 +189,7 @@ app.get('/admin/', function(req, res){
  * @description User Page, returns user.njk
  * @author Ryan Jin
  */
-app.get('/user/', function(req, res){
+app.get('/user', function(req, res){
     res.render('user')
 })
 
@@ -204,7 +208,7 @@ app.get('/user/', function(req, res){
  * @description Login Page, returns login.njk
  * @author Ryan Jin
  */
-app.get('/login/', function(req, res){
+app.get('/login', function(req, res){
     res.render('login')
 })
 
@@ -212,7 +216,7 @@ app.get('/login/', function(req, res){
  * @description Register Page, returns register.njk
  * @author Ryan Jin
  */
-app.get('/register/', function(req, res){
+app.get('/register', function(req, res){
     res.render('register');
 
 })
@@ -221,7 +225,7 @@ app.get('/register/', function(req, res){
  * @description Create a post Page, returns createpost.njk
  * @author Ryan Jin
  */
-app.get('/createpost/', function(req, res){
+app.get('/createpost', function(req, res){
     res.render('createpost');
 })
 
@@ -229,7 +233,7 @@ app.get('/createpost/', function(req, res){
  * @description Post Confirmation Page, returns postconfirm.njk
  * @author Ryan Jin
  */
-app.get('/postconfirm/', function(req, res){
+app.get('/postconfirm', function(req, res){
     res.render('postconfirm');
 })
 

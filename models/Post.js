@@ -98,6 +98,15 @@ class Post extends BaseModel{
      */
     static get __TABLE(){return "post"}
 
+    /**
+     * @description Inserts new post to db
+     * @returns {Promise} A confirmation of the new post being added
+     * @author Juan Ledezma
+     */
+    static insertNewRecord(newPost) {
+        let result = super.insertNewRecord(Post, newPost)
+        return result
+    }
 
     /**
      * @description Grab a sigle post matching the id from the database
@@ -116,34 +125,6 @@ class Post extends BaseModel{
     static getLatestApprovedPosts(){
         let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
         return latestApprovedPost
-    }
-
-    /**
-     * @description Returns search results
-     * @param name -
-     * @param category -
-     * @param page -
-     * @param sort -
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-
-    static searchPosts(name,category,page,sort){
-        let sql = `SELECT * FROM ${this.__TABLE} WHERE `
-        let searchResults = super.getMultipleBySQL(Post, )
-        return searchResults
-    }
-
-    /**
-     * @description
-     * @param title
-     * @param description
-     * @param category
-     * @param image
-     * @author Ryan Jin
-     */
-    static createPost(title, description, category, image){
-        let newPost = super.createPost(title, description, category, image, Post)
-        return newPost
     }
 
     /**
