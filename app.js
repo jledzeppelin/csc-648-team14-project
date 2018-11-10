@@ -11,6 +11,7 @@ const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
+const multer = require('multer')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -28,8 +29,41 @@ const IMAGE_PATH = path.join(__dirname, '/images')
 
 let port = SETTINGS.web.port
 
+//get information from html forms
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+
+// TO DO: move file upload functions to another file
+//multer configuration
+const storage = multer.diskStorage({
+    destination: './images/posts/',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: 2000000}, // 2MB size limit
+    fileFilter: function (req, file, callback) {
+        checkFileType(file, callback);
+    }
+}).single('postImage');
+
+function checkFileType(file, callback) {
+    //file types to allow
+    const filetypes = /jpeg|jpg/;
+    //check file extension
+    const extname = filetypes.test(path.extname(file.originalname));
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return callback(null, true);
+    } else {
+        callback("Error, can only upload images!")
+    }
+}
 
 // -------
 // -------
@@ -122,7 +156,7 @@ app.post('/api/register', async function(req, res){
 
     let registeredUser = await Business.registerUser(newUser)
     res.json(registeredUser)
-})
+});
 
 /**
  * @description Login for registered user, returns a confirmation
@@ -134,7 +168,27 @@ app.post('/api/login', async function(req, res){
 
     let userLogin = await Business.loginUser(email, login_password)
     res.json(userLogin)
-})
+});
+
+//TO DO: might want to have processing in business.js
+app.post('/api/post/fileUpload', function (req, res){
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err)
+            res.json({success:false})
+        } else {
+            if (req.file == undefined) {
+                console.log("Error: no file selected")
+                res.json({success:false})
+            } else {
+                res.json({
+                    sucess: true,
+                    file: `images/posts/${req.file.filename}`
+                })
+            }
+        }
+    });
+});
 
 // -------
 // -------
