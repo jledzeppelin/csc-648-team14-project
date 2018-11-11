@@ -23,6 +23,19 @@ class GatorTraderAPI {
     }
 
     /**
+     * @description Uploads an image to file system and creates a thumbnail
+     * @param post_id {Number}
+     * @param image_number {Number} A specific image to upload (1 through number of total images to upload) 
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static uploadImage(post_id, image_number, callback) {
+        let params = $.param({post_id:post_id, image_number:image_number})
+        let url = '/api/post/fileUpload?'+params
+        return $.get(url, callback)
+    }
+
+    /**
      * @description Grabs a list of recent posts
      * @param callback {function} The function to be called after results are found
      * @author Jack Cole jcole2@mail.sfsu.edu
