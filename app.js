@@ -183,14 +183,14 @@ app.post('/api/post/fileUpload', function (req, res){
                 console.log("Error: no file selected")
                 res.json({success:false})
             } else {
-                let filePath = `./images/posts/${req.file.filename}`
-                let thumbailPath =  `./images/posts/${req.query.post_id}-${req.query.image_number}t` +
+                let filePath = `images/posts/${req.file.filename}`
+                let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
                 path.extname(req.file.filename)
 
                 //creating thumbnail
-                sharp(filePath)
+                sharp('./'+filePath)
                     .resize(THUMBNAIL.width, THUMBNAIL.height)
-                    .toFile(thumbailPath, function (err, info) {
+                    .toFile('./'+thumbailPath, function (err, info) {
                         if (err) throw err;
                         console.log(info);
                     });
