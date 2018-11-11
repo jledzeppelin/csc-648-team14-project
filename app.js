@@ -12,6 +12,7 @@ const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const sharp = require('sharp')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -26,6 +27,7 @@ const Business = require('./business')
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
+const THUMBNAIL = {height:200, width:200}
 
 let port = SETTINGS.web.port
 
@@ -38,7 +40,7 @@ app.use(bodyParser.json())
 const storage = multer.diskStorage({
     destination: './images/posts/',
     filename: function(req, file, callback) {
-        callback(null, file.fieldname + path.extname(file.originalname));
+        callback(null, req.query.post_id + '-' + req.query.image_number + path.extname(file.originalname));
     }
 });
 
@@ -48,11 +50,11 @@ const upload = multer({
     fileFilter: function (req, file, callback) {
         checkFileType(file, callback);
     }
-}).single('postImage');
+}).single('postImage'); //name in form
 
 function checkFileType(file, callback) {
     //file types to allow
-    const filetypes = /jpeg|jpg/;
+    const filetypes = /jpeg|jpg|png/;
     //check file extension
     const extname = filetypes.test(path.extname(file.originalname));
     //check mime
@@ -181,10 +183,23 @@ app.post('/api/post/fileUpload', function (req, res){
                 console.log("Error: no file selected")
                 res.json({success:false})
             } else {
+                let filePath = `./images/posts/${req.file.filename}`
+                let thumbailPath =  `./images/posts/${req.query.post_id}-${req.query.image_number}t` +
+                path.extname(req.file.filename)
+
+                //creating thumbnail
+                sharp(filePath)
+                    .resize(THUMBNAIL.width, THUMBNAIL.height)
+                    .toFile(thumbailPath, function (err, info) {
+                        if (err) throw err;
+                        console.log(info);
+                    });
+
                 res.json({
                     sucess: true,
-                    file: `images/posts/${req.file.filename}`
-                })
+                    file: filePath,
+                    thumbail: thumbailPath
+                });
             }
         }
     });

@@ -1,23 +1,21 @@
-//TO DO: complete implementing resizing after doing the upload image api
-
-/*
-const fileSystem = require('fs')
 const sharp = require('sharp')
 
-function resize(path, format, width, height) {
-    const readStream = fileSystem.createReadStream(path)
-    let transform = sharp()
+module.exports = function resize(path, format, width, height) {
+    let transform = sharp(path);
 
+    //convert to provided format
     if (format) {
         transform = transform.toFormat(format)
     }
 
+    //resize to thumbnail size
     if (width || height) {
         transform = transform.resize(width, height);
     }
 
-    return readStream
+    //create new thumbnail
+    transform.toFile('/images/posts/test.jpg', function (err, info) {
+        if (err) throw err;
+        console.log(info);
+    });
 }
-
-module.exports = resize
-*/
