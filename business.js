@@ -91,14 +91,17 @@ class Business{
      * @param category {Number} Search by category (category_id)
      * @param page {Number} Search results in a given page
      * @param sort {String} Sort results by price or newest first, default is by increasing price
+     * @param valid_search {Boolean} Determines if search request is a valid input containing only a-z, A-Z, 0-9
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      * Jack Cole jcole2@mail.sfsu.edu
+     * Ryan Jin
      */
     static async searchPosts(name , category , page , sort){
         category = parseInt(category)
         page = parseInt(page)
         let sort_column = Business.DEFAULT_SORT
         let sort_desc = Business.DEFAULT_SORT_DESCENDING
+        let valid_search = /^([a-z0-9A-Z]{0,40})$/.test(name)
 
         if(!Number.isInteger(category))
         {
@@ -110,9 +113,9 @@ class Business{
             console.error( `Invalid argument for controller.searchPosts() "${page}". Must be an integer`)
             return []
         }
-        if(name.length < 3)
+        if(valid_search == false)
         {
-            console.error( `Invalid argument for controller.searchPosts() "${name}". Must 3 characters or longer`)
+            console.error( `Invalid argument for controller.searchPosts() "${name}". Must be a valid search input`)
             return []
         }
 
