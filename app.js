@@ -248,7 +248,23 @@ app.get('/product/', function(req, res){
     })
 })
 
+/**
+ * @description User Account Page, returns account.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/account', function(req, res){
+    res.render('account');
+})
 
+/**
+ * @description Help Page, returns help.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/help', function(req, res){
+    res.render('help');
+})
 
 // -------
 // -------
