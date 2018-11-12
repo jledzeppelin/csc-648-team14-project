@@ -50,7 +50,7 @@ class GatorTraderAPI {
      */
     static getPostDetails(id, callback){
         let params = $.param({id:id})
-        let url = 'api/post/'+params
+        let url = 'api/post?'+params
         return $.get(url,callback)
     }
 

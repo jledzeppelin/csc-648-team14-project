@@ -65,8 +65,8 @@ app.get('/api/post/search',async function (req,res){
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/api/post/:id/',async function(req, res){
-    let id = req.params.id
+app.get('/api/post',async function(req, res){
+    let id = req.query.id
     let post = await Business.getPost(id)
     res.json(post)
 });
