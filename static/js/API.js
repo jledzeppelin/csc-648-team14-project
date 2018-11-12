@@ -28,7 +28,7 @@ class GatorTraderAPI {
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getRecentPosts(callback){
-        let url = 'api/post/recent'
+        let url = '/api/post/recent'
         return $.get(url,callback)
     }
 
@@ -38,7 +38,7 @@ class GatorTraderAPI {
      * @author Juan Ledezma
      */
     static createPost(callback){
-        let url = 'api/post/create'
+        let url = '/api/post/create'
         return $.get(url, callback)
     }
 
@@ -50,7 +50,7 @@ class GatorTraderAPI {
      */
     static getPostDetails(id, callback){
         let params = $.param({id:id})
-        let url = 'api/post?'+params
+        let url = '/api/post?'+params
         return $.get(url,callback)
     }
 
@@ -62,7 +62,7 @@ class GatorTraderAPI {
      */
     static getAllPostsByCategory(category_id, callback) {
         let params = $.params({category_id: category_id})
-        let url = 'api/category/' + params
+        let url = '/api/category/' + params
         return $.get(url, callback)
     }
 
@@ -72,7 +72,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllPosts(callback){
-        let url = 'api/post/self'
+        let url = '/api/post/self'
         return $.get(url, callback)
     }
 
@@ -82,7 +82,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getActivePostMessages(callback){
-        let url = 'api/message/read'
+        let url = '/api/message/read'
         return $.get(url, callback)
     }
 
@@ -94,7 +94,7 @@ class GatorTraderAPI {
      */
     static getPostMessages(postid, callback){
         let params = $.params({postid: postid})
-        let url = 'api/message/read/' + params
+        let url = '/api/message/read/' + params
         return $.get(url, callback)
     }
 
@@ -107,7 +107,7 @@ class GatorTraderAPI {
      */
     static sendPostMessages(postid, message, callback){
         let params = $.params({postid: postid, message: message})
-        let url = 'api/message/send/' + params
+        let url = '/api/message/send/' + params
         return $.get(url, callback)
     }
 
@@ -117,7 +117,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllCategories(callback){
-        let url = 'api/categories'
+        let url = '/api/categories'
         return $.get(url, callback)
     }
 
@@ -131,7 +131,7 @@ class GatorTraderAPI {
      */
     static registerUser(username, password, captcha, callback){
         let params = $.params({username: username, password: password, captcha: captcha})
-        let url = 'api/register' + params
+        let url = '/api/register' + params
         return $.get(url, callback)
     }
 
@@ -144,7 +144,7 @@ class GatorTraderAPI {
      */
     static userLogin(username, password, callback){
         let params = $.params({username: username, password: password})
-        let url = 'api/login' + params
+        let url = '/api/login' + params
         return $.get(url, callback)
     }
 
