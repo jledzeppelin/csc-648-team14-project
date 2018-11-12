@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-.post-img{
+.post-img-thumb{
     max-height: 300px;
 }
 
@@ -33,4 +33,8 @@
 .card-img-top{
     object-fit: cover;
     height: 200px;
+}
+
+.post-img{
+    height: 300px;
 }
