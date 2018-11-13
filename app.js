@@ -101,8 +101,8 @@ app.get('/api/post/search',async function (req,res){
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/api/post/:id/',async function(req, res){
-    let id = req.params.id
+app.get('/api/post',async function(req, res){
+    let id = req.query.id
     let post = await Business.getPost(id)
     res.json(post)
 });
@@ -227,7 +227,7 @@ app.get('/',function(req, res){
  * @description Search page. Renders search.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/search/',function(req, res) {
+app.get('/search',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
@@ -255,18 +255,10 @@ app.get('/admin', function(req, res){
 })
 
 /**
- * @description User Page, returns user.njk
- * @author Ryan Jin
- */
-app.get('/user', function(req, res){
-    res.render('user')
-})
-
-/**
  * @description User Page with ID, returns user.njk
  * @author Ryan Jin
  */
-app.get('/user/', function(req, res){
+app.get('/user', function(req, res){
     let id = req.query.id
     res.render('user',{
         id: id
@@ -307,17 +299,33 @@ app.get('/postconfirm', function(req, res){
 })
 
 /**
- * @description Product Page with ID, returns product.njk
+ * @description Post Page with ID, returns product.njk
  * @author Ryan Jin
  */
-app.get('/product/', function(req, res){
+app.get('/post', function(req, res){
     let id = req.query.id
     res.render('product', {
         id: id
     })
 })
 
+/**
+ * @description User Account Page, returns account.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/account', function(req, res){
+    res.render('account');
+})
 
+/**
+ * @description Help Page, returns help.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/help', function(req, res){
+    res.render('help');
+})
 
 // -------
 // -------
