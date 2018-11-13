@@ -2,8 +2,12 @@
 
 <!-- author: XiaoQian Huang xhuang8@mail.sfsu.edu -->
 {% block title %}
-
 {% endblock %}
+
+{% block js %}
+    <script src="/static/js/product.js"></script>
+{% endblock %}
+
 
 {% block container %}
     <div class="container">
@@ -12,7 +16,7 @@
 
         <div class="row">
             <div class="col col-md-4 mx-auto text-center">
-                <h1 class="product-name">
+                <h1 id="post_title">
                     <a href="#" class="text-capitalize">Product name
                     </a>
                 </h1>
@@ -22,21 +26,21 @@
 
         <div class="row">
             <div class="col col-md-4 mx-auto text-center">
-                <h5 class="text-capitalize text-muted">sold by: <a href="#" class="text-muted text-capitalize">user</a></h5>
+                <h5 class="text-capitalize text-muted">sold by: <a href="#" class="text-muted text-capitalize" id="_user">user</a></h5>
             </div>
         </div>
 
 
         <div class="row align-items-center">
             <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="#" class="post-img w-100"></a>
+                <a href="#"><img src="/images/posts/3-1.jpg" class="post-img w-100"></a>
             </div>
         </div>
 
 
         <div class="row">
             <div class="col col-md-4 mx-auto text-center">
-                <span class="price">$420</span>
+                <span id="price">$420</span>
             </div>
         </div>
 
@@ -50,7 +54,7 @@
 
         <div class="row align-items-center">
             <div class="col col-md-4 mx-auto text-center">
-                <div class="jumbotron w-100">
+                <div class="jumbotron w-100" id="post_description">
                     <p>This is product's description.</p>
                 </div>
             </div>
