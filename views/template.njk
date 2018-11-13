@@ -14,6 +14,23 @@
         <span class="alert alert-warning">SFSU-Fulda Software Engineering Project CSC 648-848, Fall 2018.  For Demonstration Only</span>
     </div>
 </div>
+<!-- Search form -->
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu1" data-toggle="dropdown">filter
+        <span class="caret"></span></button>
+    <ul id="category_menu" class="dropdown-menu" role="menu" aria-labelledby="menu1">
+    </ul>
+</div>
+<form action="search" method="get">
+    <div id="search-form" class="row">
+        <div  class="form-group col-md-6 offset-md-1">
+            <input class="form-control" type="text" name="name" title="Product name search" value="{{ name }}">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit" title="Search">Search</button>
+        </div>
+    </div>
+</form>
 {% block container %}{% endblock %}
 </body>
 
@@ -25,5 +42,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="/static/js/API.js"></script>
+<script src="/static/js/main.js"></script>
 {% block js %}{% endblock %}
 </html>

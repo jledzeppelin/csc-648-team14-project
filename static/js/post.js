@@ -5,7 +5,7 @@
  */
 
 function addProductName(post){
-    console.log(post)
+    console.debug("addProductName(post)", post)
     post.image_url = "/images/posts/"+post.id+"-1.jpg"; // Temp until we get image_url
     $("#_user").empty().append( post.user_id);
     $("#post_description").empty().append(post.post_description);
