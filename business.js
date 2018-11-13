@@ -1,7 +1,62 @@
 const Post = require('./models/Post.js')
-const SETTINGS = require('./settings')
 const RegisteredUser = require('./models/RegisteredUser.js')
 const Category = require('./models/Category')
+const multer = require('multer')
+const sharp = require('sharp')
+const path = require('path')
+
+const THUMBNAIL = {height:200, width:200}
+const IMAGE_SIZE_LIMIT = 2000000 // 2MB
+const SETTINGS = require('./settings')
+
+//****** IMAGE UPLOAD *********
+//Could put inside a class
+
+/**
+ * @description Defines the storage destination and filename for uploaded images
+ * @author Juan Ledezma
+ */
+const storage = multer.diskStorage({
+    destination: './images/posts/',
+    filename: function(req, file, callback) {
+        callback(null, req.query.post_id + '-' + req.query.image_number + path.extname(file.originalname));
+    }
+});
+
+/**
+ * @description Configures the multer upload middleware
+ * @author Juan Ledezma
+ */
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: IMAGE_SIZE_LIMIT},
+    fileFilter: function (req, file, callback) {
+        checkFileType(file, callback);
+    }
+}).single('postImage'); //name in form
+
+/**
+ * @description Checks the file type of the file to be uploaded
+ * @param  file File to be checked 
+ * @param callback Function to be called 
+ * @author Juan Ledezma
+ */
+function checkFileType(file, callback) {
+    //file types to allow
+    const filetypes = /jpeg|jpg|png/;
+    //check file extension
+    const extname = filetypes.test(path.extname(file.originalname));
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return callback(null, true);
+    } else {
+        callback("Error, can only upload images!")
+    }
+}
+//****** IMAGE UPLOAD END *********
+
 
 /**
  * @description This is the business layer of the application. It will process the request and return the data.
@@ -153,6 +208,70 @@ class Business{
 
         return post
     }
+
+    static uploadImage(req, res){
+        upload(req, res, (err) => {
+            if (err) {
+                console.log(err)
+                res.json({success:false})
+            } else {
+                if (req.file == undefined) {
+                    console.log("Error: no file selected")
+                    res.json({success:false})
+                } else {
+                    let filePath = `images/posts/${req.file.filename}`
+                    let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
+                    path.extname(req.file.filename)
+    
+                    //creating thumbnail
+                    sharp('./'+filePath)
+                        .resize(THUMBNAIL.width, THUMBNAIL.height)
+                        .toFile('./'+thumbailPath, function (err, info) {
+                            if (err) throw err;
+                            console.log(info);
+                        });
+    
+                    res.json({
+                        sucess: true,
+                        file: filePath,
+                        thumbail: thumbailPath
+                    });
+                }
+            }
+        });
+    }
+
+
+}
+
+
+/**
+ * @description Resizes and reformats an image 
+ * @param path The location of the image 
+ * @param format The format to transform the image to 
+ * @param width Width to resize
+ * @param height Height to resize
+ * @author Juan Ledezma
+ */
+//Currently not used
+function resize(path, format, width, height) {
+    let transform = sharp(path);
+
+    //convert to provided format
+    if (format) {
+        transform = transform.toFormat(format)
+    }
+
+    //resize to thumbnail size
+    if (width || height) {
+        transform = transform.resize(width, height);
+    }
+
+    //create new thumbnail
+    transform.toFile('/images/posts/test.jpg', function (err, info) {
+        if (err) throw err;
+        console.log(info);
+    });
 }
 
 // Required. This specifies what will be imported by other files

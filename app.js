@@ -11,8 +11,6 @@ const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
-const multer = require('multer')
-const sharp = require('sharp')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -22,50 +20,16 @@ nunjucks.configure('views', {
 
 const SETTINGS = require('./settings')
 const Business = require('./business')
-//const resize = require('./static/js/resize')
 
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
-const THUMBNAIL = {height:200, width:200}
 
 let port = SETTINGS.web.port
 
 //get information from html forms
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
-
-// TO DO: move file upload functions to another file
-//multer configuration
-const storage = multer.diskStorage({
-    destination: './images/posts/',
-    filename: function(req, file, callback) {
-        callback(null, req.query.post_id + '-' + req.query.image_number + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    limits: {fileSize: 2000000}, // 2MB size limit
-    fileFilter: function (req, file, callback) {
-        checkFileType(file, callback);
-    }
-}).single('postImage'); //name in form
-
-function checkFileType(file, callback) {
-    //file types to allow
-    const filetypes = /jpeg|jpg|png/;
-    //check file extension
-    const extname = filetypes.test(path.extname(file.originalname));
-    //check mime
-    const mimetype = filetypes.test(file.mimetype);
-
-    if (mimetype && extname){
-        return callback(null, true);
-    } else {
-        callback("Error, can only upload images!")
-    }
-}
 
 // -------
 // -------
@@ -120,7 +84,7 @@ app.get('/api/categories',async function(req,res){
 
 /**
  * @description Creates a post
- * @author Ryan Jin
+ * @author Juan Ledezma
  */
 app.post('/api/post/create', async function(req,res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
@@ -172,37 +136,12 @@ app.post('/api/login', async function(req, res){
     res.json(userLogin)
 });
 
-//TO DO: might want to have processing in business.js
+/**
+ * @description Uploads an image for a post and generates a thumbnail
+ * @author Juan ledezma
+ */
 app.post('/api/post/fileUpload', function (req, res){
-    upload(req, res, (err) => {
-        if (err) {
-            console.log(err)
-            res.json({success:false})
-        } else {
-            if (req.file == undefined) {
-                console.log("Error: no file selected")
-                res.json({success:false})
-            } else {
-                let filePath = `images/posts/${req.file.filename}`
-                let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
-                path.extname(req.file.filename)
-
-                //creating thumbnail
-                sharp('./'+filePath)
-                    .resize(THUMBNAIL.width, THUMBNAIL.height)
-                    .toFile('./'+thumbailPath, function (err, info) {
-                        if (err) throw err;
-                        console.log(info);
-                    });
-
-                res.json({
-                    sucess: true,
-                    file: filePath,
-                    thumbail: thumbailPath
-                });
-            }
-        }
-    });
+    return newImage = Business.uploadImage(req, res)
 });
 
 // -------
