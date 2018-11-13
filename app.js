@@ -158,7 +158,7 @@ app.get('/',function(req, res){
  * @description Search page. Renders search.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/search/',function(req, res) {
+app.get('/search',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
@@ -186,18 +186,10 @@ app.get('/admin', function(req, res){
 })
 
 /**
- * @description User Page, returns user.njk
- * @author Ryan Jin
- */
-app.get('/user', function(req, res){
-    res.render('user')
-})
-
-/**
  * @description User Page with ID, returns user.njk
  * @author Ryan Jin
  */
-app.get('/user/', function(req, res){
+app.get('/user', function(req, res){
     let id = req.query.id
     res.render('user',{
         id: id
@@ -241,7 +233,7 @@ app.get('/postconfirm', function(req, res){
  * @description Post Page with ID, returns product.njk
  * @author Ryan Jin
  */
-app.get('/post/', function(req, res){
+app.get('/post', function(req, res){
     let id = req.query.id
     res.render('product', {
         id: id
