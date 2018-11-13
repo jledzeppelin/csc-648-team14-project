@@ -87,11 +87,10 @@ class Business{
 
     /**
      * @description Returns search results
-     * @param name {String} Search input
+     * @param name {String} Search input. Max length of 40 alpha numeric characters.
      * @param category {Number} Search by category (category_id)
      * @param page {Number} Search results in a given page
      * @param sort {String} Sort results by price or newest first, default is by increasing price
-     * @param valid_search {Boolean} Determines if search request is a valid input containing only a-z, A-Z, 0-9
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      * Jack Cole jcole2@mail.sfsu.edu
      * Ryan Jin
@@ -113,7 +112,7 @@ class Business{
             console.error( `Invalid argument for controller.searchPosts() "${page}". Must be an integer`)
             return []
         }
-        if(valid_search == false)
+        if(valid_search === false)
         {
             console.error( `Invalid argument for controller.searchPosts() "${name}". Must be a valid search input`)
             return []
