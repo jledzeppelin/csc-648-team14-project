@@ -238,10 +238,10 @@ app.get('/postconfirm', function(req, res){
 })
 
 /**
- * @description Product Page with ID, returns product.njk
+ * @description Post Page with ID, returns product.njk
  * @author Ryan Jin
  */
-app.get('/product/', function(req, res){
+app.get('/post/', function(req, res){
     let id = req.query.id
     res.render('product', {
         id: id
