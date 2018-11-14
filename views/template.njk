@@ -7,30 +7,74 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/main.css">
     {% block css %}{% endblock %}
+
+
 </head>
 <body>
-<div id="demonstration-warning" class="row">
-    <div class="col-lg-8 mx-auto text-center">
-        <span class="alert alert-warning">SFSU-Fulda Software Engineering Project CSC 648-848, Fall 2018.  For Demonstration Only</span>
-    </div>
+
+
+<div class="col-lg-8 mx-auto text-center">
+    <span class="alert alert-warning">SFSU-Fulda Software Engineering Project CSC 648-848, Fall 2018.  For Demonstration Only</span>
 </div>
-<!-- Search form -->
-<div class="dropdown">
-    <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu1" data-toggle="dropdown">filter
-        <span class="caret"></span></button>
-    <ul id="category_menu" class="dropdown-menu" role="menu" aria-labelledby="menu1">
-    </ul>
-</div>
-<form action="search" method="get">
-    <div id="search-form" class="row">
-        <div  class="form-group col-md-6 offset-md-1">
-            <input class="form-control" type="text" name="name" title="Product name search" value="{{ name }}">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Gator Trader</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <form class="form-inline  my-2 my-lg-0 ml-auto" method="get" action="/search">
+        <div class="text-center">
+            <input class="form-control mx-sm-2 justify-content-center" type="search" placeholder="Search" aria-label="Search" name="name" value ="{{ name }}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </div>
-        <div class="col-md-4">
-            <button class="btn btn-primary" type="submit" title="Search">Search</button>
-        </div>
+    </form>
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/createPost">Create Post <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/signUp">Sign Up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/signIn">Sign In <span class="sr-only">(current)</span></a>
+            </li>
+
+
+        </ul>
+
     </div>
-</form>
+</nav>
+
+
+
+<nav class="navbar fixed-bottom navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/createPost">Create Post <span class="sr-only">(current)</span></a>
+            </li>
+           
+            <li class="nav-item active">
+                <a class="nav-link" href="/signUp">Sign Up <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/signIn">Sign In <span class="sr-only">(current)</span></a>
+            </li>
+
+
+
+        </ul>
+
+    </div>
+</nav>
+
+
+
+
 {% block container %}{% endblock %}
 </body>
 
@@ -42,6 +86,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="/static/js/API.js"></script>
-<script src="/static/js/main.js"></script>
 {% block js %}{% endblock %}
+
+
+
 </html>
