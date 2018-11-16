@@ -39,4 +39,5 @@ function getAccountPosts(posts){
     </div> `);
         $("#posts").append(html);
     }
-}*/
+}
+*/
