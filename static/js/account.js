@@ -4,7 +4,7 @@
  *xhuang8@mail.sfsu.edu
  */
 
-
+/*
 function getAccountPosts(posts){
 
     $("#_user").empty().append( post.user_id);
@@ -39,4 +39,4 @@ function getAccountPosts(posts){
     </div> `);
         $("#posts").append(html);
     }
-}
+}*/
