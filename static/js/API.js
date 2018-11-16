@@ -74,7 +74,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllPostsByCategory(category_id, callback) {
-        let params = $.params({category_id: category_id})
+        let params = $.param({category_id: category_id})
         let url = '/api/category/' + params
         return $.get(url, callback)
     }
@@ -106,7 +106,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getPostMessages(postid, callback){
-        let params = $.params({postid: postid})
+        let params = $.param({postid: postid})
         let url = '/api/message/read/' + params
         return $.get(url, callback)
     }
@@ -119,7 +119,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static sendPostMessages(postid, message, callback){
-        let params = $.params({postid: postid, message: message})
+        let params = $.param({postid: postid, message: message})
         let url = '/api/message/send/' + params
         return $.get(url, callback)
     }
@@ -143,7 +143,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static registerUser(username, password, captcha, callback){
-        let params = $.params({username: username, password: password, captcha: captcha})
+        let params = $.param({username: username, password: password, captcha: captcha})
         let url = '/api/register' + params
         return $.get(url, callback)
     }
@@ -156,7 +156,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static userLogin(username, password, callback){
-        let params = $.params({username: username, password: password})
+        let params = $.param({username: username, password: password})
         let url = '/api/login' + params
         return $.get(url, callback)
     }
