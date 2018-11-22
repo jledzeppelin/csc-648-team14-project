@@ -71,6 +71,42 @@ class RegisteredUser extends BaseModel {
         return result
     }
 
+    static authenticateUser(email, login_password) {
+        let sql = `SELECT * FROM ${this.__TABLE} WHERE email = ?`
+
+        return new Promise(function(resolve, reject) {
+            let connection = BaseModel.__connect()
+
+            connection.query(sql, [email], function(err, results, fields) {
+                if (err) {
+                    throw err
+                } else {
+                    if (results.length > 0) {
+                        if (login_password == results[0].login_password) {
+                            resolve({
+                                status:true,
+                                message:"Successfully authenticated user"
+                            })
+                        } else {
+                            resolve({
+                                status:false,
+                                message:"Email and password do not match!"
+                            })
+                        }
+
+                    } else {
+                        resolve({
+                            status:false,
+                            message:"Email does not exist!"
+                        })
+                    }
+                }
+            })
+            
+            connection.end()
+        })
+    }
+
     static objectMapper(result){
         let newRegisteredUser = new RegisteredUser()
 

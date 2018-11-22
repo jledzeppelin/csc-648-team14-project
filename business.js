@@ -111,7 +111,10 @@ class Business{
      * @author Juan Ledezma
      */
     static async loginUser(email, login_password){
-        //TO DO: implement basemodel function to get user record by email, or use getMultipleByFilters?
+        let user = await RegisteredUser.authenticateUser(email, login_password).catch(function(err){
+            console.error(`Business.loginUser() error: ${err}`)
+        })
+        return user
     }
 
     /**

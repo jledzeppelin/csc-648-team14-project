@@ -130,7 +130,7 @@ app.post('/api/register', async function(req, res){
  */
 app.post('/api/login', async function(req, res){
     let email = req.body.email
-    let login_password = red.body.login_password
+    let login_password = req.body.login_password
 
     let userLogin = await Business.loginUser(email, login_password)
     res.json(userLogin)
