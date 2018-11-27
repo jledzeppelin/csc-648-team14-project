@@ -1,0 +1,61 @@
+{% extends "template.njk" %}
+
+
+{% block js %}
+<script>
+    const CONSTANT_SEARCH = {
+        user:"{{ user }}",
+        post:"{{ post }}",
+    }
+</script>
+<script src="/static/js/contact.js"></script>
+{% endblock %}
+
+{% block title %}contact{% endblock %}
+
+{% block container %}
+    <div class="createMessageContainer">
+
+        <div class="d-flex">
+
+            <div class="m-auto">
+
+                <form method="post" action="">
+
+                    <!-- "MESSAGES" -->
+                    <div class="form-group">
+                        <h2 class="login-header">Contact:</h2>
+                    </div>
+
+
+                    <!-- "Title Input" -->
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title" disabled>
+                    </div>
+
+
+                    <!-- "To Input" -->
+                    <div class="form-group">
+                        <label for="To">To:</label>
+                        <input type="text" class="form-control" id="seller" disabled>
+                    </div>
+
+
+                    <!-- Message Box -->
+                    <div class="form-group">
+                        <label for="exampleTextarea">Description:</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+
+
+                    <!-- Buttons -->
+                    <div  class="center-block text-center">
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+{% endblock %}

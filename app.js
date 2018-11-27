@@ -266,6 +266,20 @@ app.get('/help', function(req, res){
     res.render('help');
 })
 
+
+app.get('/contact', function(req, res){
+    let post = req.query.post
+    let user = req.query.user
+
+    res.render('contact', {
+        post:post,
+        user:user,
+    });
+
+
+})
+
+
 // -------
 // -------
 // STATIC
