@@ -85,7 +85,6 @@ class Post extends BaseModel{
     set number_of_images(value){
         this._number_of_images = value
     }
-
     constructor(){
         super()
     }
@@ -167,7 +166,6 @@ class Post extends BaseModel{
         newPost.is_price_negotiable = result.is_price_negotiable
         newPost.last_revised = result.last_revised
         newPost.number_of_images = result.number_of_images
-
         return newPost
     }
 
@@ -189,6 +187,7 @@ class Post extends BaseModel{
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
             number_of_images : this.number_of_images,
+            image_location : `images/posts/${this.id}-${this.number_of_images}.jpg`
         }
     }
 
