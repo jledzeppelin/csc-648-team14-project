@@ -85,6 +85,7 @@ class Post extends BaseModel{
     set number_of_images(value){
         this._number_of_images = value
     }
+
     constructor(){
         super()
     }
@@ -105,6 +106,25 @@ class Post extends BaseModel{
      */
     static getSingleRowById(id){
         return super.getSingleRowById(Post, {id:id})
+    }
+
+    /**
+     * @description getImageLocations returns the post of all images location
+     * @returns all image locations as a string or if no images: NO IMAGES FOR THIS POST
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    getImageLocations(){
+
+        if(this.number_of_images > 0){
+            var imageLocations = ``
+
+            for(var i =1; i<=this.number_of_images;i++) imageLocations += `images/posts/${this.id}-${i}.jpg | `
+
+            console.log("imageLocations: ", imageLocations)
+            return imageLocations
+        }
+
+        else return `NO IMAGES FOR THIS POST`
     }
 
 
@@ -171,8 +191,9 @@ class Post extends BaseModel{
 
     /**
      * @description This is what will be returned when converting the object to JSON.
-     * @returns {{id: *, user_id: *, category_id: *, create_date: *, post_title: *, post_description: *, post_status: *, price: *, is_price_negotiable: *, last_revised: *}}
+     * @returns {{id: *, user_id: *, category_id: *, create_date: *, post_title: *, post_description: *, post_status: *, price: *, is_price_negotiable: *, last_revised: *, number_of_images: *, image_location: *}}
      * @author Jack Cole jcole2@mail.sfsu.edu
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     toJSON() {
         return {
@@ -187,7 +208,7 @@ class Post extends BaseModel{
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
             number_of_images : this.number_of_images,
-            image_location : `images/posts/${this.id}-${this.number_of_images}.jpg`
+            image_location : this.getImageLocations()
         }
     }
 
