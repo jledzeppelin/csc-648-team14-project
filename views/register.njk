@@ -1,0 +1,58 @@
+{% extends "template.njk" %}
+
+{% block title %}
+  Register Page
+{% endblock %}
+
+{% block container %}
+<div class="container">
+      <div class="d-flex justify-content-center">
+        <form
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <div class="form-group"><h1 class="display-4">Logo</h1></div>
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="usernameInput"
+              placeholder="Enter username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="passwordInput"
+              placeholder="Password"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPasswordInput">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmPasswordInput"
+              placeholder="Confirm Password"
+            />
+          </div>
+          <div
+            class="form-group form-check border border-success rounded pl-5 pr-4 pt-2 pb-2"
+          >
+            <input type="checkbox" class="form-check-input" id="captcha" />
+            <label class="form-check-label" for="captcha">Captcha</label>
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="check" />
+            <label class="form-check-label" for="check">I Agree</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Sign up</button>
+          <div class="form-group">
+            <a href="signin.html" class="btn btn-accent"> - Sign in -</a>
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}
