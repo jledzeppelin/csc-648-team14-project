@@ -23,12 +23,25 @@ class GatorTraderAPI {
     }
 
     /**
+     * @description Uploads an image to file system and creates a thumbnail
+     * @param post_id {Number}
+     * @param image_number {Number} A specific image to upload (1 through number of total images to upload) 
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static uploadImage(post_id, image_number, callback) {
+        let params = $.param({post_id:post_id, image_number:image_number})
+        let url = '/api/post/fileUpload?'+params
+        return $.get(url, callback)
+    }
+
+    /**
      * @description Grabs a list of recent posts
      * @param callback {function} The function to be called after results are found
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getRecentPosts(callback){
-        let url = 'api/post/recent'
+        let url = '/api/post/recent'
         return $.get(url,callback)
     }
 
@@ -38,7 +51,7 @@ class GatorTraderAPI {
      * @author Juan Ledezma
      */
     static createPost(callback){
-        let url = 'api/post/create'
+        let url = '/api/post/create'
         return $.get(url, callback)
     }
 
@@ -50,7 +63,7 @@ class GatorTraderAPI {
      */
     static getPostDetails(id, callback){
         let params = $.param({id:id})
-        let url = 'api/post/'+params
+        let url = '/api/post?'+params
         return $.get(url,callback)
     }
 
@@ -61,8 +74,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllPostsByCategory(category_id, callback) {
-        let params = $.params({category_id: category_id})
-        let url = 'api/category/' + params
+        let params = $.param({category_id: category_id})
+        let url = '/api/category/' + params
         return $.get(url, callback)
     }
 
@@ -72,7 +85,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllPosts(callback){
-        let url = 'api/post/self'
+        let url = '/api/post/self'
         return $.get(url, callback)
     }
 
@@ -82,7 +95,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getActivePostMessages(callback){
-        let url = 'api/message/read'
+        let url = '/api/message/read'
         return $.get(url, callback)
     }
 
@@ -93,8 +106,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getPostMessages(postid, callback){
-        let params = $.params({postid: postid})
-        let url = 'api/message/read/' + params
+        let params = $.param({postid: postid})
+        let url = '/api/message/read/' + params
         return $.get(url, callback)
     }
 
@@ -106,8 +119,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static sendPostMessages(postid, message, callback){
-        let params = $.params({postid: postid, message: message})
-        let url = 'api/message/send/' + params
+        let params = $.param({postid: postid, message: message})
+        let url = '/api/message/send/' + params
         return $.get(url, callback)
     }
 
@@ -117,7 +130,7 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static getAllCategories(callback){
-        let url = 'api/categories'
+        let url = '/api/categories'
         return $.get(url, callback)
     }
 
@@ -130,8 +143,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static registerUser(username, password, captcha, callback){
-        let params = $.params({username: username, password: password, captcha: captcha})
-        let url = 'api/register' + params
+        let params = $.param({username: username, password: password, captcha: captcha})
+        let url = '/api/register' + params
         return $.get(url, callback)
     }
 
@@ -143,8 +156,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      */
     static userLogin(username, password, callback){
-        let params = $.params({username: username, password: password})
-        let url = 'api/login' + params
+        let params = $.param({username: username, password: password})
+        let url = '/api/login' + params
         return $.get(url, callback)
     }
 

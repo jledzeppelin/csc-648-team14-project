@@ -27,6 +27,7 @@ const IMAGE_PATH = path.join(__dirname, '/images')
 
 let port = SETTINGS.web.port
 
+//get information from html forms
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
@@ -64,11 +65,10 @@ app.get('/api/post/search',async function (req,res){
  * @description Returns the full details of a single post based on its id.
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/api/post/:id/',async function(req, res){
-    let id = req.params.id
+app.get('/api/post',async function(req, res){
+    let id = req.query.id
     let post = await Business.getPost(id)
     res.json(post)
-
 });
 
 
@@ -77,30 +77,35 @@ app.get('/api/post/:id/',async function(req, res){
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('/api/categories',async function(req,res){
-    let allCategories = await Business.getAllCategories().catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(allCategories);
+    let allCategories = await Business.getAllCategories()
+    res.json(allCategories)
 });
 
 
 /**
  * @description Creates a post
- * @author Ryan Jin
+ * @author Juan Ledezma
  */
-app.post('/api/post/create',async function(req,res){
-    let title = req.params.body
-    let description = req.params.body
-    let category = req.params.body
-    let image = req.params.body
+app.post('/api/post/create', async function(req,res){
+    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-    let createPost = await Business.createPost(title, description, category, image).catch(function(err){
-        console.error(err)
-        return {};
-    })
-    res.json(createPost)
+    var newPost={
+        "user_id":req.body.user_id,
+        "category_id":req.body.category_id,
+        "post_title":req.body.post_title,
+        "post_description":req.body.post_description,
+        "post_status":"pending",
+        "price":req.body.price,
+        "price_is_negotiable":req.body.price_is_negotiable,
+        "last_revised":dateTime,
+        "create_date":dateTime,
+        "number_of_images":req.body.number_of_images
+    }
+
+    let post = await Business.createPost(newPost)
+    res.json(post)
 });
+
 
 /**
  * @description Registers a new user, returns a confirmation
@@ -117,7 +122,7 @@ app.post('/api/register', async function(req, res){
 
     let registeredUser = await Business.registerUser(newUser)
     res.json(registeredUser)
-})
+});
 
 /**
  * @description Login for registered user, returns a confirmation
@@ -125,11 +130,19 @@ app.post('/api/register', async function(req, res){
  */
 app.post('/api/login', async function(req, res){
     let email = req.body.email
-    let login_password = red.body.login_password
+    let login_password = req.body.login_password
 
     let userLogin = await Business.loginUser(email, login_password)
     res.json(userLogin)
-})
+});
+
+/**
+ * @description Uploads an image for a post and generates a thumbnail
+ * @author Juan ledezma
+ */
+app.post('/api/post/fileUpload', function (req, res){
+    return newImage = Business.uploadImage(req, res)
+});
 
 // -------
 // -------
@@ -153,7 +166,7 @@ app.get('/',function(req, res){
  * @description Search page. Renders search.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
-app.get('/search/',function(req, res) {
+app.get('/search',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
@@ -181,18 +194,10 @@ app.get('/admin', function(req, res){
 })
 
 /**
- * @description User Page, returns user.njk
- * @author Ryan Jin
- */
-app.get('/user', function(req, res){
-    res.render('user')
-})
-
-/**
  * @description User Page with ID, returns user.njk
  * @author Ryan Jin
  */
-app.get('/user/', function(req, res){
+app.get('/user', function(req, res){
     let id = req.query.id
     res.render('user',{
         id: id
@@ -233,17 +238,33 @@ app.get('/postconfirm', function(req, res){
 })
 
 /**
- * @description Product Page with ID, returns product.njk
+ * @description Post Page with ID, returns post.njk
  * @author Ryan Jin
  */
-app.get('/product/', function(req, res){
+app.get('/post', function(req, res){
     let id = req.query.id
-    res.render('product', {
+    res.render('post', {
         id: id
     })
 })
 
+/**
+ * @description User Account Page, returns account.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/account', function(req, res){
+    res.render('account');
+})
 
+/**
+ * @description Help Page, returns help.njk
+ * @author XiaoQian Huang
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/help', function(req, res){
+    res.render('help');
+})
 
 // -------
 // -------

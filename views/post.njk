@@ -1,0 +1,77 @@
+{% extends "template.njk" %}
+
+<!-- author: XiaoQian Huang xhuang8@mail.sfsu.edu -->
+{% block title %}
+    Product
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/post.js"></script>
+    <script>
+        Post = {
+            id: {{ id }},
+        }
+    </script>
+{% endblock %}
+
+
+{% block container %}
+    <div class="container">
+        <!--product page-->
+        <br>
+
+        <div class="row">
+
+            <div class="col col-md-4 mx-auto text-center">
+                <a href="#"><img src="" class="post-img w-100" id="post_image"></a>
+            </div>
+
+
+            <div class="col col-md-4 mx-auto ">
+                <div class="text-left">
+                    <h1>
+                        <a href="#" id="post_title" class="text-capitalize">Product name</a>
+                    </h1>
+                </div>
+
+                <div class="text-left">
+                    <h6 class="text-capitalize text-muted">sold by: <a href="#" class="text-muted text-capitalize" id="_user">user</a></h6>
+                </div>
+
+                <div class="text-left">
+                    <span id="price">$--</span>
+                </div>
+
+                <div class="text-left">
+                    <p class="text-capitalize"><em>description:</em></p>
+                </div>
+
+                <div class="text-left">
+                    <div class="jumbotron w-100" id="post_description">
+                        <p>This is product's description.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col col-md-4 mx-auto">
+                <div class="text-left">
+                    <button type="button" class="btn btn-light w-100">
+                        <a href="#" class="text-capitalize" id="contact_seller">contact  seller</a>
+                    </button>
+                </div>
+
+                <br>
+
+                <div class="text-left">
+                    <button type="button" class="btn btn-light w-100">
+                        <a href="#" class="text-capitalize icon-bookmark" id="bookmark_post">
+                            <span class="glyphicon glyphicon-bookmark"></span>bookmark</a>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

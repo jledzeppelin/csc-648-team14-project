@@ -1,7 +1,62 @@
 const Post = require('./models/Post.js')
-const SETTINGS = require('./settings')
 const RegisteredUser = require('./models/RegisteredUser.js')
 const Category = require('./models/Category')
+const multer = require('multer')
+const sharp = require('sharp')
+const path = require('path')
+
+const THUMBNAIL = {height:200, width:200}
+const IMAGE_SIZE_LIMIT = 2000000 // 2MB
+const SETTINGS = require('./settings')
+
+//****** IMAGE UPLOAD *********
+//Could put inside a class
+
+/**
+ * @description Defines the storage destination and filename for uploaded images
+ * @author Juan Ledezma
+ */
+const storage = multer.diskStorage({
+    destination: './images/posts/',
+    filename: function(req, file, callback) {
+        callback(null, req.query.post_id + '-' + req.query.image_number + path.extname(file.originalname));
+    }
+});
+
+/**
+ * @description Configures the multer upload middleware
+ * @author Juan Ledezma
+ */
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: IMAGE_SIZE_LIMIT},
+    fileFilter: function (req, file, callback) {
+        checkFileType(file, callback);
+    }
+}).single('postImage'); //name in form
+
+/**
+ * @description Checks the file type of the file to be uploaded
+ * @param  file File to be checked 
+ * @param callback Function to be called 
+ * @author Juan Ledezma
+ */
+function checkFileType(file, callback) {
+    //file types to allow
+    const filetypes = /jpeg|jpg|png/;
+    //check file extension
+    const extname = filetypes.test(path.extname(file.originalname));
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return callback(null, true);
+    } else {
+        callback("Error, can only upload images!")
+    }
+}
+//****** IMAGE UPLOAD END *********
+
 
 /**
  * @description This is the business layer of the application. It will process the request and return the data.
@@ -56,7 +111,10 @@ class Business{
      * @author Juan Ledezma
      */
     static async loginUser(email, login_password){
-        //TO DO: implement basemodel function to get user record by email, or use getMultipleByFilters?
+        let user = await RegisteredUser.authenticateUser(email, login_password).catch(function(err){
+            console.error(`Business.loginUser() error: ${err}`)
+        })
+        return user
     }
 
     /**
@@ -68,8 +126,8 @@ class Business{
         let allCategories = await Category.getAllCategories().catch(function(err){
             console.error(`Business.getAllCAtegories() error: ${err}`)
         })
-        return allCategories
 
+        return allCategories
     }
 
     /**
@@ -78,25 +136,29 @@ class Business{
      */
     static getLatestApprovedPost(){
         //Creates Post Object
-        let lastestApprovedPost = Post.getLatestApprovedPosts()
+        let lastestApprovedPost = Post.getLatestApprovedPosts().catch(function(err){
+            console.error(`Business.getLatestApprovedPost() error: ${err}`)
+        })
+
         return lastestApprovedPost
     }
 
     /**
      * @description Returns search results
-     * @param name {String} -
-     * @param category {String} -
-     * @param page {String} -
-     * @param sort {String} -
+     * @param name {String} Search input. Max length of 40 alpha numeric characters.
+     * @param category {Number} Search by category (category_id)
+     * @param page {Number} Search results in a given page
+     * @param sort {String} Sort results by price or newest first, default is by increasing price
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      * Jack Cole jcole2@mail.sfsu.edu
+     * Ryan Jin
      */
-
     static async searchPosts(name , category , page , sort){
         category = parseInt(category)
         page = parseInt(page)
         let sort_column = Business.DEFAULT_SORT
         let sort_desc = Business.DEFAULT_SORT_DESCENDING
+        let valid_search = /^([a-z0-9A-Z]{0,40})$/.test(name)
 
         if(!Number.isInteger(category))
         {
@@ -108,9 +170,9 @@ class Business{
             console.error( `Invalid argument for controller.searchPosts() "${page}". Must be an integer`)
             return []
         }
-        if(name.length < 3)
+        if(valid_search === false)
         {
-            console.error( `Invalid argument for controller.searchPosts() "${name}". Must 3 characters or longer`)
+            console.error( `Invalid argument for controller.searchPosts() "${name}". Must be a valid search input`)
             return []
         }
 
@@ -136,23 +198,83 @@ class Business{
     }
 
     /**
-     * @description
-     * @param
-     * @returns
+     * @description Creates a new post, returns confirmation
+     * @param newPost All details for a new post
+     * @returns {Post}
      * @author Ryan Jin
      */
-    static createPost(title, description, category, image){
+    static async createPost(newPost){
+        // TO DO: validation? user exists in db
+        let post = await Post.insertNewRecord(newPost).catch(function(err) {
+            console.error(`Business.createPost() error: ${err}`)
+        })
 
-        let createPost = new Post()
-        createPost.title = title
-        createPost.description = description
-        createPost.category = cateogry
-        createPost.image = image
-        let response = createPost.insert()
-        // Post.createPost(title, description, category, image)
-
-        return response
+        return post
     }
+
+    static uploadImage(req, res){
+        upload(req, res, (err) => {
+            if (err) {
+                console.log(err)
+                res.json({success:false})
+            } else {
+                if (req.file == undefined) {
+                    console.log("Error: no file selected")
+                    res.json({success:false})
+                } else {
+                    let filePath = `images/posts/${req.file.filename}`
+                    let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
+                    path.extname(req.file.filename)
+    
+                    //creating thumbnail
+                    sharp('./'+filePath)
+                        .resize(THUMBNAIL.width, THUMBNAIL.height)
+                        .toFile('./'+thumbailPath, function (err, info) {
+                            if (err) throw err;
+                            console.log(info);
+                        });
+    
+                    res.json({
+                        sucess: true,
+                        file: filePath,
+                        thumbail: thumbailPath
+                    });
+                }
+            }
+        });
+    }
+
+
+}
+
+
+/**
+ * @description Resizes and reformats an image 
+ * @param path The location of the image 
+ * @param format The format to transform the image to 
+ * @param width Width to resize
+ * @param height Height to resize
+ * @author Juan Ledezma
+ */
+//Currently not used
+function resize(path, format, width, height) {
+    let transform = sharp(path);
+
+    //convert to provided format
+    if (format) {
+        transform = transform.toFormat(format)
+    }
+
+    //resize to thumbnail size
+    if (width || height) {
+        transform = transform.resize(width, height);
+    }
+
+    //create new thumbnail
+    transform.toFile('/images/posts/test.jpg', function (err, info) {
+        if (err) throw err;
+        console.log(info);
+    });
 }
 
 // Required. This specifies what will be imported by other files

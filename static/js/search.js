@@ -9,13 +9,14 @@ function addPostsToPage(posts){
     for(let i = 0; i < posts.length; i++)
     {
         let post = posts[i];
+        let url = `/post?id=${post.id}`
         let price = post.price.toFixed(2);
         let image_url = "/static/img/no_image_avaliable.png";
         if(post.number_of_images > 0)
             image_url = "/images/posts/"+post.id+"-1.jpg"
         let html = $(`<div class="col-md-4 offset-md-1 text-right post">
             <li class="list-inline list-unstyled">
-                <a href="#"><img src="${image_url}" class="post-img w-100"></a>
+                <a href="${url}"><img src="${image_url}" class="post-img w-100"></a>
                 <div class="product-info">
                     <h4 class="product-name">
                         <a href="#" class="text-capitalize">${post.post_title}</a></h4>
