@@ -27,7 +27,7 @@ const IMAGE_PATH = path.join(__dirname, '/images')
 
 let port = SETTINGS.web.port
 
-//get information from html forms
+// initialize body-parser to parse requests to req.body
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 

@@ -4,6 +4,8 @@ const Category = require('./models/Category')
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 const THUMBNAIL = {height:200, width:200}
 const IMAGE_SIZE_LIMIT = 2000000 // 2MB
@@ -56,6 +58,37 @@ function checkFileType(file, callback) {
     }
 }
 //****** IMAGE UPLOAD END *********
+
+//********* SESSIONS *********
+// initialize cookie-parser for access to cookies stored in browser
+app.use(cookieParser())
+
+// initialize express-session to track logged-in users
+app.use(session({
+    key: "user_session_id",
+    secret: "gator_trader_ses", //replace?
+    resave: false,
+    saveUninitialized: false,
+    cookie: {expires: 600000}
+}));
+
+app.use(function(req, res, next) {
+    if (req.cookies.user_session_id && !req.session.user) {
+        res.clearCookie("user_session_id")
+    }
+    next()
+})
+
+//check for logged-in user
+let checkSession = function(req, res, next) {
+    if (req.session.user && req.cookies.user_session_id) {
+        res.redirect('/account')
+    } else {
+        next()
+    }
+} 
+
+//********* SESSIONS END *********
 
 
 /**
