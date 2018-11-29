@@ -24,6 +24,7 @@
 
 .post-img-thumb{
     max-height: 300px;
+    max-width: 300px;
 }
 
 .post-result-count{
@@ -36,9 +37,13 @@
 }
 
 .post-img{
-    height: 300px;
-<<<<<<< Updated upstream
-=======
+    max-height: 500px;
+    max-width: 500px;
+}
+
+.account-img{
+    max-width: 300px;
+    max-height: 300px;
 }
 
 .createPostContainer{
@@ -65,5 +70,4 @@
 }
 .image-preview-input-title {
     margin-left:2px;
->>>>>>> Stashed changes
 }
