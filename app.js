@@ -11,6 +11,8 @@ const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -30,6 +32,37 @@ let port = SETTINGS.web.port
 // initialize body-parser to parse requests to req.body
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+
+//********* SESSIONS *********
+// initialize cookie-parser for access to cookies stored in browser
+app.use(cookieParser())
+
+// initialize express-session to track logged-in users
+app.use(session({
+    key: "user_session_id",
+    secret: "gator_trader_ses", //replace?
+    resave: false,
+    saveUninitialized: false,
+    cookie: {expires: 600000}
+}));
+
+app.use(function(req, res, next) {
+    if (req.cookies.user_session_id && !req.session.user) {
+        res.clearCookie("user_session_id")
+    }
+    next()
+})
+
+//check for logged-in user
+let checkSession = function(req, res, next) {
+    if (req.session.user && req.cookies.user_session_id) {
+        res.redirect('/account')
+    } else {
+        next()
+    }
+} 
+
+//********* SESSIONS END *********
 
 // -------
 // -------
@@ -208,7 +241,7 @@ app.get('/user', function(req, res){
  * @description Login Page, returns login.njk
  * @author Ryan Jin
  */
-app.get('/login', function(req, res){
+app.get('/login', checkSession, function(req, res){
     res.render('login')
 })
 
@@ -216,7 +249,7 @@ app.get('/login', function(req, res){
  * @description Register Page, returns register.njk
  * @author Ryan Jin
  */
-app.get('/register', function(req, res){
+app.get('/register', checkSession, function(req, res){
     res.render('register');
 
 })
