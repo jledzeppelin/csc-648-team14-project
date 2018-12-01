@@ -211,12 +211,32 @@ class Business{
         return post
     }
 
+    /**
+     * @description Sends a message to a specific post_id
+     * @param messageInfo - contains all message info including post_id, message, date created and last date revised
+     * @returns {Post}
+     * @author Ryan Jin
+     */
     static async sendMessage(messageInfo){
         let message = await Message.sendMessage(messageInfo).catch(function(err){
             console.error(`Business.sendMessage() error: ${err}`)
         })
 
         return message
+    }
+
+    /**
+     * @description Gets all the messages for a specific post_id
+     * @param post_id - contains all message info including post_id, message, date created and last date revised
+     * @returns {Post}
+     * @author Ryan Jin
+     */
+    static async getMessage(post_id){
+        let getMessage = Message.getMessage(post_id).catch(function(err){
+            console.error(`Business.getMessage() error: ${err}`)
+        })
+
+        return getMessage
     }
 
     static uploadImage(req, res){

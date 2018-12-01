@@ -212,7 +212,6 @@ app.get('api/message/read', async function(req, res){
     let message = await Business.getMessage(post_id)
     res.json(message)
 
-
 });
 
 /**
