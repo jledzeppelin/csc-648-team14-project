@@ -4,40 +4,36 @@
  *xhuang8@mail.sfsu.edu
  */
 
-/*
-function getAccountPosts(posts){
+//let message = ["This is my favorite products", "selling my books", "my favorite books"];
 
-    $("#_user").empty().append( post.user_id);
+/*function getMessage(messages){
 
-    for(let i = 0; i < posts.length; i++)
+    let message = ["This is my favorite products", "selling my books", "my favorite books"];
+    var text = "";
+    for (let i=0; i<message.length; i++)
     {
-        let post = posts[i];
-        let price = post.price.toFixed(2);
-        let postTitle = post.post_title;
-        let url = `/post?id=${post.id}`
-        let image_url = "/static/img/no_image_avaliable.png";
-      //  let messages =
-        let html = $(`<div class="col col-md-4 mx-auto text-center">
-        <a href="#"><img src="#" class="post-img w-100"></a>
-        </div>
-
-
-        <div class="col col-md-4 mx-auto">
-        <div class="text-left">
-        <h3 class="text-capitalize"><a href="#">${post.post_title}</a></h3>
-    </div>
-
-    <div class="text-left">
-        <p>$${price}</p>
-        </div>
-
-        <div>
-        <p class="text-capitalize"><em>message:</em></p>
-    </div>
-
-    <div class="w-100 text-left">some messages here...</div>
-    </div> `);
-        $("#posts").append(html);
+        text += message[i];
     }
+    $('.message').append(text);
 }
-*/
+
+message("this is my books");*/
+
+
+
+/*function getAccountPosts(post){
+
+    console.debug("getAccountPosts(post)", post)
+    post.image_url = "/images/posts/"+post.id+"-1.jpg";
+    $("#_user").empty().append(post.post_id);
+    $("#price").empty().append("$"+ post.price.toFixed(2));
+    $("#post_title").empty().append(post.post_title);
+    $('#post_image').attr("src", post.image_url)
+}
+
+$(document).ready(function(){
+    GatorTraderAPI.getPostMessages(Post.id,getAccountPosts)
+        .catch(function(err){
+            console.error("Could not get posts", err);
+        })
+})*/

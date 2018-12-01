@@ -188,7 +188,12 @@ class BaseModel{
 
             connection.query(sqlCommand, newRecord, function (err, results, fields) {
                 if (err) {
-                    throw err
+                    console.log(err) //can't throw error because a duplicate email should just notify 
+                                     //user that the email already exists
+                    resolve({
+                        status:false,
+                        message:"Error: could not create new record."
+                    })
                 } else {
                     let confirmation = {
                         status:true,
