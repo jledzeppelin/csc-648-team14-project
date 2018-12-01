@@ -259,6 +259,17 @@ app.get('/message/read', function(req, res){
     })
 });
 
+/**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.post('/message/send', async function(req, res){
+    let postID = req.body.id
+    let message = req.body.message
+
+    let sendMessage = await Business.loginUser(postID, message)
+    res.json(sendMessage)
+});
 
 /**
  * @description User Account Page, returns account.njk
