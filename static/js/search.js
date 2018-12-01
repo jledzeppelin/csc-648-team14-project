@@ -14,18 +14,21 @@ function addPostsToPage(posts){
         let image_url = "/static/img/no_image_avaliable.png";
         if(post.number_of_images > 0)
             image_url = "/images/posts/"+post.id+"-1.jpg"
-        let html = $(`<div class="col-md-4 offset-md-1 text-right post">
-            <li class="list-inline list-unstyled">
-                <a href="${url}"><img src="${image_url}" class="post-img w-100"></a>
-                <div class="product-info">
-                    <h4 class="product-name">
-                        <a href="#" class="text-capitalize">${post.post_title}</a></h4>
-                    <div class="price-box">
-                        <span class="regular-price">
-                            <span class="price">$${price}</span></span>
-                    </div>
-                </div>
-            </li>
+        let html = $(`
+            <div class="col-md-4 offset-md-1 post">
+                <div class="text-left"><a href="${url}"><img src="${image_url}" class="post-img-thumb"></a></div>
+                
+                <div><h4 class="text-capitalize text-left">${post.post_title}</h4></div>
+                <div class="text-left"><h5><span class="price">$${price}</span></div>
+             
+                    <!--<div class="row">-->
+                    
+                    <!--<div class="col-md-4 text-left">
+                         
+                         <span class="price">$${price}</span>
+                    </div>-->
+                <div class="text-left"><button>More Info</button>&nbsp;&nbsp;&nbsp;<button>Contact</button></div>
+                <br>
         </div>`);
         $("#posts").append(html);
     }
