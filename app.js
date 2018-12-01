@@ -221,7 +221,7 @@ app.get('api/message/read', async function(req, res){
 app.get('api/message/read', async function(req, res){
     let post_id = req.body.post_id
 
-    let message = await Business.getAllmessage(post_id)
+    let message = await Business.getAllMessage(post_id)
     res.json(message)
 
 });
