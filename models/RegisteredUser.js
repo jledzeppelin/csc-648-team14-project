@@ -126,7 +126,8 @@ class RegisteredUser extends BaseModel {
                         if (RegisteredUser.verifyHash(login_password, results[0].login_password)) {
                             resolve({
                                 status:true,
-                                message:"Successfully authenticated user"
+                                message:"Successfully authenticated user",
+                                user_id:results[0].id
                             })
                         } else {
                             resolve({
