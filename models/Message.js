@@ -15,40 +15,43 @@ class Message extends BaseModel{
     }
 
     get post_id(){
-        return this._user_id
+        return this._post_id
     }
+
     set post_id(post_id){
-        this._user_id = post_id
+        this._post_id = post_id
     }
 
     get sender_id() {
-        return this._category_id
+        return this._sender_id
     }
+
     set sender_id(sender_id) {
-        this._category_id = sender_id
+        this._sender_id= sender_id
     }
 
     get recipient_id() {
-        return this._category_id
+        return this._recipient_id
     }
+
     set recipient_id(recipient_id) {
-        this._category_id = recipient_id
+        this._recipient_id = recipient_id
     }
 
-    get last_revised() {
-        return this._last_revised
+    get sent_date() {
+        return this._sent_date
     }
 
-    set last_revised(last_edit_date) {
-        this._last_revised = last_edit_date
+    set sent_date(sent_date) {
+        this._sent_date = sent_date
     }
 
-    get initial_send_date() {
-        return this._create_date
+    get message() {
+        return this._message
     }
 
-    set initial_send_date(sent_date) {
-        this._create_date = sent_date
+    set message(message) {
+        this._message = message
     }
 
     constructor(){
@@ -90,8 +93,8 @@ class Message extends BaseModel{
      * @returns
      * @author Ryan Jin
      */
-    static getAllMessage(post_id){
-        let sql_command = `SELECT * FROM ${this.__TABLE} WHERE post_id = post_id`
+    static getAllMessages(post_id){
+        let sql_command = `SELECT * FROM ${this.__TABLE} WHERE post_id = ${post_id}`
         return super.getMultipleBySQL(Message, sql_command)
     }
 
@@ -108,11 +111,11 @@ class Message extends BaseModel{
 
         // Take all the values and put them in the new object
         newMessage.id = result.id
-        newMessage.post_id = result.post_id
         newMessage.sender_id = result.sender_id
         newMessage.recipient_id = result.recipient_id
-        newMessage.initial_send_date = result.initial_send_date
-        newMessage.last_revised = result.last_revised
+        newMessage.sent_date = result.sent_date
+        newMessage.post_id = result.post_id
+        newMessage.message = result.message
 
         //newMessage.post_title = result.post_title
         return newMessage
@@ -131,8 +134,8 @@ class Message extends BaseModel{
             post_id : this.post_id,
             sender_id : this.sender_id,
             recipient_id : this.recipient_id,
-            initial_send_date : this.initial_send_date,
-            last_revised : this.last_revised,
+            sent_date : this.sent_date,
+            message : this.message
         }
     }
 }

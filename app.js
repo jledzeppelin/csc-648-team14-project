@@ -203,11 +203,11 @@ app.post('/api/post/fileUpload', function (req, res){
 });
 
 /**
- * @description Returns a single messages for a specific post that the user owns, returns messages.njk
+ * @description Returns a single message
  * @author Ryan Jin
  */
-app.get('api/message/read', async function(req, res){
-    let message_id = req.body.id
+app.get('/api/message', async function(req, res){
+    let message_id = req.query.id
 
     let message = await Business.getSingleMessage(message_id)
     res.json(message)
@@ -215,13 +215,13 @@ app.get('api/message/read', async function(req, res){
 });
 
 /**
- * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @description Returns all the messages for a specific post
  * @author Ryan Jin
  */
-app.get('api/message/read', async function(req, res){
-    let post_id = req.body.post_id
+app.get('/api/message/all', async function(req, res){
+    let post_id = req.query.post_id
 
-    let message = await Business.getAllMessage(post_id)
+    let message = await Business.getAllMessages(post_id)
     res.json(message)
 
 });
@@ -230,16 +230,15 @@ app.get('api/message/read', async function(req, res){
  * @description Returns all the messages for a specific post that the user owns, returns messages.njk
  * @author Ryan Jin
  */
-app.post('api/message/send', async function(req, res){
+app.post('/api/message/send', async function(req, res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
     var messageInfo = {
-        "post_id":req.body.post_id,
         "sender_id":req.body.sender_id,
         "recipient_id":req.body.recipient_id,
-        "message":req.body.message,
-        "initial_send_date":dateTime,
-        "last_revised":dateTime
+        "sent_date":dateTime,
+        "post_id":req.body.post_id,
+        "message":req.body.message
     }
 
     let sendMessage = await Business.sendMessage(messageInfo)

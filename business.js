@@ -246,8 +246,8 @@ class Business{
      * @returns {Message}
      * @author Ryan Jin
      */
-    static async getAllMessage(post_id){
-        let getMessage = Message.getAllMessage(post_id).catch(function(err){
+    static async getAllMessages(post_id){
+        let getMessage = Message.getAllMessages(post_id).catch(function(err){
             console.error(`Business.getMessage() error: ${err}`)
         })
 
