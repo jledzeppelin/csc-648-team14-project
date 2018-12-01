@@ -311,6 +311,18 @@ app.get('/post', function(req, res){
 })
 
 /**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.get('/message/read', function(req, res){
+    let postID = req.query.postID
+    res.render('message',{
+        postID: postID
+    })
+});
+
+
+/**
  * @description User Account Page, returns account.njk
  * @author XiaoQian Huang
  * xhuang8@mail.sfsu.edu
