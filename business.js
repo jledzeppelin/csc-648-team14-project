@@ -96,7 +96,6 @@ class Business{
      * @author Juan Ledezma
      */
     static async registerUser(newUser){
-        //TO DO: validation (email format, unique email), or done in form?
         let user = await RegisteredUser.insertNewRecord(newUser).catch(function(err) {
             console.error(`Business.registerUser() error: ${err}`)
         })
