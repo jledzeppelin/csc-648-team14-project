@@ -203,14 +203,25 @@ app.post('/api/post/fileUpload', function (req, res){
 });
 
 /**
+ * @description Returns a single messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.get('api/message/read', async function(req, res){
+    let message_id = req.body.id
+
+    let message = await Business.getSingleMessage(message_id)
+    res.json(message)
+
+});
+
+/**
  * @description Returns all the messages for a specific post that the user owns, returns messages.njk
  * @author Ryan Jin
  */
 app.get('api/message/read', async function(req, res){
     let post_id = req.body.post_id
-    let user_id = req.body.user_id
 
-    let message = await Business.getMessage(post_id, user_id)
+    let message = await Business.getAllmessage(post_id)
     res.json(message)
 
 });

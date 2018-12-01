@@ -215,7 +215,7 @@ class Business{
     /**
      * @description Sends a message to a specific post_id
      * @param messageInfo - contains all message info including post_id, message, date created and last date revised
-     * @returns {Post}
+     * @returns {Message}
      * @author Ryan Jin
      */
     static async sendMessage(messageInfo){
@@ -227,13 +227,27 @@ class Business{
     }
 
     /**
+     * @description Gets a single message for a specific message_id
+     * @param message_id
+     * @returns {Message}
+     * @author Ryan Jin
+     */
+    static async getSingleMessage(message_id){
+        let getMessage = Message.getSingleMessage(message_id).catch(function(err){
+            console.error(`Business.getMessage() error: ${err}`)
+        })
+
+        return getMessage
+    }
+
+    /**
      * @description Gets all the messages for a specific post_id
      * @param post_id - contains all message info including post_id, message, date created and last date revised
      * @returns {Post}
      * @author Ryan Jin
      */
-    static async getMessage(post_id){
-        let getMessage = Message.getMessage(post_id).catch(function(err){
+    static async getAllMessage(post_id){
+        let getMessage = Message.getAllMessage(post_id).catch(function(err){
             console.error(`Business.getMessage() error: ${err}`)
         })
 

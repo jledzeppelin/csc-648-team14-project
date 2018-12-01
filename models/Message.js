@@ -62,7 +62,7 @@ class Message extends BaseModel{
      * @author Jack Cole
      * @author Ryan Jin
      */
-    static get __TABLE(){return "table"}
+    static get __TABLE(){return "message"}
 
     /**
      * @description Inserts new message to db
@@ -75,7 +75,25 @@ class Message extends BaseModel{
         return result
     }
 
-    
+    /**
+     * @description Grab a sigle post matching the id from the database
+     * @returns {Promise} A post with the data matching the id in the database
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     * @author Ryan Jin
+     */
+    static getSingleMessage(id){
+        return super.getSingleRowById(Message, {id:id})
+    }
+
+    /**
+     * @description Returns all messages based on Post_ID
+     * @returns
+     * @author Ryan Jin
+     */
+    static getAllMessage(post_id){
+        let sql_command = `SELECT * FROM ${this.__TABLE} WHERE post_id = post_id`
+        return super.getMultipleBySQL(Message, sql_command)
+    }
 
 
     /**
