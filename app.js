@@ -206,11 +206,13 @@ app.post('/api/post/fileUpload', function (req, res){
  * @description Returns all the messages for a specific post that the user owns, returns messages.njk
  * @author Ryan Jin
  */
-app.get('api/message/read', function(req, res){
+app.get('api/message/read', async function(req, res){
     let post_id = req.query.post_id
-    res.render('message',{
-        post_id: post_id
-    })
+
+    let message = await Business.getMessage(post_id)
+    res.json(message)
+
+
 });
 
 /**
