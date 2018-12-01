@@ -183,7 +183,7 @@ app.get('/search',function(req, res) {
  */
 app.get('/about', function(req, res){
     res.render('about');
-})
+});
 
 /**
  * @description Admin Page, returns admin.njk
@@ -191,7 +191,7 @@ app.get('/about', function(req, res){
  */
 app.get('/admin', function(req, res){
     res.render('admin');
-})
+});
 
 /**
  * @description User Page with ID, returns user.njk
@@ -202,7 +202,7 @@ app.get('/user', function(req, res){
     res.render('user',{
         id: id
     })
-})
+});
 
 /**
  * @description Login Page, returns login.njk
@@ -210,7 +210,7 @@ app.get('/user', function(req, res){
  */
 app.get('/login', function(req, res){
     res.render('login')
-})
+});
 
 /**
  * @description Register Page, returns register.njk
@@ -219,7 +219,7 @@ app.get('/login', function(req, res){
 app.get('/register', function(req, res){
     res.render('register');
 
-})
+});
 
 /**
  * @description Create a post Page, returns createpost.njk
@@ -227,7 +227,7 @@ app.get('/register', function(req, res){
  */
 app.get('/createpost', function(req, res){
     res.render('createpost');
-})
+});
 
 /**
  * @description Post Confirmation Page, returns postconfirm.njk
@@ -235,7 +235,7 @@ app.get('/createpost', function(req, res){
  */
 app.get('/postconfirm', function(req, res){
     res.render('postconfirm');
-})
+});
 
 /**
  * @description Post Page with ID, returns post.njk
@@ -246,7 +246,19 @@ app.get('/post', function(req, res){
     res.render('post', {
         id: id
     })
-})
+});
+
+/**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.get('/message/read', function(req, res){
+    let postID = req.query.postID
+    res.render('message',{
+        postID: postID
+    })
+});
+
 
 /**
  * @description User Account Page, returns account.njk
