@@ -211,6 +211,14 @@ class Business{
         return post
     }
 
+    static async sendMessage(messageInfo){
+        let message = await Message.sendMessage(messageInfo).catch(function(err){
+            console.error(`Business.sendMessage() error: ${err}`)
+        })
+
+        return message
+    }
+
     static uploadImage(req, res){
         upload(req, res, (err) => {
             if (err) {
