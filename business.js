@@ -242,8 +242,8 @@ class Business{
 
     /**
      * @description Gets all the messages for a specific post_id
-     * @param post_id - contains all message info including post_id, message, date created and last date revised
-     * @returns {Post}
+     * @param post_id
+     * @returns {Message}
      * @author Ryan Jin
      */
     static async getAllMessage(post_id){
