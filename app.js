@@ -315,10 +315,28 @@ app.get('/post', function(req, res){
  * @author Ryan Jin
  */
 app.get('/message/read', function(req, res){
-    let postID = req.query.postID
+    let post_id = req.query.post_id
     res.render('message',{
-        postID: postID
+        post_id: post_id
     })
+});
+
+/**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.post('/message/send', async function(req, res){
+    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+    var messageInfo = {
+        "post_id":req.body.post_id,
+        "message":req.body.message,
+        "initial_send_date":dateTime,
+        "last_revised":dateTime
+    }
+
+    let sendMessage = await Business.sendMessage(messageInfo)
+    res.json(sendMessage)
 });
 
 
