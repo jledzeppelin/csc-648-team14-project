@@ -76,9 +76,9 @@ $(document).ready(function(){
         })
     // Get any posts if no search has been made
     else
-        GatorTraderAPI.getRecentPosts(function(results){
-            addPostsToPage(results);
-            setResultCount(0, results.length, results.length, "")
+        GatorTraderAPI.searchPosts("","","","",function(results){
+            //addPostsToPage(results);
+            //setResultCount(0, results.length, results.length, "")
             console.log("Fetched results", results);
         }).catch(function(err){
             console.error("Could not get posts", err);
