@@ -1,6 +1,7 @@
 const Post = require('./models/Post.js')
 const RegisteredUser = require('./models/RegisteredUser.js')
 const Category = require('./models/Category')
+const Message = require('./models/Message.js')
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
@@ -218,7 +219,7 @@ class Business{
      * @author Ryan Jin
      */
     static async sendMessage(messageInfo){
-        let message = await Message.sendMessage(messageInfo).catch(function(err){
+        let message = await Message.insertNewRecord(messageInfo).catch(function(err){
             console.error(`Business.sendMessage() error: ${err}`)
         })
 

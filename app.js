@@ -224,7 +224,8 @@ app.post('api/message/send', async function(req, res){
 
     var messageInfo = {
         "post_id":req.body.post_id,
-        "user_id":req.body.user_id,
+        "sender_id":req.body.sender_id,
+        "recipient_id":req.body.recipient_id,
         "message":req.body.message,
         "initial_send_date":dateTime,
         "last_revised":dateTime

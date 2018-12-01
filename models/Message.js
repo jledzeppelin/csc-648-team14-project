@@ -14,76 +14,41 @@ class Message extends BaseModel{
         this.__id = id
     }
 
-    get user_id(){
+    get post_id(){
         return this._user_id
     }
-    set user_id(value){
-        this._user_id = value
+    set post_id(post_id){
+        this._user_id = post_id
     }
 
-    get category_id() {
+    get sender_id() {
         return this._category_id
     }
-    set category_id(value) {
-        this._category_id = value
+    set sender_id(sender_id) {
+        this._category_id = sender_id
+    }
+
+    get recipient_id() {
+        return this._category_id
+    }
+    set recipient_id(recipient_id) {
+        this._category_id = recipient_id
     }
 
     get last_revised() {
         return this._last_revised
     }
 
-    set last_revised(value) {
-        this._last_revised = value
-    }
-    get is_price_negotiable() {
-        return this._is_price_negotiable
+    set last_revised(last_edit_date) {
+        this._last_revised = last_edit_date
     }
 
-    set is_price_negotiable(value) {
-        this._is_price_negotiable = value
-    }
-    get price() {
-        return this._price
-    }
-
-    set price(value) {
-        this._price = value
-    }
-    get post_status() {
-        return this._post_status
-    }
-
-    set post_status(value) {
-        this._post_status = value
-    }
-    get post_description() {
-        return this._post_description
-    }
-
-    set post_description(value) {
-        this._post_description = value
-    }
-    get post_title() {
-        return this._post_title
-    }
-
-    set post_title(value) {
-        this._post_title = value
-    }
-    get create_date() {
+    get initial_send_date() {
         return this._create_date
     }
 
-    set create_date(value) {
-        this._create_date = value
-    }
-
-    get number_of_images() {
-        return this._number_of_images
-    }
-
-    set number_of_images(value){
-        this._number_of_images = value
+    set initial_send_date(sent_date) {
+        this._create_date = sent_date
     }
 
     constructor(){
@@ -91,83 +56,48 @@ class Message extends BaseModel{
     }
 
     /**
-     * @description The table in the database that Post is stored in.
+     * @description The table in the database that Table is stored in.
      * @returns {string} The table name
      * @private
-     * @author Jack Cole jcole2@mail.sfsu.edu
+     * @author Jack Cole
+     * @author Ryan Jin
      */
-    static get __TABLE(){return "post"}
+    static get __TABLE(){return "table"}
 
     /**
-     * @description Inserts new post to db
-     * @returns {Promise} A confirmation of the new post being added
+     * @description Inserts new message to db
+     * @returns {Promise} A confirmation of the new message being added
      * @author Juan Ledezma
+     * @author Ryan Jin
      */
-    static insertNewRecord(newPost) {
-        let result = super.insertNewRecord(Post, newPost)
+    static insertNewRecord(messageSent) {
+        let result = super.insertNewRecord(Message, messageSent)
         return result
     }
 
-    /**
-     * @description Grab a sigle post matching the id from the database
-     * @returns {Promise} A post with the data matching the id in the database
-     * @author Jack Cole jcole2@mail.sfsu.edu
-     */
-    static getSingleRowById(id){
-        return super.getSingleRowById(Post, {id:id})
-    }
-
-    /**
-     * @description getImageLocations returns the post of all images location
-     * @returns all image locations as a string or if no images: NO IMAGES FOR THIS POST
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-    getImageLocations(){
-
-        if(this.number_of_images > 0){
-            var imageLocations = ``
-
-            for(var i =1; i<=this.number_of_images;i++) imageLocations += `images/posts/${this.id}-${i}.jpg | `
-
-            console.log("imageLocations: ", imageLocations)
-            return imageLocations
-        }
-
-        else return `NO IMAGES FOR THIS POST`
-    }
+    
 
 
     /**
-     * @descirption Returns recent approved Posts
-     * @author Anthony Carrasco acarras4@mail.sfsu.edu
-     */
-    static getLatestApprovedPosts(){
-        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
-        return latestApprovedPost
-    }
-
-    /**
-     * @description Convert the result from the DB to a new Post object
+     * @description Convert the result from the DB to a new Message object
      * @param result {object} The result from the Database.
-     * @returns {Post} The instantiated Post object
-     * @author Jack Cole jcole2@mail.sfsu.edu
+     * @returns {Post} The instantiated Message object
+     * @author Jack Cole
+     * @author Ryan Jin
      */
     static objectMapper(result){
-        let newPost = new Post()
+        let newMessage = new Message()
 
         // Take all the values and put them in the new object
-        newPost.id = result.id
-        newPost.user_id = result.user_id
-        newPost.category_id = result.category_id
-        newPost.create_date = result.create_date
-        newPost.post_title = result.post_title
-        newPost.post_description = result.post_description
-        newPost.post_status = result.post_status
-        newPost.price = result.price
-        newPost.is_price_negotiable = result.is_price_negotiable
-        newPost.last_revised = result.last_revised
-        newPost.number_of_images = result.number_of_images
-        return newPost
+        newMessage.id = result.id
+        newMessage.post_id = result.post_id
+        newMessage.sender_id = result.sender_id
+        newMessage.recipient_id = result.recipient_id
+        newMessage.initial_send_date = result.initial_send_date
+        newMessage.last_revised = result.last_revised
+
+        //newMessage.post_title = result.post_title
+        return newMessage
     }
 
     /**
@@ -175,26 +105,19 @@ class Message extends BaseModel{
      * @returns {{id: *, user_id: *, category_id: *, create_date: *, post_title: *, post_description: *, post_status: *, price: *, is_price_negotiable: *, last_revised: *, number_of_images: *, image_location: *}}
      * @author Jack Cole jcole2@mail.sfsu.edu
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     * @author Ryan Jin
      */
     toJSON() {
         return {
             id: this.id,
-            user_id : this.user_id,
-            category_id : this.category_id,
-            create_date : this.create_date,
-            post_title : this.post_title,
-            post_description : this.post_description,
-            post_status : this.post_status,
-            price : this.price,
-            is_price_negotiable : this.is_price_negotiable,
+            post_id : this.post_id,
+            sender_id : this.sender_id,
+            recipient_id : this.recipient_id,
+            initial_send_date : this.initial_send_date,
             last_revised : this.last_revised,
-            number_of_images : this.number_of_images,
-            image_location : this.getImageLocations()
         }
     }
-
-
 }
 
 // Required. This specifies what will be imported by other files
-module.exports = Post
+module.exports = Message
