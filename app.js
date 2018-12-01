@@ -202,6 +202,35 @@ app.post('/api/post/fileUpload', function (req, res){
     return newImage = Business.uploadImage(req, res)
 });
 
+/**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.get('api/message/read', function(req, res){
+    let post_id = req.query.post_id
+    res.render('message',{
+        post_id: post_id
+    })
+});
+
+/**
+ * @description Returns all the messages for a specific post that the user owns, returns messages.njk
+ * @author Ryan Jin
+ */
+app.post('api/message/send', async function(req, res){
+    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+    var messageInfo = {
+        "post_id":req.body.post_id,
+        "message":req.body.message,
+        "initial_send_date":dateTime,
+        "last_revised":dateTime
+    }
+
+    let sendMessage = await Business.sendMessage(messageInfo)
+    res.json(sendMessage)
+});
+
 // -------
 // -------
 // PAGES
@@ -309,35 +338,6 @@ app.get('/post', function(req, res){
         user_id: user_id
     })
 })
-
-/**
- * @description Returns all the messages for a specific post that the user owns, returns messages.njk
- * @author Ryan Jin
- */
-app.get('/message/read', function(req, res){
-    let post_id = req.query.post_id
-    res.render('message',{
-        post_id: post_id
-    })
-});
-
-/**
- * @description Returns all the messages for a specific post that the user owns, returns messages.njk
- * @author Ryan Jin
- */
-app.post('/message/send', async function(req, res){
-    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-
-    var messageInfo = {
-        "post_id":req.body.post_id,
-        "message":req.body.message,
-        "initial_send_date":dateTime,
-        "last_revised":dateTime
-    }
-
-    let sendMessage = await Business.sendMessage(messageInfo)
-    res.json(sendMessage)
-});
 
 
 /**
