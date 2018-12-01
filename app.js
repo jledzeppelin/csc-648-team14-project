@@ -207,9 +207,10 @@ app.post('/api/post/fileUpload', function (req, res){
  * @author Ryan Jin
  */
 app.get('api/message/read', async function(req, res){
-    let post_id = req.query.post_id
+    let post_id = req.body.post_id
+    let user_id = req.body.user_id
 
-    let message = await Business.getMessage(post_id)
+    let message = await Business.getMessage(post_id, user_id)
     res.json(message)
 
 });
@@ -223,6 +224,7 @@ app.post('api/message/send', async function(req, res){
 
     var messageInfo = {
         "post_id":req.body.post_id,
+        "user_id":req.body.user_id,
         "message":req.body.message,
         "initial_send_date":dateTime,
         "last_revised":dateTime
