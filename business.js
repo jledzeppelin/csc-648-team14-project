@@ -83,11 +83,40 @@ class Business{
 
         // Create the Post object
         let post = await Post.getSingleRowById(id).catch(function(err){
-          console.error(`Business.getCategory() error: ${err}`)
+          console.error(`Business.getPost() error: ${err}`)
         })
 
         return post
 
+    }
+
+    /**
+     * @description returns all pending posts, for admin
+     * @author Juan Ledezma
+     */
+    static async getAllPendingPosts() {
+        let pendingPosts = await Post.getAllPending().catch(function(err) {
+            console.error(`Business.getAllPendingPosts() error: ${err}`)
+        })
+        return pendingPosts
+    }
+
+    /**
+     * @description Changes the status of a post
+     * @param post_id 
+     * @param status Either change to "approved" or "rejected"
+     * @author Juan Ledezma
+     */
+    static async changePostStatus(post_id, status) {
+        post_id = parseInt(post_id)
+        if (!Number.isInteger(post_id)) {
+            throw `Invalid argument in Business.changePostStatus():  ${post_id}. Must be an integer`
+        }
+
+        let post = await Post.changeStatus(post_id, status).catch(function(err) {
+            console.error(`Business.changePostStatus() error: ${err}`)
+        })
+        return post
     }
 
     /**

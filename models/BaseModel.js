@@ -208,9 +208,17 @@ class BaseModel{
         })
     }
 
+    /**
+     * @description Updates the value of an attribute for a single record identified by its id
+     * @param model To obtain table
+     * @param record_id 
+     * @param attribute Attribute to change
+     * @param newValue New value to change attribute to
+     * @author Juan Ledezma
+     */
     static updateSingleRecordByID(model, record_id, attribute, newValue) {
         let table = model.__TABLE
-        let sql = `UPDATE ${table} SET ${attribute} = ${newValue} WHERE ${model.id} = ${record_id};`
+        let sql = `UPDATE ${table} SET ${attribute} = ${newValue} WHERE id = ${record_id};`
         console.log("updateSingleRecordByID() SQL: ", sql)
 
         return new Promise(function(resolve, reject) {

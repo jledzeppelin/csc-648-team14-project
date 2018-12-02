@@ -106,7 +106,7 @@ app.get('/api/post',async function(req, res){
 });
 
 /**
- * @description Returns all pending results
+ * @description Returns all pending posts
  * @author Juan Ledezma
  */
 app.get('/api/post/pending', async function(req, res) {
@@ -116,6 +116,10 @@ app.get('/api/post/pending', async function(req, res) {
     res.json(pendingPosts)
 })
 
+/**
+ * @description Change the status of a post, either approved or rejected
+ * @author Juan Ledezma
+ */
 app.post('/api/post/statusChange', async function(req, res) {
     let post_id = req.query.post_id
     let status = req.query.status
