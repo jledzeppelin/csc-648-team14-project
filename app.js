@@ -110,14 +110,18 @@ app.get('/api/post',async function(req, res){
  * @author Juan Ledezma
  */
 app.get('/api/post/pending', async function(req, res) {
+    // don't need to check if logged in user is administrator because this is only
+    // accessed through admin page (?)
     let pendingPosts = await Business.getAllPendingPosts()
     res.json(pendingPosts)
 })
 
-app.post('/api/post/approve', async function(req, res) {
-    if (req.session.user_id && req.cookies.user_session_id) {
-        //TO DO after including account_type in session
-    }
+app.post('/api/post/statusChange', async function(req, res) {
+    let post_id = req.query.post_id
+    let status = req.query.status
+
+    let post = await Business.changePostStatus(post_id, status)
+    res.json(post)
 })
 
 //****** TO DO: api to let user update post ****** NOT TOP PRIORITY ****
