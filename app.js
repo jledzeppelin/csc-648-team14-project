@@ -175,7 +175,7 @@ app.post('/api/register', async function(req, res){
 });
 
 /**
- * @description Login for registered user, returns a confirmation
+ * @description Login for registered user, returns a confirmation and creates a session
  * @author Juan Ledezma
  */
 app.post('/api/login', async function(req, res){
@@ -305,8 +305,16 @@ app.get('/about', function(req, res){
  * @author Ryan Jin
  */
 app.get('/admin', function(req, res){
-    // TO DO: only admin 
-    res.render('admin');
+    if (req.session.user && req.cookies.session_id) {
+        if (req.session.user.account_type === 'administrator') {
+            let user = req.session.user
+            res.render('admin', {user:user})
+        } else {
+            res.json({message:"Unauthorized user"})
+        }
+    } else {
+        res.json({message:"Access denied"})
+    }
 })
 
 /**
@@ -314,8 +322,12 @@ app.get('/admin', function(req, res){
  * @author Ryan Jin
  */
 app.get('/user', function(req, res){
-    let user = req.session.user
-    res.render('user', {user:user})
+    if (req.session.user && req.cookies.session_id) {
+        let user = req.session.user
+        res.render('user', {user:user})
+    } else {
+        res.redirect('/login')
+    }
 })
 
 /**
@@ -349,8 +361,12 @@ app.get('/createpost', function(req, res){
  * @author Ryan Jin
  */
 app.get('/postconfirm', function(req, res){
-    let user = req.session.user
-    res.render('postconfirm', {user:user});
+    if (req.session.user && req.cookies.session_id) {
+        let user = req.session.user
+        res.render('postconfirm', {user:user});
+    } else {
+        res.json({message:"Must register for post to go live"})
+    }
 })
 
 /**
