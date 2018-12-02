@@ -39,8 +39,8 @@ app.use(cookieParser())
 
 // initialize express-session to track logged-in users
 app.use(session({
-    key: "user_session_id",
-    secret: "gator_trader_ses", //replace with a random string
+    key: "session_id",
+    secret: "gtrTRDRcsc648", //replace with a random string or env variable
     resave: false,
     saveUninitialized: false,
     cookie: {expires: 600000}
@@ -48,15 +48,15 @@ app.use(session({
 
 // log user out if cookie is saved in browser but user is not set
 app.use(function(req, res, next) {
-    if (req.cookies.user_session_id && !req.session.user_id) {
-        res.clearCookie("user_session_id")
+    if (req.cookies.session_id && !req.session.user) {
+        res.clearCookie("session_id")
     }
     next()
 })
 
 //check for logged-in user
 let checkSession = function(req, res, next) {
-    if (req.session.user_id && req.cookies.user_session_id) {
+    if (req.session.user && req.cookies.session_id) {
         res.redirect('/account')
     } else {
         next()
@@ -105,6 +105,22 @@ app.get('/api/post',async function(req, res){
     res.json(post)
 });
 
+/**
+ * @description Returns all pending results
+ * @author Juan Ledezma
+ */
+app.get('/api/post/pending', async function(req, res) {
+    let pendingPosts = await Business.getAllPendingPosts()
+    res.json(pendingPosts)
+})
+
+app.post('/api/post/approve', async function(req, res) {
+    if (req.session.user_id && req.cookies.user_session_id) {
+        //TO DO after including account_type in session
+    }
+})
+
+//****** TO DO: api to let user update post ****** NOT TOP PRIORITY ****
 
 /**
  * @description Returns all Categories
@@ -168,26 +184,20 @@ app.post('/api/login', async function(req, res){
 
     let userLogin = await Business.loginUser(email, login_password)
 
-    /*
-    if ("user_id" in userLogin) {
-        req.session.user_id = userLogin.user_id
-        res.redirect("/") //maybe redirect to account
-    } else {
-        res.json(userLogin)
-    }
-    */
-
-    // TO DO: include account_type
-    if ("user_id" in userLogin) {
-        req.session.user_id = userLogin.user_id
-        //console.log(req.session.user_id)
+    if ("user" in userLogin) {
+        req.session.user = userLogin.user
+        //console.log(req.session.user)
     }
     res.json(userLogin)
 });
 
+/**
+ * @description Clears the cookie for the current session when user logs outs, and redirects to front page
+ * @author Juan Ledezma
+ */
 app.get('/api/logout', function(req, res){
-    if (req.session.user_id && req.cookies.user_session_id) {
-        res.clearCookie("user_session_id")
+    if (req.session.user && req.cookies.session_id) {
+        res.clearCookie("session_id")
         res.redirect("/")
     } else {
         res.redirect("/login")
@@ -259,8 +269,8 @@ app.set('views', VIEWS_PATH);
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/',function(req, res){
-    let user_id = req.session.user_id
-    res.render('index', {user_id:user_id});
+    let user = req.session.user
+    res.render('index', {user:user});
 })
 
 
@@ -272,10 +282,12 @@ app.get('/search',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
+    let user = req.session.user
     res.render('search', {
         name: name,
         page: page,
         sort: sort,
+        user: user
     })
 })
 
@@ -284,8 +296,8 @@ app.get('/search',function(req, res) {
  * @author Ryan Jin
  */
 app.get('/about', function(req, res){
-    let user_id = req.session.user_id
-    res.render('about', {user_id:user_id});
+    let user = req.session.user
+    res.render('about', {user:user});
 })
 
 /**
@@ -302,8 +314,8 @@ app.get('/admin', function(req, res){
  * @author Ryan Jin
  */
 app.get('/user', function(req, res){
-    let user_id = req.session.user_id
-    res.render('user', {user_id:user_id})
+    let user = req.session.user
+    res.render('user', {user:user})
 })
 
 /**
@@ -328,8 +340,8 @@ app.get('/register', checkSession, function(req, res){
  * @author Ryan Jin
  */
 app.get('/createpost', function(req, res){
-    let user_id = req.session.user_id
-    res.render('createpost', {user_id:user_id});
+    let user = req.session.user
+    res.render('createpost', {user:user});
 })
 
 /**
@@ -337,8 +349,8 @@ app.get('/createpost', function(req, res){
  * @author Ryan Jin
  */
 app.get('/postconfirm', function(req, res){
-    let user_id = req.session.user_id
-    res.render('postconfirm', {user_id:user_id});
+    let user = req.session.user
+    res.render('postconfirm', {user:user});
 })
 
 /**
@@ -346,10 +358,10 @@ app.get('/postconfirm', function(req, res){
  * @author Ryan Jin
  */
 app.get('/post', function(req, res){
-    let user_id = req.session.user_id
+    let user = req.session.user
     res.render('post', {
         id: id,
-        user_id: user_id
+        user: user
     })
 })
 
@@ -360,8 +372,8 @@ app.get('/post', function(req, res){
  * xhuang8@mail.sfsu.edu
  */
 app.get('/account', function(req, res){
-    if (req.session.user_id && req.cookies.user_session_id) {
-        res.render('account', {user_id:req.session.user_id});
+    if (req.session.user && req.cookies.session_id) {
+        res.render('account', {user:req.session.user});
     } else {
         res.redirect('/login')
     }
@@ -373,18 +385,18 @@ app.get('/account', function(req, res){
  * xhuang8@mail.sfsu.edu
  */
 app.get('/help', function(req, res){
-    let user_id = req.session.user_id
-    res.render('help', {user_id:user_id});
+    let user = req.session.user
+    res.render('help', {user:user});
 })
 
 
 app.get('/contact', function(req, res){
     let post_id = req.query.post_id
-    let user_id = req.session.user_id
+    let user = req.session.user
 
     res.render('contact', {
         post_id:post_id,
-        user_id:user_id,
+        user:user,
     });
 
 

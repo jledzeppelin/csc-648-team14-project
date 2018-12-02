@@ -234,7 +234,7 @@ class Business{
      */
     static async getSingleMessage(message_id){
         let getMessage = Message.getSingleMessage(message_id).catch(function(err){
-            console.error(`Business.getMessage() error: ${err}`)
+            console.error(`Business.getSingleMessage() error: ${err}`)
         })
 
         return getMessage
@@ -248,12 +248,18 @@ class Business{
      */
     static async getAllMessages(post_id){
         let getMessage = Message.getAllMessages(post_id).catch(function(err){
-            console.error(`Business.getMessage() error: ${err}`)
+            console.error(`Business.getAllMessages() error: ${err}`)
         })
 
         return getMessage
     }
 
+    /**
+     * @description Uploads an image and its thumbnail to images/posts/
+     * @param req 
+     * @param res
+     * @author Juan Ledezma 
+     */
     static uploadImage(req, res){
         upload(req, res, (err) => {
             if (err) {
@@ -285,7 +291,6 @@ class Business{
             }
         });
     }
-
 
 }
 

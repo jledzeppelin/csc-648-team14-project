@@ -178,7 +178,7 @@ class BaseModel{
      * @returns {Promise} The instantiated object of this class
      * @author Juan Ledezma
      */
-    static insertNewRecord(model, newRecord){
+    static insertNewRecord(model, newRecord) {
         let table = model.__TABLE
         let sqlCommand = `INSERT INTO ${table} SET ?`
         console.log("insertNewRecord() SQL:", sqlCommand)
@@ -205,6 +205,31 @@ class BaseModel{
             })
 
             connection.end();
+        })
+    }
+
+    static updateSingleRecordByID(model, record_id, attribute, newValue) {
+        let table = model.__TABLE
+        let sql = `UPDATE ${table} SET ${attribute} = ${newValue} WHERE ${model.id} = ${record_id};`
+        console.log("updateSingleRecordByID() SQL: ", sql)
+
+        return new Promise(function(resolve, reject) {
+            let connection = BaseModel.__connect()
+
+            connection.query(sql, function(err, results, fields) {
+                if (err) {
+                    throw err 
+                } else {
+                    let confirmation = {
+                        status:true,
+                        message:`Updated record id: ${record_id}, attribute: ${attribute}, to new value: ${newValue}`,
+                        data:results
+                    }
+                    resolve(confirmation)
+                }
+            })
+
+            connection.end()
         })
     }
 
