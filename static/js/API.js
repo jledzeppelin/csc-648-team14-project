@@ -32,7 +32,7 @@ class GatorTraderAPI {
     static uploadImage(post_id, image_number, callback) {
         let params = $.param({post_id:post_id, image_number:image_number})
         let url = '/api/post/fileUpload?'+params
-        return $.get(url, callback)
+        return $.post(url, callback)
     }
 
     /**
@@ -46,13 +46,37 @@ class GatorTraderAPI {
     }
 
     /**
-     * @description Creates a post
+     * @description Creates a post, uses data inside the body of the request
      * @param callback {function} The function to be called after results are found
      * @author Juan Ledezma
      */
     static createPost(callback){
         let url = '/api/post/create'
+        return $.post(url, callback)
+    }
+
+    /**
+     * @description Gets all posts with the status "pending"
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static getPendingPosts(callback) {
+        let url = '/api/post/pending'
         return $.get(url, callback)
+    }
+
+    /**
+     * @description Changes the status of a post; posts are initially "pending" and changed
+     *              to "accepted" or "rejected" by an admin
+     * @param post_id {Number}
+     * @param newStatus {String} Either "accepted" or "rejected"
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static changePostStatus(post_id, newStatus, callback) {
+        let params = $.param({post_id:post_id, status:newStatus})
+        let url = '/api/post/statusChange?' + params
+        return $.post(url, callback)
     }
 
     /**
@@ -100,14 +124,26 @@ class GatorTraderAPI {
     }
 
     /**
-     * @description Returns all the messages for a specifc post that the user owns
-     * @param postid
+     * @description Gets the details of a single message, using the message id
+     * @param message_id 
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma
+     */
+    static getMessage(message_id, callback) {
+        let param = $.param({id:message_id})
+        let url = '/api/message?' + param
+        return $.get(url, callback)
+    }
+
+    /**
+     * @description Returns all the messages for a specifc post
+     * @param post_id
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static getPostMessages(postid, callback){
-        let params = $.param({postid: postid})
-        let url = '/api/message/read/' + params
+    static getPostMessages(post_id, callback){
+        let params = $.param({post_id: post_id})
+        let url = '/api/message/all?' + params
         return $.get(url, callback)
     }
 
@@ -161,5 +197,15 @@ class GatorTraderAPI {
         return $.get(url, callback)
     }
 
+    /**
+     * @description Logs out the currently logged in user, clears their cookie, and redirects to
+     *              home page. If no user if logged in, this redirects to login page
+     * @param callback {function} The function to be called after results are found
+     * @author Juan Ledezma 
+     */
+    static usreLogout(callback) {
+        let url = '/api/logout'
+        return $.get(url, callback)
+    }
 
 }
