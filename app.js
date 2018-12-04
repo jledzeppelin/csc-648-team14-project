@@ -110,10 +110,16 @@ app.get('/api/post',async function(req, res){
  * @author Juan Ledezma
  */
 app.get('/api/post/pending', async function(req, res) {
-    // don't need to check if logged in user is administrator because this is only
-    // accessed through admin page (?)
-    let pendingPosts = await Business.getAllPendingPosts()
-    res.json(pendingPosts)
+    if (req.session.user && req.cookies.session_id) {
+        if (req.session.user.account_type === 'administrator') {
+            let pendingPosts = await Business.getAllPendingPosts()
+            res.json(pendingPosts)
+        } else {
+            res.json({message:"Unauthorized user"})
+        }
+    } else {
+        res.json({message:"Access denied"})
+    }
 })
 
 /**
@@ -124,8 +130,16 @@ app.post('/api/post/statusChange', async function(req, res) {
     let post_id = req.query.post_id
     let status = req.query.status
 
-    let post = await Business.changePostStatus(post_id, status)
-    res.json(post)
+    if (req.session.user && req.cookies.session_id) {
+        if (req.session.user.account_type === 'administrator') {
+            let post = await Business.changePostStatus(post_id, status)
+            res.json(post)
+        } else {
+            res.json({message:"Unauthorized user"})
+        }
+    } else {
+        res.json({message:"Access denied"})
+    }
 })
 
 //****** TO DO: api to let user update post ****** NOT TOP PRIORITY ****
