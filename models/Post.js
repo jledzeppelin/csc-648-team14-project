@@ -129,22 +129,14 @@ class Post extends BaseModel{
 
     /**
      * @description getImageLocations returns the post of all images location
-     * @returns all image locations as a string or if no images: NO IMAGES FOR THIS POST
+     * @returns all image locations stored in a array "imageLocations" || an empty array if no images
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     getImageLocations(){
-
-        if(this.number_of_images > 0){
             var imageLocations = []
-            // REVIEW: Instead of making a single string of images, make an array of them. Also prepend them with a forward slash.
-            // e.g. [ "/images/posts/5-1.jpg", "/images/posts/5-2.jpg" ]
             for(var i =1; i<=this.number_of_images;i++) imageLocations.push(`/images/posts/${this.id}-${i}.jpg`)
-
             console.log("imageLocations: ", imageLocations)
             return imageLocations
-        }
-
-        else return `NO IMAGES FOR THIS POST`
     }
 
 
