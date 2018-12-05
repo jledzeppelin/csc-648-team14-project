@@ -27,7 +27,7 @@ function addPostsToPage(posts){
                          
                          <span class="price">$${price}</span>
                     </div>-->
-                <div class="text-left"><button>More Info</button>&nbsp;&nbsp;&nbsp;<button>Contact</button></div>
+                <div class="text-left"><button>More Info</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-warning">Contact</button></div>
                 <br>
         </div>`);
         $("#posts").append(html);
