@@ -135,10 +135,10 @@ class Post extends BaseModel{
     getImageLocations(){
 
         if(this.number_of_images > 0){
-            var imageLocations = ``
+            var imageLocations = []
             // REVIEW: Instead of making a single string of images, make an array of them. Also prepend them with a forward slash.
             // e.g. [ "/images/posts/5-1.jpg", "/images/posts/5-2.jpg" ]
-            for(var i =1; i<=this.number_of_images;i++) imageLocations += `images/posts/${this.id}-${i}.jpg | `
+            for(var i =1; i<=this.number_of_images;i++) imageLocations.push(`/images/posts/${this.id}-${i}.jpg`)
 
             console.log("imageLocations: ", imageLocations)
             return imageLocations
