@@ -160,7 +160,9 @@ app.get('/api/categories',async function(req,res){
  */
 app.post('/api/post/create', async function(req,res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-
+    // REVIEW: Needs to use session data for the user_id.
+    // REVIEW: Need to have this accept an image file too, and then create a thumbnail and save that thumbnail and the
+    // original image to /images/posts folder
     var newPost={
         "user_id":req.body.user_id,
         "category_id":req.body.category_id,
@@ -231,6 +233,7 @@ app.get('/api/logout', function(req, res){
  * @author Juan ledezma
  */
 app.post('/api/post/fileUpload', function (req, res){
+    // REVIEW: This should be built into /api/post/create
     return newImage = Business.uploadImage(req, res)
 });
 
@@ -239,9 +242,10 @@ app.post('/api/post/fileUpload', function (req, res){
  * @author Ryan Jin
  */
 app.get('/api/message', async function(req, res){
+    // REVIEW: Might not need this, so ignore this for now so comment out the code completely
     let message_id = req.query.id
-
     let message = await Business.getSingleMessage(message_id)
+
     res.json(message)
 
 });
@@ -252,7 +256,7 @@ app.get('/api/message', async function(req, res){
  */
 app.get('/api/message/all', async function(req, res){
     let post_id = req.query.post_id
-
+    // REVIEW: Needs session data. Only the messages to and from this user should be gathered
     let message = await Business.getAllMessages(post_id)
     res.json(message)
 
@@ -264,7 +268,7 @@ app.get('/api/message/all', async function(req, res){
  */
 app.post('/api/message/send', async function(req, res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-
+    // REVIEW: Needs session data. The sender should always be the session's user_id
     var messageInfo = {
         "sender_id":req.body.sender_id,
         "recipient_id":req.body.recipient_id,
@@ -397,6 +401,7 @@ app.get('/postconfirm', function(req, res){
  */
 app.get('/post', function(req, res){
     let user = req.session.user
+    // REVIEW: Page no longer works because the id is not defined. URL has the parameter "id" that has to be passed to the post page.
     res.render('post', {
         id: id,
         user: user
@@ -427,11 +432,11 @@ app.get('/help', function(req, res){
     res.render('help', {user:user});
 })
 
-
+// REVIEW: Missing documentation header
 app.get('/contact', function(req, res){
     let post_id = req.query.post_id
     let user = req.session.user
-
+   // REVIEW: Needs session data
     res.render('contact', {
         post_id:post_id,
         user:user,
