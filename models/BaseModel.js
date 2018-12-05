@@ -178,7 +178,7 @@ class BaseModel{
      * @returns {Promise} The instantiated object of this class
      * @author Juan Ledezma
      */
-    static insertNewRecord(model, newRecord){
+    static insertNewRecord(model, newRecord) {
         let table = model.__TABLE
         let sqlCommand = `INSERT INTO ${table} SET ?`
         console.log("insertNewRecord() SQL:", sqlCommand)
@@ -188,7 +188,12 @@ class BaseModel{
 
             connection.query(sqlCommand, newRecord, function (err, results, fields) {
                 if (err) {
-                    throw err
+                    console.log(err) //can't throw error because a duplicate email should just notify 
+                                     //user that the email already exists
+                    resolve({
+                        status:false,
+                        message:"Error: could not create new record."
+                    })
                 } else {
                     let confirmation = {
                         status:true,
@@ -200,6 +205,39 @@ class BaseModel{
             })
 
             connection.end();
+        })
+    }
+
+    /**
+     * @description Updates the value of an attribute for a single record identified by its id
+     * @param model To obtain table
+     * @param record_id 
+     * @param attribute Attribute to change
+     * @param newValue New value to change attribute to
+     * @author Juan Ledezma
+     */
+    static updateSingleRecordByID(model, record_id, attribute, newValue) {
+        let table = model.__TABLE
+        let sql = `UPDATE ${table} SET ${attribute} = ${newValue} WHERE id = ${record_id};`
+        console.log("updateSingleRecordByID() SQL: ", sql)
+
+        return new Promise(function(resolve, reject) {
+            let connection = BaseModel.__connect()
+
+            connection.query(sql, function(err, results, fields) {
+                if (err) {
+                    throw err 
+                } else {
+                    let confirmation = {
+                        status:true,
+                        message:`Updated record id: ${record_id}, attribute: ${attribute}, to new value: ${newValue}`,
+                        data:results
+                    }
+                    resolve(confirmation)
+                }
+            })
+
+            connection.end()
         })
     }
 

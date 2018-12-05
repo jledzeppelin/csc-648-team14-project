@@ -54,6 +54,14 @@ class RegisteredUser extends BaseModel {
         this._is_banned = bool
     }
 
+    get account_type(){
+        return this._account_type
+    }
+
+    set account_type(type) {
+        this._account_type = type
+    }
+
     constructor(){
         super()
     }
@@ -116,9 +124,13 @@ class RegisteredUser extends BaseModel {
                 } else {
                     if (results.length > 0) {
                         if (RegisteredUser.verifyHash(login_password, results[0].login_password)) {
+                            let user = RegisteredUser.objectMapper(results[0])
+                            //delete user.login_password
+
                             resolve({
                                 status:true,
-                                message:"Successfully authenticated user"
+                                message:"Successfully authenticated user",
+                                user:user
                             })
                         } else {
                             resolve({
@@ -149,6 +161,7 @@ class RegisteredUser extends BaseModel {
         newRegisteredUser.email = result.email
         newRegisteredUser.login_password = result.login_password
         newRegisteredUser.is_banned = result.is_banned
+        newRegisteredUser.account_type = result.account_type
 
         return newRegisteredUser
     }
@@ -160,7 +173,8 @@ class RegisteredUser extends BaseModel {
             last_name : this.last_name,
             email : this.email,
             login_password : this.login_password,
-            is_banned : this.is_banned
+            is_banned : this.is_banned,
+            account_type: this.account_type
         }
     }
 }

@@ -1,6 +1,7 @@
 const Post = require('./models/Post.js')
 const RegisteredUser = require('./models/RegisteredUser.js')
 const Category = require('./models/Category')
+const Message = require('./models/Message.js')
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
@@ -82,11 +83,40 @@ class Business{
 
         // Create the Post object
         let post = await Post.getSingleRowById(id).catch(function(err){
-          console.error(`Business.getCategory() error: ${err}`)
+          console.error(`Business.getPost() error: ${err}`)
         })
 
         return post
 
+    }
+
+    /**
+     * @description returns all pending posts, for admin
+     * @author Juan Ledezma
+     */
+    static async getAllPendingPosts() {
+        let pendingPosts = await Post.getAllPending().catch(function(err) {
+            console.error(`Business.getAllPendingPosts() error: ${err}`)
+        })
+        return pendingPosts
+    }
+
+    /**
+     * @description Changes the status of a post
+     * @param post_id 
+     * @param status Either change to "approved" or "rejected"
+     * @author Juan Ledezma
+     */
+    static async changePostStatus(post_id, status) {
+        post_id = parseInt(post_id)
+        if (!Number.isInteger(post_id)) {
+            throw `Invalid argument in Business.changePostStatus():  ${post_id}. Must be an integer`
+        }
+
+        let post = await Post.changeStatus(post_id, status).catch(function(err) {
+            console.error(`Business.changePostStatus() error: ${err}`)
+        })
+        return post
     }
 
     /**
@@ -96,7 +126,6 @@ class Business{
      * @author Juan Ledezma
      */
     static async registerUser(newUser){
-        //TO DO: validation (email format, unique email), or done in form?
         let user = await RegisteredUser.insertNewRecord(newUser).catch(function(err) {
             console.error(`Business.registerUser() error: ${err}`)
         })
@@ -212,6 +241,54 @@ class Business{
         return post
     }
 
+    /**
+     * @description Sends a message to a specific post_id
+     * @param messageInfo - contains all message info including post_id, message, date created and last date revised
+     * @returns {Message}
+     * @author Ryan Jin
+     */
+    static async sendMessage(messageInfo){
+        let message = await Message.insertNewRecord(messageInfo).catch(function(err){
+            console.error(`Business.sendMessage() error: ${err}`)
+        })
+
+        return message
+    }
+
+    /**
+     * @description Gets a single message for a specific message_id
+     * @param message_id
+     * @returns {Message}
+     * @author Ryan Jin
+     */
+    static async getSingleMessage(message_id){
+        let getMessage = Message.getSingleMessage(message_id).catch(function(err){
+            console.error(`Business.getSingleMessage() error: ${err}`)
+        })
+
+        return getMessage
+    }
+
+    /**
+     * @description Gets all the messages for a specific post_id
+     * @param post_id
+     * @returns {Message}
+     * @author Ryan Jin
+     */
+    static async getAllMessages(post_id){
+        let getMessage = Message.getAllMessages(post_id).catch(function(err){
+            console.error(`Business.getAllMessages() error: ${err}`)
+        })
+
+        return getMessage
+    }
+
+    /**
+     * @description Uploads an image and its thumbnail to images/posts/
+     * @param req 
+     * @param res
+     * @author Juan Ledezma 
+     */
     static uploadImage(req, res){
         upload(req, res, (err) => {
             if (err) {
@@ -243,7 +320,6 @@ class Business{
             }
         });
     }
-
 
 }
 

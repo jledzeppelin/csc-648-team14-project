@@ -98,6 +98,16 @@ class Post extends BaseModel{
      */
     static get __TABLE(){return "post"}
 
+    static getAllPending() {
+        let sql = `SELECT * FROM ${this.__TABLE} WHERE post_status = "pending"`
+        return super.getMultipleBySQL(Post, sql)
+    }
+
+    static changeStatus(post_id, status) {
+        let attribute = "post_status"
+        return super.updateSingleRecordByID(Post, post_id, attribute, status)
+    }
+
     /**
      * @description Inserts new post to db
      * @returns {Promise} A confirmation of the new post being added
