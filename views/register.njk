@@ -8,11 +8,26 @@
 {% block container %}
 <div class="container">
       <div class="d-flex justify-content-center">
+        {# REVIEW: A form element should have action and method attributes. Action is the URL the request is being sent to, and method is the type (POST/GET/etc..).
+
+        e.g. <form action="/somepage.php" method="GET">
+        #}
+
+
         <form
           class="d-flex flex-column justify-content-center align-items-center"
         >
-          <div class="form-group"><h1 class="display-4">Logo</h1></div>
+          <div class="form-group"><h1 class="display-4">Logo</h1></div> {# REVIEW: This should say "Register", the title and logo of the site is in the template. #}
           <div class="form-group">
+
+            {#
+            REVIEW: A registered user has the following fields set by the user, as specified by Milestone 2: first_name, last_name, email, and login_password.
+            Fix the fields here so they are the appropriate ones.
+
+            The input elements are missing the attribute "name", which describes what the name of the attribute will be when sent to POST.
+            So if someone fills in "hello" into <input name="message123"> then in the POST request will be "message123=hello". Make the field names
+            match the field names specified in the Milestone 2 document. You can see the document in this project, under /Milestones/M2/
+            #}
             <label for="usernameInput">Username</label>
             <input
               type="text"
@@ -49,8 +64,10 @@
             <input type="checkbox" class="form-check-input" id="check" />
             <label class="form-check-label" for="check">I Agree</label>
           </div>
+          {# REVIEW: Use the phrase "Register", not "Sign up". Can get confused with "Sign in" by users. #}
           <button type="submit" class="btn btn-primary">Sign up</button>
           <div class="form-group">
+            {# REVIEW: This link doesn't work. #}
             <a href="signin.html" class="btn btn-accent"> - Sign in -</a>
           </div>
         </form>

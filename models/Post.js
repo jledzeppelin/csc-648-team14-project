@@ -129,21 +129,26 @@ class Post extends BaseModel{
 
     /**
      * @description getImageLocations returns the post of all images location
-     * @returns all image locations as a string or if no images: NO IMAGES FOR THIS POST
+     * @returns all image locations stored in a array "imageLocations" || an empty array if no images
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     getImageLocations(){
-
-        if(this.number_of_images > 0){
-            var imageLocations = ``
-
-            for(var i =1; i<=this.number_of_images;i++) imageLocations += `images/posts/${this.id}-${i}.jpg | `
-
+            var imageLocations = []
+            for(var i =1; i<=this.number_of_images;i++) imageLocations.push(`/images/posts/${this.id}-${i}.jpg`)
             console.log("imageLocations: ", imageLocations)
             return imageLocations
-        }
+    }
 
-        else return `NO IMAGES FOR THIS POST`
+    /**
+     * @description getThumbnail returns the post of all images thumbnail URL
+     * @returns all image thumbnail URL locations stored in a array "thumbnailURL" || an empty array if no images
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    getThumbnailURL(){
+        var thumbnailURL = []
+        for(var i =1; i<=this.number_of_images;i++) thumbnailURL.push(`/images/posts/${this.id}-${i}t.jpg`)
+        console.log("thumbnailURL: ", thumbnailURL)
+        return thumbnailURL
     }
 
 
@@ -199,7 +204,8 @@ class Post extends BaseModel{
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
             number_of_images : this.number_of_images,
-            image_location : this.getImageLocations()
+            image_location : this.getImageLocations(),
+            thumbnail_URL : this.getThumbnailURL()
         }
     }
 
