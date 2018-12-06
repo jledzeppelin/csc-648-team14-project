@@ -24,7 +24,9 @@
     </button>
 
     <form class="form-inline  my-2 my-lg-0 ml-auto" method="get" action="/search">
+        {# REVIEW: Missing categories dropdown menu, with categories filled in from API. (Don't hard code). Default should be "all" #}
         <div class="text-center">
+            {# REVIEW: Needs input size limit of 40. Also needs to be wider to accomidate the 40 characters of input. #}
             <input class="form-control mx-sm-2 justify-content-center" type="search" placeholder="Search" aria-label="Search" name="name" value ="{{ name }}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </div>
@@ -36,12 +38,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/createPost">Create Post <span class="sr-only">(current)</span></a>
             </li>
+            {# REVIEW: Change to Register and Login. Also make dynamic based on if the person is logged in.
+            The variable "user" is passed in if the user is logged in, so you can do and if statement in nunjucks (TWIG)
+            that checks if user is defined, and if it is display the Logout and Dashboard buttons.
+            Otherwise, display Login and Register#}
             <li class="nav-item active">
                 <a class="nav-link" href="/register">Sign Up <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/login">Sign In <span class="sr-only">(current)</span></a>
             </li>
+
+            {# REVIEW: Where is Create Post, and contact? #}
 
 
         </ul>
@@ -71,7 +79,7 @@
 
 
 <footer class="page-footer font-small purple bg-light">
-
+        {# REVIEW: This element isn't closed #}
         <div class="container text-center text-md-left">
 
 
