@@ -27,7 +27,7 @@ function addPostsToPage(posts){
                          
                          <span class="price">$${price}</span>
                     </div>-->
-                <div class="text-left"><button>More Info</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-warning">Contact</button></div>
+                <div class="text-left"><button class="btn btn-success">More Info</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-warning">Contact</button></div>
                 <br>
         </div>`);
         $("#posts").append(html);
@@ -76,9 +76,9 @@ $(document).ready(function(){
         })
     // Get any posts if no search has been made
     else
-        GatorTraderAPI.searchPosts("","","","",function(results){
-            //addPostsToPage(results);
-            //setResultCount(0, results.length, results.length, "")
+        GatorTraderAPI.getRecentPosts(function(results){
+            addPostsToPage(results);
+            setResultCount(0, results.length, results.length, "")
             console.log("Fetched results", results);
         }).catch(function(err){
             console.error("Could not get posts", err);
