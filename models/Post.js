@@ -139,6 +139,18 @@ class Post extends BaseModel{
             return imageLocations
     }
 
+    /**
+     * @description getThumbnail returns the post of all images thumbnail URL
+     * @returns all image thumbnail URL locations stored in a array "thumbnailURL" || an empty array if no images
+     * @author Anthony Carrasco acarras4@mail.sfsu.edu
+     */
+    getThumbnailURL(){
+        var thumbnailURL = []
+        for(var i =1; i<=this.number_of_images;i++) thumbnailURL.push(`/images/posts/${this.id}-${i}t.jpg`)
+        console.log("thumbnailURL: ", thumbnailURL)
+        return thumbnailURL
+    }
+
 
     /**
      * @descirption Returns recent approved Posts
@@ -192,7 +204,8 @@ class Post extends BaseModel{
             is_price_negotiable : this.is_price_negotiable,
             last_revised : this.last_revised,
             number_of_images : this.number_of_images,
-            image_location : this.getImageLocations()
+            image_location : this.getImageLocations(),
+            thumbnail_URL : this.getThumbnailURL()
         }
     }
 
