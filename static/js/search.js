@@ -68,8 +68,8 @@ $(document).ready(function(){
     // get search data if search made
     if(search.name)
         GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, function(results){
-            //addPostsToPage(results);
-            //setResultCount(0, results.length, results.length, search.name)
+            //when search no results, get recent posts.
+            //XiaoQian Huang (xhuang8@mail.sfsu.edu)
             if(results.length == 0)
             {
                 GatorTraderAPI.getRecentPosts(function(results){
@@ -80,6 +80,7 @@ $(document).ready(function(){
                     console.error("Could not get posts", err);
                 })
             }
+            //else show the results if it has results.
             else{
                 addPostsToPage(results);
                 setResultCount(0, results.length, results.length, search.name)
