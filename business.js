@@ -5,13 +5,13 @@ const Message = require('./models/Message.js')
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
+const fs = require('fs')
 
 const THUMBNAIL = {height:200, width:200}
 const IMAGE_SIZE_LIMIT = 2000000 // 2MB
 const SETTINGS = require('./settings')
 
 //****** IMAGE UPLOAD *********
-//Could put inside a class
 
 /**
  * @description Defines the storage destination and filename for uploaded images
@@ -20,7 +20,7 @@ const SETTINGS = require('./settings')
 const storage = multer.diskStorage({
     destination: './images/posts/',
     filename: function(req, file, callback) {
-        callback(null, req.query.post_id + '-' + req.query.image_number + path.extname(file.originalname));
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); //temporary name
     }
 });
 
@@ -30,11 +30,11 @@ const storage = multer.diskStorage({
  */
 const upload = multer({
     storage: storage,
-    limits: {fileSize: IMAGE_SIZE_LIMIT},
+    //limits: {fileSize: IMAGE_SIZE_LIMIT}, // maybe try {files: IMAGE_SIZE_LIMIT}
     fileFilter: function (req, file, callback) {
         checkFileType(file, callback);
     }
-}).single('postImage'); //name in form
+}).array('postImages', 5); //name in form, 5 images max
 
 /**
  * @description Checks the file type of the file to be uploaded
@@ -290,15 +290,71 @@ class Business{
      * @author Juan Ledezma 
      */
     static uploadImage(req, res){
+        let result = {}
         upload(req, res, (err) => {
             if (err) {
                 console.log(err)
-                res.json({success:false})
+                result.status = false
             } else {
-                if (req.file == undefined) {
-                    console.log("Error: no file selected")
-                    res.json({success:false})
+                if (req.files == undefined) {
+                    console.log("Error: no files selected")
+                    result.status = false
                 } else {
+                    // create post first because the post id is needed for image name
+                    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+                    let newPost={
+                        "user_id":req.session.user.id,
+                        "category_id":req.body.category_id,
+                        "post_title":req.body.post_title,
+                        "post_description":req.body.post_description,
+                        "post_status":"pending",
+                        "price":req.body.price,
+                        "price_is_negotiable":req.body.price_is_negotiable,
+                        "last_revised":dateTime,
+                        "create_date":dateTime,
+                        "number_of_images":req.body.number_of_images
+                    }
+                    // ************ post variable is undefined, dont know what to do ******************
+                    let post = Business.createPost(newPost)
+                    console.log("POST ID: " + post)
+
+                    let filePaths = []
+                    let thumbnailPaths = []
+                    let i
+
+                    for (i = 0; i < req.files.length; i++) {
+                        // rename files to fit our format "post_id-image_number"
+                        let newFileName = `${post.id}-${(i+1)}`
+                        console.log("NEW FILE NAME: " + newFileName)
+                        console.log("FILE PATH: " + req.files[i].path)
+                        fs.rename(req.files[i].path, req.files[i].destination + newFileName + path.extname(req.files[i].filename), function(err){
+                            if (err) {
+                                console.log(err)
+                            }
+                        })
+
+                        let filePath = `images/posts/${newFileName}`
+                        let thumbnailPath = `images/posts/${newFileName}t` + path.extname(req.files[i].filename)
+                        filePaths.push(filePath)
+                        thumbnailPaths.push(thumbnailPath)
+
+                        // creating thumbnail
+                        sharp('./'+filePath)
+                            .resize(THUMBNAIL.width, THUMBNAIL.height)
+                            .toFile('./'+thumbnailPath, function (err, info) {
+                                if (err) throw err;
+                                console.log(info);
+                            });
+                    }
+
+                    result.post = post
+                    result.image = {
+                        status:true,
+                        files:filePaths,
+                        thumbnails:thumbnailPaths
+                    }
+                    /*
                     let filePath = `images/posts/${req.file.filename}`
                     let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
                     path.extname(req.file.filename)
@@ -311,14 +367,14 @@ class Business{
                             console.log(info);
                         });
     
-                    res.json({
-                        sucess: true,
-                        file: filePath,
-                        thumbail: thumbailPath
-                    });
+                    result.success = true
+                    result.file = filePath
+                    result.thumbail = thumbailPath
+                    */
                 }
             }
         });
+        return result
     }
 
 }

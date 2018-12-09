@@ -155,29 +155,32 @@ app.get('/api/categories',async function(req,res){
 
 
 /**
- * @description Creates a post
+ * @description Creates a post for currently logged-in user, data obtained from body of request
  * @author Juan Ledezma
  */
 app.post('/api/post/create', async function(req,res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-    // REVIEW: Needs to use session data for the user_id.
-    // REVIEW: Need to have this accept an image file too, and then create a thumbnail and save that thumbnail and the
-    // original image to /images/posts folder
-    var newPost={
-        "user_id":req.body.user_id,
-        "category_id":req.body.category_id,
-        "post_title":req.body.post_title,
-        "post_description":req.body.post_description,
-        "post_status":"pending",
-        "price":req.body.price,
-        "price_is_negotiable":req.body.price_is_negotiable,
-        "last_revised":dateTime,
-        "create_date":dateTime,
-        "number_of_images":req.body.number_of_images
-    }
+ 
+    if (req.session.user && req.cookies.session_id) {
+        // multer: req.body is not populated until files are uploaded (inside upload() in uploadImage())
+        var newPost={
+            "user_id":req.session.user.id,
+            "category_id":req.body.category_id,
+            "post_title":req.body.post_title,
+            "post_description":req.body.post_description,
+            "post_status":"pending",
+            "price":req.body.price,
+            "price_is_negotiable":req.body.price_is_negotiable,
+            "last_revised":dateTime,
+            "create_date":dateTime,
+            "number_of_images":req.body.number_of_images
+        }
 
-    let post = await Business.createPost(newPost)
-    res.json(post)
+        let post = Business.uploadImage(req, res)
+        res.json(post)
+    } else {
+        res.json({message:"Log in before submitting a post"})
+    }
 });
 
 
