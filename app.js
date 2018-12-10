@@ -436,7 +436,7 @@ app.get('/postconfirm', function(req, res){
  */
 app.get('/post', function(req, res){
     let user = req.session.user
-    // REVIEW: Page no longer works because the id is not defined. URL has the parameter "id" that has to be passed to the post page.
+    let id = req.query.id
     res.render('post', {
         id: id,
         user: user
