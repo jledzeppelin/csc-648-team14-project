@@ -71,3 +71,10 @@
 .image-preview-input-title {
     margin-left:2px;
 }
+
+.footer {
+    position: static;
+    bottom: 0;
+    width: 100%;
+    line-height: 60px;
+}

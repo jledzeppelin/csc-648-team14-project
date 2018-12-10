@@ -180,15 +180,15 @@ class Business{
      * @param category {Number} Search by category (category_id)
      * @param page {Number} Search results in a given page
      * @param sort {String} Sort results by price or newest first, default is by increasing price
+     * @param direction {String} determines the direction of the posts
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      * Jack Cole jcole2@mail.sfsu.edu
      * Ryan Jin
      */
-    static async searchPosts(name , category , page , sort){
+    static async searchPosts(name , category , page , sort, direction){
         category = parseInt(category)
         page = parseInt(page)
         let sort_column = Business.DEFAULT_SORT
-        let sort_desc = Business.DEFAULT_SORT_DESCENDING
         let valid_search = /^([a-z0-9A-Z]{0,40})$/.test(name)
 
         if(!Number.isInteger(category))
@@ -221,7 +221,7 @@ class Business{
             filters.push(`category_id = '${category}'`)
 
         // Creates Post Object
-        let searchResults = await Post.getMultipleByFilters(Post, {filters : filters, page: page, sort: sort_column, sort_desc: sort_desc})
+        let searchResults = await Post.getMultipleByFilters(Post, {filters : filters, page: page, sort: sort_column, direction: direction})
             .catch(function(err){
             console.error(`Business.getCategory() error: ${err}`)
         })

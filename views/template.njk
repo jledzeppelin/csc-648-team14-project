@@ -23,7 +23,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <form class="form-inline  my-2 my-lg-0 ml-auto" method="get" action="/search">
+    <form class="form-inline  my-2 my-lg-0 ml-auto" method="get" action="/search" target="_blank">
         <div class="text-center">
             <input class="form-control mx-sm-2 justify-content-center" type="search" placeholder="Search" aria-label="Search" name="name" value ="{{ name }}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -33,14 +33,17 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+
+            {# These URLs should not open new pages, get rid of target="_blank". We only do that for products. #}
             <li class="nav-item active">
-                <a class="nav-link" href="/createPost">Create Post <span class="sr-only">(current)</span></a>
+
+                <a class="nav-link" href="/createPost" target="_blank">Create Post <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/register">Sign Up <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/register" target="_blank">Sign Up <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/login">Sign In <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/login" target="_blank">Sign In <span class="sr-only">(current)</span></a>
             </li>
 
 
@@ -70,7 +73,7 @@
 {% block js %}{% endblock %}
 
 
-<footer class="page-footer font-small purple bg-light">
+<footer class="footer font-small purple bg-light">
 
         <div class="container text-center text-md-left">
 
