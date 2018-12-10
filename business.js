@@ -263,8 +263,7 @@ class Business{
 
         // if images were uploaded, rename images and create thumbnail
         if (req.files != undefined) {
-            let filePaths = []
-            let thumbnailPaths = []
+            let images = {}
 
             for (let i = 0; i < req.files.length; i++) {
                 let newFileName = `${post.data.insertId}-${i+1}`
@@ -273,17 +272,12 @@ class Business{
 
                 // rename file
                 await renameFile(req.files[i].path, req.files[i].destination + newFileName + path.extname(req.files[i].filename))
-                filePaths.push(filePath)
 
                 // create thumbnail
                 let thumbnail = await createThumbnail('./'+filePath, './'+thumbnailPath)
                 console.log(thumbnail)
-                thumbnailPaths.push(thumbnailPath)
+ 
             }
-
-            post.images = filePaths
-            post.thumbnail = thumbnailPaths
-
         }
 
         return post
