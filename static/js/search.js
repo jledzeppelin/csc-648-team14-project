@@ -67,7 +67,7 @@ function clearAllPosts(){
 $(document).ready(function(){
     // get search data if search made
     if(search.name)
-        GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, function(results){
+        GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, search.direction, function(results){
             //when search no results, get recent posts.
             //XiaoQian Huang (xhuang8@mail.sfsu.edu)
             if(results.length == 0)

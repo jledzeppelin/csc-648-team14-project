@@ -116,11 +116,14 @@ class BaseModel{
      * @param page {Number} The page to view
      * @param count {Number} The number of entries to get. By default, will only get 25
      * @param sort {String} The column to sort by
-     * @param sort_desc {boolean} The direction to sort. By default, ascending. If true, then descending
+     * @param direction {String} The direction to sort. By default, ascending. If true, then descending
      * @returns {Promise} The resulting rows mapped to the passed in model
      * @author Jack Cole jcole2@mail.sfsu.edu
+     * Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static getMultipleByFilters(model, {filters, page, limit, sort, sort_desc}){
+    static getMultipleByFilters(model, {filters, page, limit, sort, direction}){
+        //console.log('direction ', direction)
+        if(direction === undefined) direction = "ASC"
         let table = model.__TABLE
         let whereClause = ""
         let orderByClause = ""
@@ -149,12 +152,9 @@ class BaseModel{
 
         }
 
-        // Use the sort to dtermine the column to sort by, and sort_desc (if set) will determine the direction
+        // Use the sort to determine the column to sort by
         if(typeof sort === "string"){
-            let sort_direction = "ASC"
-            if(typeof sort_desc === "boolean" && sort_desc)
-                sort_direction = "DESC"
-            orderByClause = `ORDER BY ${sort} ${sort_direction}`
+            orderByClause = `ORDER BY ${sort} ${direction}`
         }
 
         let sqlCommand = `SELECT * FROM ${table} ${whereClause} ${orderByClause} ${limitClause}`

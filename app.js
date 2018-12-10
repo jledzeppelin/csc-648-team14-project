@@ -81,7 +81,7 @@ app.get('/api/post/recent',async function(req,res){
 });
 
 /**
- * @description Returns Posts based on queries passed in. The queries are "name", "category", "page", "sort"
+ * @description Returns Posts based on queries passed in. The queries are "name", "category", "page", "sort", "direction"
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  * Jack Cole jcole2@mail.sfsu.edu
  */
@@ -90,8 +90,9 @@ app.get('/api/post/search',async function (req,res){
     let category = req.query.category
     let page = req.query.page
     let sort = req.query.sort
+    let direction = req.query.direction
 
-    let searchResults = await Business.searchPosts(name, category, page, sort)
+    let searchResults = await Business.searchPosts(name, category, page, sort, direction)
     res.json(searchResults)
 });
 
@@ -303,16 +304,19 @@ app.get('/',function(req, res){
 /**
  * @description Search page. Renders search.njk
  * @author Jack Cole jcole2@mail.sfsu.edu
+ * Anthony Carrasco acarras4@mail.sfsu.edu
  */
 app.get('/search',function(req, res) {
     let name = req.query.name
     let page = req.query.page
     let sort = req.query.sort
+    let direction = req.query.direction
     let user = req.session.user
     res.render('search', {
         name: name,
         page: page,
         sort: sort,
+        direction: direction,
         user: user
     })
 })

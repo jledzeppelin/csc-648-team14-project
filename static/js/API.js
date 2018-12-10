@@ -10,14 +10,17 @@ class GatorTraderAPI {
      * @param category {String} The category ID. Set to 0 if looking through all categories
      * @param page {String} The page number. Starts at 1.
      * @param sort {String} The sorting method
+     * @param direction {String} The direction of posts. Set to ASC if no sort is defined
      * @param callback {function} The function to be called after results are found
      * @author Jack Cole jcole2@mail.sfsu.edu
+     * Anthony Carrasco acarras4@mail.sfsu.edu
      */
-    static searchPosts(name, category, page, sort, callback){
+    static searchPosts(name, category, page, sort, direction, callback){
         if(category.length === 0) category = "0"
         if(page.length === 0) page = "1"
         if(sort.length === 0) sort = "default"
-        let params = $.param({name:name, category:category, page:page, sort:sort})
+        if(direction.length === 0) direction = "ASC"
+        let params = $.param({name:name, category:category, page:page, sort:sort, direction: direction})
         let url = '/api/post/search?'+params
         return $.get(url,callback)
     }
