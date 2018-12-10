@@ -13,6 +13,7 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const multer = require('multer')
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -34,6 +35,8 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
 //********* SESSIONS *********
+// Juan Ledezma
+
 // initialize cookie-parser for access to cookies stored in browser
 app.use(cookieParser())
 
@@ -64,6 +67,52 @@ let checkSession = function(req, res, next) {
 } 
 
 //********* SESSIONS END *********
+
+
+/**
+ * @description Defines the storage destination and filename for uploaded images
+ * @author Juan Ledezma
+ */
+const storage = multer.diskStorage({
+    destination: './images/posts/',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); //temporary name
+    }
+});
+
+/**
+ * @description Configures the multer upload middleware
+ * @author Juan Ledezma
+ */
+const upload = multer({
+    storage: storage,
+    //limits: {fileSize: IMAGE_SIZE_LIMIT}, // maybe try {files: IMAGE_SIZE_LIMIT}
+    fileFilter: function (req, file, callback) {
+        checkFileType(file, callback);
+    }
+})
+
+/**
+ * @description Checks the file type of the file to be uploaded
+ * @param  file File to be checked 
+ * @param callback Function to be called 
+ * @author Juan Ledezma
+ */
+function checkFileType(file, callback) {
+    //file types to allow
+    const filetypes = /jpeg|jpg|png/;
+    //check file extension
+    const extname = filetypes.test(path.extname(file.originalname));
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return callback(null, true);
+    } else {
+        callback("Error, can only upload images!")
+    }
+}
+
 
 // -------
 // -------
@@ -158,11 +207,20 @@ app.get('/api/categories',async function(req,res){
  * @description Creates a post for currently logged-in user, data obtained from body of request
  * @author Juan Ledezma
  */
-app.post('/api/post/create', async function(req,res){
-    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
- 
+app.post('/api/post/create', upload.array("postImages", 5), async function(req,res){
     if (req.session.user && req.cookies.session_id) {
+        let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+        let postImages
         // multer: req.body is not populated until files are uploaded (inside upload() in uploadImage())
+
+        /*
+        //upload files first, no correct naming or thumbnail generation
+        if (req.files != undefined) {
+            postImages = Business.uploadImage(req, res)
+        }
+        */
+
+        // create object with req.body data
         var newPost={
             "user_id":req.session.user.id,
             "category_id":req.body.category_id,
@@ -176,7 +234,7 @@ app.post('/api/post/create', async function(req,res){
             "number_of_images":req.body.number_of_images
         }
 
-        let post = Business.uploadImage(req, res)
+        let post = await Business.createPost(req, newPost)
         res.json(post)
     } else {
         res.json({message:"Log in before submitting a post"})

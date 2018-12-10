@@ -56,6 +56,30 @@ function checkFileType(file, callback) {
         callback("Error, can only upload images!")
     }
 }
+
+//original path does not need extension, need to check for new path
+async function createThumbnail(originalPath, newPath){
+    return new Promise(function(resolve, reject){
+        sharp(originalPath)
+            .resize(THUMBNAIL.width, THUMBNAIL.height)
+            .toFile(newPath, function(err, info){
+                if (err) {
+                    reject(err)
+                }
+                resolve({message: "Created thumbnail successfully"})
+            })
+    }) 
+}
+
+async function renameFile(originalPath, newPath){
+    return new Promise(function(resolve, reject){
+        fs.rename(originalPath, newPath, function(err){
+            if (err) {
+                reject(err)
+            }
+        })
+    })
+}
 //****** IMAGE UPLOAD END *********
 
 
@@ -227,16 +251,40 @@ class Business{
     }
 
     /**
-     * @description Creates a new post, returns confirmation
+     * @description Creates a new post, returns confirmation {status, message}
      * @param newPost All details for a new post
-     * @returns {Post}
-     * @author Ryan Jin
+     * @author Juan Ledezma
      */
-    static async createPost(newPost){
-        // TO DO: validation? user exists in db
+    static async createPost(req, newPost){
         let post = await Post.insertNewRecord(newPost).catch(function(err) {
             console.error(`Business.createPost() error: ${err}`)
         })
+        console.log("post data: " + post.data)
+
+        // if images were uploaded, rename images and create thumbnail
+        if (req.files != undefined) {
+            let filePaths = []
+            let thumbnailPaths = []
+
+            for (let i = 0; i < req.files.length; i++) {
+                let newFileName = `${post.data.insertId}-${i+1}`
+                let filePath = `images/posts/${newFileName}`
+                let thumbnailPath = `images/posts/${newFileName}t` + path.extname(req.files[i].filename)
+
+                // rename file
+                await renameFile(req.files[i].path, req.files[i].destination + newFileName + path.extname(req.files[i].filename))
+                filePaths.push(filePath)
+
+                // create thumbnail
+                let thumbnail = await createThumbnail('./'+filePath, './'+thumbnailPath)
+                console.log(thumbnail)
+                thumbnailPaths.push(thumbnailPath)
+            }
+
+            post.images = filePaths
+            post.thumbnail = thumbnailPaths
+
+        }
 
         return post
     }
@@ -285,8 +333,8 @@ class Business{
 
     /**
      * @description Uploads an image and its thumbnail to images/posts/
-     * @param req 
-     * @param res
+     * @param req Used as argument in upload()
+     * @param res Used as argument in upload()
      * @author Juan Ledezma 
      */
     static uploadImage(req, res){
@@ -300,77 +348,7 @@ class Business{
                     console.log("Error: no files selected")
                     result.status = false
                 } else {
-                    // create post first because the post id is needed for image name
-                    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-
-                    let newPost={
-                        "user_id":req.session.user.id,
-                        "category_id":req.body.category_id,
-                        "post_title":req.body.post_title,
-                        "post_description":req.body.post_description,
-                        "post_status":"pending",
-                        "price":req.body.price,
-                        "price_is_negotiable":req.body.price_is_negotiable,
-                        "last_revised":dateTime,
-                        "create_date":dateTime,
-                        "number_of_images":req.body.number_of_images
-                    }
-                    // ************ post variable is undefined, dont know what to do ******************
-                    let post = Business.createPost(newPost)
-                    console.log("POST ID: " + post)
-
-                    let filePaths = []
-                    let thumbnailPaths = []
-                    let i
-
-                    for (i = 0; i < req.files.length; i++) {
-                        // rename files to fit our format "post_id-image_number"
-                        let newFileName = `${post.id}-${(i+1)}`
-                        console.log("NEW FILE NAME: " + newFileName)
-                        console.log("FILE PATH: " + req.files[i].path)
-                        fs.rename(req.files[i].path, req.files[i].destination + newFileName + path.extname(req.files[i].filename), function(err){
-                            if (err) {
-                                console.log(err)
-                            }
-                        })
-
-                        let filePath = `images/posts/${newFileName}`
-                        let thumbnailPath = `images/posts/${newFileName}t` + path.extname(req.files[i].filename)
-                        filePaths.push(filePath)
-                        thumbnailPaths.push(thumbnailPath)
-
-                        // creating thumbnail
-                        sharp('./'+filePath)
-                            .resize(THUMBNAIL.width, THUMBNAIL.height)
-                            .toFile('./'+thumbnailPath, function (err, info) {
-                                if (err) throw err;
-                                console.log(info);
-                            });
-                    }
-
-                    result.post = post
-                    result.image = {
-                        status:true,
-                        files:filePaths,
-                        thumbnails:thumbnailPaths
-                    }
-                    /*
-                    let filePath = `images/posts/${req.file.filename}`
-                    let thumbailPath =  `images/posts/${req.query.post_id}-${req.query.image_number}t` +
-                    path.extname(req.file.filename)
-    
-                    //creating thumbnail
-                    sharp('./'+filePath)
-                        .resize(THUMBNAIL.width, THUMBNAIL.height)
-                        .toFile('./'+thumbailPath, function (err, info) {
-                            if (err) throw err;
-                            console.log(info);
-                        });
-    
-                    result.success = true
-                    result.file = filePath
-                    result.thumbail = thumbailPath
-                    */
+                    result.status = true
                 }
             }
         });
