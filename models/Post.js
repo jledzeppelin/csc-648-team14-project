@@ -1,4 +1,5 @@
 const BaseModel = require('./BaseModel')
+const RegisteredUser = require('./RegisteredUser')
 
 /**
  * @description The model for a Post. It inherits the BaseModel's generic functionality.
@@ -14,11 +15,11 @@ class Post extends BaseModel{
         this.__id = id
     }
 
-    get user_id(){
-        return this._user_id
+    get registered_user(){
+        return this._registered_user
     }
-    set user_id(value){
-        this._user_id = value
+    set registered_user(value){
+        this._registered_user = value
     }
 
     get category_id() {
@@ -169,10 +170,12 @@ class Post extends BaseModel{
      */
     static objectMapper(result){
         let newPost = new Post()
+        let newRegisteredUser = new RegisteredUser()
+        newRegisteredUser.last_name = result.last_name
 
         // Take all the values and put them in the new object
         newPost.id = result.id
-        newPost.user_id = result.user_id
+        newPost.registered_user = newRegisteredUser
         newPost.category_id = result.category_id
         newPost.create_date = result.create_date
         newPost.post_title = result.post_title
@@ -194,7 +197,7 @@ class Post extends BaseModel{
     toJSON() {
         return {
             id: this.id,
-            user_id : this.user_id,
+            registered_user : this.registered_user,
             category_id : this.category_id,
             create_date : this.create_date,
             post_title : this.post_title,
