@@ -244,23 +244,22 @@ class Business{
         // If successful, create the images
             .then(function(post){
                 // Create each image
-                for(let i in files)
-                {
+                for (let i = 0; i < files.length; i++) {
                     let file = files[i]
-                    let location = `./images/posts/${post.id}-`
+                    let location = `./images/posts/${post.data.insertId}-`
 
                     // Thumbnail
                     sharp(file.buffer)
-                        .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: inside})
-                        .toFile(`${location}t${i}.jpg`, function (err, info) {
+                        .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: "inside"})
+                        .toFile(`${location}${(i+1)}t.jpg`, function (err, info) {
                             if (err) throw err;
                             console.log(info);
                         });
 
                     // Main Image
                     sharp(file.buffer)
-                        .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: inside}) //
-                        .toFile(`${location}${i}.jpg`, function (err, info) {
+                        .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: "inside"}) //
+                        .toFile(`${location}${(i+1)}.jpg`, function (err, info) {
                             if (err) throw err;
                             console.log(info);
                         });

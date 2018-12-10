@@ -12,7 +12,6 @@ const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 const multer  = require('multer')
-const upload = multer()
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
@@ -28,6 +27,7 @@ const Business = require('./business')
 const VIEWS_PATH = path.join(__dirname, '/views')
 const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
+const IMAGE_SIZE_LIMIT = 2000000 // 2MB
 
 let port = SETTINGS.web.port
 
@@ -66,6 +66,32 @@ let checkSession = function(req, res, next) {
 } 
 
 //********* SESSIONS END *********
+
+//******** MULTER ********
+// configure upload middleware
+const upload = multer({
+    fileFilter: function(req, file, callback) {
+        checkFileType(file, callback)
+    }
+})
+
+// check files to be uploaded to only allow .jpeg .jpg .png
+function checkFileType(file, callback) {
+    //file types to allow
+    const filetypes = /jpeg|jpg|png/;
+    //check file extension
+    const extname = filetypes.test(path.extname(file.originalname));
+    //check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return callback(null, true);
+    } else {
+        callback("Error, can only upload images!")
+    }
+}
+
+//******** MULTER END ********
 
 // -------
 // -------
@@ -157,15 +183,14 @@ app.get('/api/categories',async function(req,res){
 
 
 /**
- * @description Creates a post for currently logged-in user, data obtained from body of request
+ * @description Creates a post for currently logged-in user and uploads images,
+ *              data obtained from body of request
  * @author Juan Ledezma
  */
-app.post('/api/post/create', upload.array('files', 5), async function(req,res){
-    let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
-    req.session.user = {id:"1"}
-    req.cookies.session_id = "1"
+app.post('/api/post/create', upload.array('postImages', 5), async function(req,res){
     if (req.session.user && req.cookies.session_id) {
-        // multer: req.body is not populated until files are uploaded (inside upload() in uploadImage())
+        let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
         var newPost={
             "user_id":req.session.user.id,
             "category_id":req.body.category_id,
@@ -179,7 +204,6 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
             "number_of_images":req.files.length,
         }
 
-        // let post = Business.uploadImage(req, res)
         let post = Business.createPost(newPost, req.files)
         res.json(post)
     } else {
