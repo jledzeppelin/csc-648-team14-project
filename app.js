@@ -177,11 +177,10 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
             "last_revised":dateTime,
             "create_date":dateTime,
             "number_of_images":req.files.length,
-            "files" : req.files, // This is just to transfer the image data, not actually stored in DB
         }
 
         // let post = Business.uploadImage(req, res)
-        let post = Business.createPost(newPost)
+        let post = Business.createPost(newPost, req.files)
         res.json(post)
     } else {
         res.json({message:"Log in before submitting a post"})

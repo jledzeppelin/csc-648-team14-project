@@ -231,13 +231,12 @@ class Business{
     /**
      * @description Creates a new post, returns confirmation
      * @param newPost All details for a new post
+     * @param files {Array} An array of files to be saved to the server
      * @returns {Post}
      * @author Ryan Jin
      */
-    static async createPost(newPost){
+    static async createPost(newPost, files){
         // TO DO: validation? user exists in db
-        let files = newPost.files
-
 
         let post = await Post.insertNewRecord(newPost).catch(function(err) {
             console.error(`Business.createPost() error: ${err}`)
