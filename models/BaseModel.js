@@ -117,22 +117,23 @@ class BaseModel{
      * @param count {Number} The number of entries to get. By default, will only get 25
      * @param sort {String} The column to sort by
      * @param direction {String} The direction to sort. By default, ascending. If true, then descending
-     * @param table2 {} Table with certain information
-     * @param table1_col {} Specific column in table we would like to access.
-     * @param table2_cpl {} Specific column in table we would like to access.
+     * @param table2 {String} Table with certain information
+     * @param table1_col {String} Specific column in table we would like to access.
+     * @param table2_cpl {String} Specific column in table we would like to access.
      * @returns {Promise} The resulting rows mapped to the passed in model
      * @author Jack Cole jcole2@mail.sfsu.edu
      * Anthony Carrasco acarras4@mail.sfsu.edu
+     * Ryan Jin
      */
     static getMultipleByFilters(model, {filters, page, limit, sort, direction, table2, table1_col, table2_col}){
         //console.log('direction ', direction)
         if(direction === undefined) direction = "ASC"
         let table = model.__TABLE
         let whereClause = ""
-        let joinClause = `LEFT JOIN ${table2} ON ${table}.${table_col1} = ${table2}.${table2_col}`
         let orderByClause = ""
         let offset = 0
         let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
+        let joinClause = `LEFT JOIN ${table2} ON ${table}.${table_col1} = ${table2}.${table2_col}`
 
         // If filters is an array
         if(typeof filters !== "undefined" && Array.isArray(filters))
@@ -155,6 +156,8 @@ class BaseModel{
             }
 
         }
+
+        // check for joinClause
 
         // Use the sort to determine the column to sort by
         if(typeof sort === "string"){

@@ -167,6 +167,7 @@ class Post extends BaseModel{
      * @param result {object} The result from the Database.
      * @returns {Post} The instantiated Post object
      * @author Jack Cole jcole2@mail.sfsu.edu
+     * @author Ryan Jin
      */
     static objectMapper(result){
         let newPost = new Post()
