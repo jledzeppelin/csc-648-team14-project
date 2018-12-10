@@ -8,6 +8,8 @@ const path = require('path')
 const fs = require('fs')
 
 const THUMBNAIL = {height:200, width:200}
+const MAIN_IMAGE = {height:800, width:800}
+
 const IMAGE_SIZE_LIMIT = 2000000 // 2MB
 const SETTINGS = require('./settings')
 
@@ -234,10 +236,37 @@ class Business{
      */
     static async createPost(newPost){
         // TO DO: validation? user exists in db
+        let files = newPost.files
+
+
         let post = await Post.insertNewRecord(newPost).catch(function(err) {
             console.error(`Business.createPost() error: ${err}`)
         })
+        // If successful, create the images
+            .then(function(post){
+                // Create each image
+                for(let i in files)
+                {
+                    let file = files[i]
+                    let location = `./images/posts/${post.id}-`
 
+                    // Thumbnail
+                    sharp(file.buffer)
+                        .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: inside})
+                        .toFile(`${location}t${i}.jpg`, function (err, info) {
+                            if (err) throw err;
+                            console.log(info);
+                        });
+
+                    // Main Image
+                    sharp(file.buffer)
+                        .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: inside}) //
+                        .toFile(`${location}${i}.jpg`, function (err, info) {
+                            if (err) throw err;
+                            console.log(info);
+                        });
+                }
+            })
         return post
     }
 

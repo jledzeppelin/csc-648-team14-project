@@ -10,7 +10,7 @@
 
             <div class="m-auto">
 
-                <form method="post" action="">
+                <form method="post" action="/api/post/create" enctype="multipart/form-data">
 
                     <!-- "CREATE POST" -->
                     <div class="form-group">
@@ -83,7 +83,7 @@
                             <span class="input-group-text">Upload</span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" name="files">
                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                     </div>

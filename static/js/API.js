@@ -47,12 +47,13 @@ class GatorTraderAPI {
 
     /**
      * @description Creates a post, uses data inside the body of the request
+     * @param formData {FormData} The data to submit
      * @param callback {function} The function to be called after results are found
      * @author Juan Ledezma
      */
-    static createPost(callback){
+    static createPost(formData, callback){
         let url = '/api/post/create'
-        return $.post(url, callback)
+        return $.post(url, formData, callback)
     }
 
     /**

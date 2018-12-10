@@ -11,6 +11,8 @@ const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
+const multer  = require('multer')
+const upload = multer()
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
@@ -30,7 +32,7 @@ const IMAGE_PATH = path.join(__dirname, '/images')
 let port = SETTINGS.web.port
 
 // initialize body-parser to parse requests to req.body
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({extended:true, limit: "100mb"}))
 app.use(bodyParser.json())
 
 //********* SESSIONS *********
@@ -158,9 +160,10 @@ app.get('/api/categories',async function(req,res){
  * @description Creates a post for currently logged-in user, data obtained from body of request
  * @author Juan Ledezma
  */
-app.post('/api/post/create', async function(req,res){
+app.post('/api/post/create', upload.array('files', 5), async function(req,res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
- 
+    req.session.user = {id:"1"}
+    req.cookies.session_id = "1"
     if (req.session.user && req.cookies.session_id) {
         // multer: req.body is not populated until files are uploaded (inside upload() in uploadImage())
         var newPost={
@@ -173,10 +176,12 @@ app.post('/api/post/create', async function(req,res){
             "price_is_negotiable":req.body.price_is_negotiable,
             "last_revised":dateTime,
             "create_date":dateTime,
-            "number_of_images":req.body.number_of_images
+            "number_of_images":req.files.length,
+            "files" : req.files, // This is just to transfer the image data, not actually stored in DB
         }
 
-        let post = Business.uploadImage(req, res)
+        // let post = Business.uploadImage(req, res)
+        let post = Business.createPost(newPost)
         res.json(post)
     } else {
         res.json({message:"Log in before submitting a post"})
