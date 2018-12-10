@@ -53,7 +53,14 @@ class GatorTraderAPI {
      */
     static createPost(formData, callback){
         let url = '/api/post/create'
-        return $.post(url, formData, callback)
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: callback,
+        });
     }
 
     /**
