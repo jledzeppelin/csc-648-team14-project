@@ -188,7 +188,7 @@ app.get('/api/categories',async function(req,res){
  *              data obtained from body of request
  * @author Juan Ledezma
  */
-app.post('/api/post/create', upload.array('postImages', 5), async function(req,res){
+app.post('/api/post/create', upload.array('files', 5), async function(req,res){
     if (req.session.user && req.cookies.session_id) {
         let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
