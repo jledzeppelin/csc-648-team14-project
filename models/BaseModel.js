@@ -133,7 +133,10 @@ class BaseModel{
         let orderByClause = ""
         let offset = 0
         let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
-        let joinClause = `LEFT JOIN ${table2} ON ${table}.${table_col1} = ${table2}.${table2_col}`
+
+        let joinClause = ""
+        if(typeof table2 !== "undefined" && typeof table_col1 !== "undefined" && typeof table2_col !== "undefined")
+            joinClause = `LEFT JOIN ${table2} ON ${table}.${table_col1} = ${table2}.${table2_col}`
 
         // If filters is an array
         if(typeof filters !== "undefined" && Array.isArray(filters))
