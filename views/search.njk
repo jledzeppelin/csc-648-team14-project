@@ -13,6 +13,7 @@
 <script src="/static/js/search.js"></script>
 <script>
     search = {}
+    search.category_id = "{{ category_id }}"
     {% if name %}
     search.name = "{{ name }}"
     search.page = "{{ page }}"

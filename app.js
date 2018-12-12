@@ -343,12 +343,14 @@ app.get('/search',function(req, res) {
     let sort = req.query.sort
     let direction = req.query.direction
     let user = req.session.user
+    let category_id = req.query.category_id
     res.render('search', {
         name: name,
         page: page,
         sort: sort,
         direction: direction,
-        user: user
+        user: user,
+        category_id : category_id,
     })
 })
 
