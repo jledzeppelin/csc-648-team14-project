@@ -53,6 +53,7 @@ class GatorTraderAPI {
      * @param formData {FormData} The data to submit
      * @param callback {function} The function to be called after results are found
      * @author Juan Ledezma
+     * Jack Cole jcole2@mail.sfsu.edu
      */
     static createPost(formData, callback){
         let url = '/api/post/create'
@@ -183,38 +184,50 @@ class GatorTraderAPI {
 
     /**
      * @description Logs the user into the site and stores their session as a cookie
-     * @param username
-     * @param password
-     * @param captcha
+     * @param formData {FormData} The form data to send to the server
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
+     * Jack Cole jcole2@mail.sfsu.edu
      */
-    static registerUser(username, password, captcha, callback){
-        let params = $.param({username: username, password: password, captcha: captcha})
-        let url = '/api/register' + params
-        return $.get(url, callback)
+    static registerUser(formData, callback){
+        let url = '/api/register'
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: callback,
+        });
     }
 
     /**
      * @description Logs the user into the site and stores their session as a cookie
-     * @param username
-     * @param password
+     * @param formData {FormData} The form data to send to the server
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
+     * Jack Cole jcole2@mail.sfsu.edu
      */
     static userLogin(username, password, callback){
-        let params = $.param({username: username, password: password})
         let url = '/api/login' + params
-        return $.get(url, callback)
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: callback,
+        });
     }
 
     /**
      * @description Logs out the currently logged in user, clears their cookie, and redirects to
      *              home page. If no user if logged in, this redirects to login page
      * @param callback {function} The function to be called after results are found
-     * @author Juan Ledezma 
+     * @author Juan Ledezma
+     * Jack Cole jcole2@mail.sfsu.edu
      */
-    static usreLogout(callback) {
+    static userLogout(callback) {
         let url = '/api/logout'
         return $.get(url, callback)
     }
