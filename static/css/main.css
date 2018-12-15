@@ -99,4 +99,22 @@ button.link  {
 .warning {color: orange;}
 .danger {color: red;}
 .default {color: black;}
+
+div.item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 150px;
+    padding-right: 10px;
 }
+img {
+    width: 150px;
+    height: 150px;
+    background-color: grey;
+
+
+}
+.caption {
+    display: block;
+}
+
