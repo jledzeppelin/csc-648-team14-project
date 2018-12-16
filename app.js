@@ -475,11 +475,11 @@ app.get('/help', function(req, res){
 // REVIEW: Missing documentation header
 app.get('/contact', function(req, res){
     let post_id = req.query.post_id
-    let user = req.session.user
+    let user_id = req.session.user_id
    // REVIEW: Needs session data
     res.render('contact', {
         post_id:post_id,
-        user:user,
+        user_id:user_id,
     });
 
 

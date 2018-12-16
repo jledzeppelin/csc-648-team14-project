@@ -4,8 +4,8 @@
 {% block js %}
 <script>
     const CONSTANT_SEARCH = {
-        user:"{{ user }}",
-        post:"{{ post }}",
+        user_id:"{{ user_id }}",
+        post_id:"{{ post_id }}",
     }
 </script>
 <script src="/static/js/contact.js"></script>
@@ -31,9 +31,11 @@
                     <!-- "Title Input" -->
                     {# REVIEW: Title of what? Should be "Post Title" #}
                     <div class="form-group">
-                        <label for="title">Title:</label>
+                        <label for="title">Post Title:</label>
                         <input type="text" class="form-control" id="title" disabled>
                     </div>
+
+                    <input type="text" class="form-control d-none" id="post_id" name="post_id"  disabled>
 
 
                     <!-- "To Input" -->
@@ -42,14 +44,16 @@
                         <input type="text" class="form-control" id="seller" disabled>
                     </div>
 
+                    <input type="text" class="form-control d-none" id="user_id" name="user_id" disabled>
+
 
                     {# REVIEW: Needs an element to contain previous messages, and also some example messages #}
 
                     <!-- Message Box -->
                     {# REVIEW: Should be titled "message" #}
                     <div class="form-group">
-                        <label for="exampleTextarea">Description:</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
+                        <label for="exampleTextarea">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                     </div>
 
 

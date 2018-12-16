@@ -110,12 +110,12 @@ class Message extends BaseModel{
         let newMessage = new Message()
 
         // Take all the values and put them in the new object
-        newMessage.id = result.id
-        newMessage.sender_id = result.sender_id
-        newMessage.recipient_id = result.recipient_id
-        newMessage.sent_date = result.sent_date
-        newMessage.post_id = result.post_id
-        newMessage.message = result.message
+        newMessage.id = result.message.id
+        newMessage.sender_id = result.message.sender_id
+        newMessage.recipient_id = result.message.recipient_id
+        newMessage.sent_date = result.message.sent_date
+        newMessage.post_id = result.message.post_id
+        newMessage.message = result.message.message
 
         //newMessage.post_title = result.post_title
         return newMessage

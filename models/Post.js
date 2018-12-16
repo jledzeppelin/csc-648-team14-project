@@ -125,7 +125,7 @@ class Post extends BaseModel{
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
     static getSingleRowById(id){
-        return super.getSingleRowById(Post, {id:id})
+        return super.getSingleRowById(Post, {id:id, table2:"registered_user", table1_col:"user_id", table2_col:"id"})
     }
 
     /**
@@ -172,20 +172,21 @@ class Post extends BaseModel{
     static objectMapper(result){
         let newPost = new Post()
         let newRegisteredUser = new RegisteredUser()
-        newRegisteredUser.last_name = result.last_name
+        newRegisteredUser.last_name = result.registered_user.last_name
+        newRegisteredUser.id = result.registered_user.id
 
         // Take all the values and put them in the new object
-        newPost.id = result.id
+        newPost.id = result.post.id
         newPost.registered_user = newRegisteredUser
-        newPost.category_id = result.category_id
-        newPost.create_date = result.create_date
-        newPost.post_title = result.post_title
-        newPost.post_description = result.post_description
-        newPost.post_status = result.post_status
-        newPost.price = result.price
-        newPost.is_price_negotiable = result.is_price_negotiable
-        newPost.last_revised = result.last_revised
-        newPost.number_of_images = result.number_of_images
+        newPost.category_id = result.post.category_id
+        newPost.create_date = result.post.create_date
+        newPost.post_title = result.post.post_title
+        newPost.post_description = result.post.post_description
+        newPost.post_status = result.post.post_status
+        newPost.price = result.post.price
+        newPost.is_price_negotiable = result.post.is_price_negotiable
+        newPost.last_revised = result.post.last_revised
+        newPost.number_of_images = result.post.number_of_images
         return newPost
     }
 

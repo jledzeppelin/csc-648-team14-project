@@ -58,8 +58,8 @@ class Category extends BaseModel{
         let newCategory = new Category()
 
         // Take all the values and put them in the new object
-        newCategory.id = result.id
-        newCategory.category_name = result.category_name
+        newCategory.id = result.category.id
+        newCategory.category_name = result.category.category_name
 
         return newCategory
     }

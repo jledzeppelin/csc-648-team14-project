@@ -64,17 +64,29 @@ class BaseModel{
      * to pass in the super class in the argument "model".
      * @param model {BaseModel} The model of the object that is being created
      * @param id The id of the row as it appears in the database. Must be an integer.
+     * @param table2 {String} Table with certain information
+     * @param table1_col {String} Specific column in table we would like to access.
+     * @param table2_cpl {String} Specific column in table we would like to access.
      * @returns {Promise} The instantiated object of this class
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    static getSingleRowById(model, {id}){
+    static getSingleRowById(model, {id, table2, table1_col, table2_col}){
       let table = model.__TABLE
-      let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
+
+
+
+        let joinClause = ""
+        if(typeof table2 !== "undefined" && typeof table1_col !== "undefined" && typeof table2_col !== "undefined")
+            joinClause = `LEFT JOIN ${table2} ON ${table}.${table1_col} = ${table2}.${table2_col}`
+
+        let sqlCommand = `SELECT * FROM ${table} ${joinClause} WHERE ${table}.id = ${id}`
+
         console.log("getSingleRowById() SQL:", sqlCommand)
+
       return new Promise(function(resolve, reject){
         let connection = BaseModel.__connect();
 
-        BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+        BaseModel.__query(connection, {sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
           if (err) throw err
           let data = {}
           if(rows.length !== 0)
@@ -98,7 +110,7 @@ class BaseModel{
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
 
-            connection.query(sqlCommand, function (err, rows, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
                 if (err) throw err
                 let newObjects = rows.map(model.objectMapper)
                 resolve(newObjects)
@@ -135,8 +147,8 @@ class BaseModel{
         let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
 
         let joinClause = ""
-        if(typeof table2 !== "undefined" && typeof table_col1 !== "undefined" && typeof table2_col !== "undefined")
-            joinClause = `LEFT JOIN ${table2} ON ${table}.${table_col1} = ${table2}.${table2_col}`
+        if(typeof table2 !== "undefined" && typeof table1_col !== "undefined" && typeof table2_col !== "undefined")
+            joinClause = `LEFT JOIN ${table2} ON ${table}.${table1_col} = ${table2}.${table2_col}`
 
         // If filters is an array
         if(typeof filters !== "undefined" && Array.isArray(filters))
@@ -171,7 +183,7 @@ class BaseModel{
         console.log("getMultipleByFilters() SQL:", sqlCommand)
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
-            connection.query(sqlCommand, function (err, rows, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
                 if (err) throw err
                 let newObjects = rows.map(model.objectMapper)
                 resolve(newObjects)
@@ -196,7 +208,7 @@ class BaseModel{
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
 
-            connection.query(sqlCommand, newRecord, function (err, results, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, newRecord, function (err, results, fields) {
                 if (err) {
                     console.log(err) //can't throw error because a duplicate email should just notify 
                                      //user that the email already exists
@@ -234,7 +246,7 @@ class BaseModel{
         return new Promise(function(resolve, reject) {
             let connection = BaseModel.__connect()
 
-            connection.query(sql, function(err, results, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, function(err, results, fields) {
                 if (err) {
                     throw err 
                 } else {

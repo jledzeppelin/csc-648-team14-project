@@ -118,7 +118,7 @@ class RegisteredUser extends BaseModel {
         return new Promise(function(resolve, reject) {
             let connection = BaseModel.__connect()
 
-            connection.query(sql, [email], function(err, results, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, [email], function(err, results, fields) {
                 if (err) {
                     throw err
                 } else {
@@ -155,13 +155,13 @@ class RegisteredUser extends BaseModel {
     static objectMapper(result){
         let newRegisteredUser = new RegisteredUser()
 
-        newRegisteredUser.id = result.id
-        newRegisteredUser.first_name = result.first_name
-        newRegisteredUser.last_name = result.last_name
-        newRegisteredUser.email = result.email
-        newRegisteredUser.login_password = result.login_password
-        newRegisteredUser.is_banned = result.is_banned
-        newRegisteredUser.account_type = result.account_type
+        newRegisteredUser.id = result.registered_user.id
+        newRegisteredUser.first_name = result.registered_user.first_name
+        newRegisteredUser.last_name = result.registered_user.last_name
+        newRegisteredUser.email = result.registered_user.email
+        newRegisteredUser.login_password = result.registered_user.login_password
+        newRegisteredUser.is_banned = result.registered_user.is_banned
+        newRegisteredUser.account_type = result.registered_user.account_type
 
         return newRegisteredUser
     }
