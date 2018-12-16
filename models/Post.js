@@ -158,7 +158,7 @@ class Post extends BaseModel{
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     static getLatestApprovedPosts(){
-        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date"} )
+        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date", table2:"registered_user", table1_col:"user_id", table2_col:"id"} )
         return latestApprovedPost
     }
 

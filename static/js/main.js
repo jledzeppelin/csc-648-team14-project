@@ -1,3 +1,7 @@
+//
+//  Search bar
+//
+
 function addCategories(categories){
     console.debug("addCategories(categories)", categories)
     let ele = $("#category_menu")
@@ -10,7 +14,6 @@ function addCategories(categories){
         ele.append(html)
     }
 
-
 }
 
 $(document).ready(function(){
@@ -18,6 +21,32 @@ $(document).ready(function(){
     GatorTraderAPI.getAllCategories(addCategories)
 
 })
+
+
+//
+//  Front Page
+//
+
+function addRecentPostsToFrontPage(posts){
+    let container = $("#recent-posts")
+    container.empty()
+    let i = 0
+    for(let p in posts){
+        i+= 1
+        let post = posts[p]
+        container.append(
+            `<div class="item">
+            <img src="${post.thumbnail_URL[0]}" class="img-list-item img-thumbnail m" alt="123">
+            <button class="link"></button><button class="btn default"><span class="caption"><b>$${post.price.toFixed(2)}</b></span></button>
+            </div>`
+        )
+        if(i > 5) break
+    }
+}
+
+if(location.pathname === "/"){
+    GatorTraderAPI.getRecentPosts(addRecentPostsToFrontPage)
+}
 
 
 //
