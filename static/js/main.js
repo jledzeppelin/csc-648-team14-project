@@ -28,11 +28,23 @@ function onSubmitRegistration(event){
 
     GatorTraderAPI.registerUser(new FormData(event.target), function(response){
         console.log(response)
+        if(response.status)
+        {
+            window.location.href = "/login"
+        }
+        else
+        {
+            displayRegisterError(response.message)
+        }
     })
 
     event.preventDefault()
 }
 
+function displayRegisterError(errorMsg){
+    console.error(`Register error:`, errorMsg)
+    $(".registerError").empty().append(errorMsg).removeClass("d-none")
+}
 
 function onSubmitLogin(event){
 
@@ -55,3 +67,5 @@ function displayLoginError(errorMsg){
     console.error(`Login error:`, errorMsg)
     $(".loginError").empty().append(errorMsg).removeClass("d-none")
 }
+
+
