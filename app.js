@@ -217,7 +217,7 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
  * @description Registers a new user, returns a confirmation
  * @author Juan Ledezma
  */
-app.post('/api/register', async function(req, res){
+app.post('/api/register', upload.array(), async function(req, res){
     var newUser={
         "first_name":req.body.first_name,
         "last_name":req.body.last_name,
