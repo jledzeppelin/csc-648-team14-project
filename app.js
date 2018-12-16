@@ -208,6 +208,37 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
         let post = Business.createPost(newPost, req.files)
         res.json(post)
     } else {
+        req.session.createPostData = req.body
+        req.session.createPostData.files = req.files
+        res.json({message:"Log in before submitting a post"})
+    }
+});
+
+/**
+ * @description Creates the post from the stored post after failing to create a post from not logging in
+ * @author Juan Ledezma
+ */
+app.get('/api/post/createStored', upload.array(), async function(req,res){
+    if (req.session.user && req.cookies.session_id) {
+        let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+        var newPost={
+            "user_id":req.session.user.id,
+            "category_id":req.session.createPostData.category_id,
+            "post_title":req.session.createPostData.post_title,
+            "post_description":req.session.createPostData.post_description,
+            "post_status":"pending",
+            "price":req.session.createPostData.price,
+            "price_is_negotiable":req.session.createPostData.price_is_negotiable,
+            "last_revised":dateTime,
+            "create_date":dateTime,
+            "number_of_images":req.session.createPostData.files.length,
+        }
+
+        let post = Business.createPost(newPost, req.session.createPostData.files)
+        delete req.session.createPostData
+        res.json(post)
+    } else {
         res.json({message:"Log in before submitting a post"})
     }
 });
@@ -237,6 +268,7 @@ app.post('/api/register', upload.array(), async function(req, res){
 app.post('/api/login', upload.array(), async function(req, res){
     let email = req.body.email
     let login_password = req.body.login_password
+    let creatingPost = req.body.creatingPost
 
 
     let userLogin = await Business.loginUser(email, login_password)
