@@ -10,7 +10,11 @@
 
             <div class="m-auto">
 
-                <form method="post" action="/api/post/create" enctype="multipart/form-data">
+                <form method="post"
+                      action="/api/post/create"
+                      enctype="multipart/form-data"
+                        onsubmit="onSubmitCreatePost(event)"
+                >
 
                     <!-- "CREATE POST" -->
                     <div class="form-group">
@@ -20,7 +24,7 @@
                     <!-- "Title Input" -->
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" id="title">
+                        <input type="text" class="form-control" id="title" required>
                     </div>
 
                     <!-- "Price Input" -->
@@ -30,7 +34,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">$</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1">
+                            <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" required>
                         </div>
                     </div>
 
@@ -42,12 +46,8 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
-                                <option value="books">Books</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="furniture">Furniture</option>
+                            <select class="custom-select category-select" id="inputGroupSelect01" required>
+                                <option selected disabled>Choose...</option>
                             </select>
                         </div>
                     </div>
@@ -61,8 +61,8 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
+                            <select class="custom-select" id="inputGroupSelect01" required>
+                                <option selected disabled>Choose...</option>
                                 <option value="new">New</option>
                                 <option value="Great">Great</option>
                                 <option value="okay">Okay</option>
@@ -74,7 +74,7 @@
                     <!-- Description Box -->
                     <div class="form-group">
                         <label for="exampleTextarea">Description:</label>
-                        <textarea class="form-control" id="description" rows="3"></textarea>
+                        <textarea class="form-control" id="description" rows="3" required></textarea>
                     </div>
 
                     <!-- Picture Input -->
@@ -83,7 +83,7 @@
                             <span class="input-group-text">Upload</span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01" name="files">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" name="files" required>
                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                     <div class="alert alert-danger">
                         <strong>NOTE!</strong> Please allow for up to 24 hours for the post to be approved!
                     </div>
-
+                    <div class="alert alert-danger createPostError d-none"></div>
                     <!-- Buttons -->
                     <div  class="center-block text-center">
                         <button type="submit" class="btn btn-danger">Cancel</button>

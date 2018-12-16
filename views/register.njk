@@ -21,6 +21,9 @@
           onsubmit="onSubmitRegistration(event)"
         >
           <div class="form-group"><h1 class="display-4"><b>Register</b></h1></div>
+          {% if creatingPost %}
+            <div class="alert alert-warning">Please register to create your Post</div>
+          {% endif %}
           <div class="form-group">
             <label for="firstNameInput">First Name</label>
             <input
@@ -81,7 +84,7 @@
             <input type="checkbox" class="form-check-input" id="check" />
             <label class="form-check-label" for="check">I Agree</label>
           </div>
-
+          <input class="d-none" name="creatingPost" value="{{ creatingPost }}">
           <div class="alert alert-danger registerError d-none"></div>
           <button type="submit" class="btn btn-primary btn-register">Register</button>
           <div class="form-group">

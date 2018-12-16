@@ -238,6 +238,7 @@ app.post('/api/login', upload.array(), async function(req, res){
     let email = req.body.email
     let login_password = req.body.login_password
 
+
     let userLogin = await Business.loginUser(email, login_password)
 
     if ("user" in userLogin) {
@@ -398,7 +399,8 @@ app.get('/user', function(req, res){
  * @author Ryan Jin
  */
 app.get('/login', checkSession, function(req, res){
-    res.render('login')
+    let creatingPost = req.query.creatingPost
+    res.render('login', {creatingPost:creatingPost})
 })
 
 /**
@@ -406,7 +408,8 @@ app.get('/login', checkSession, function(req, res){
  * @author Ryan Jin
  */
 app.get('/register', checkSession, function(req, res){
-    res.render('register');
+    let creatingPost = req.query.creatingPost
+    res.render('register', {creatingPost:creatingPost})
 
 })
 

@@ -14,6 +14,9 @@
           onsubmit="onSubmitLogin(event)"
         >
           <div class="form-group"><h1 class="display-4">Login</h1></div>
+          {% if creatingPost %}
+            <div class="alert alert-warning">Please login to create your Post</div>
+          {% endif %}
           <div class="form-group">
             <label for="emailInput">Email</label>
             <input
@@ -22,6 +25,7 @@
               id="emailInput"
               placeholder="Enter email"
               name="email"
+              required
             />
           </div>
           <div class="form-group">
@@ -32,12 +36,14 @@
               id="passwordInput"
               placeholder="Enter Password"
               name="login_password"
+              required
             />
           </div>
+          <input class="d-none" name="creatingPost" value="{{ creatingPost }}">
           <div class="alert alert-danger loginError d-none"></div>
           <button type="submit" class="btn btn-primary btn-login">Sign in</button>
           <div class="form-group">
-            <a href="/register" class="btn btn-accent"> - Sign up -</a>
+            <a href="/register{% if creatingPost %}?creatingPost={{ creatingPost }}{% endif %}" class="btn btn-accent"> - Sign up -</a>
           </div>
         </form>
       </div>
