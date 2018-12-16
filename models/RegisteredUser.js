@@ -118,7 +118,7 @@ class RegisteredUser extends BaseModel {
         return new Promise(function(resolve, reject) {
             let connection = BaseModel.__connect()
 
-            connection.query({sql:sqlCommand,nestTables: true}, [email], function(err, results, fields) {
+            connection.query({sql:sql,nestTables: true}, [email], function(err, results, fields) {
                 if (err) {
                     throw err
                 } else {
