@@ -12,8 +12,8 @@ function addPostsToPage(posts){
         let url = `/post?id=${post.id}`
         let price = post.price.toFixed(2);
         let image_url = "/static/img/no_image_avaliable.png";
-        if(post.number_of_images > 0)
-            image_url = "/images/posts/"+post.id+"-1.jpg"
+        if(post.thumbnail_URL.length > 0)
+            image_url = post.thumbnail_URL[0]
         let html = $(`
             <div class="col-md-4 offset-md-1 post">
                 <div class="text-left"><a href="${url}"><img src="${image_url}" class="post-img-thumb"></a></div>
@@ -27,7 +27,7 @@ function addPostsToPage(posts){
                          
                          <span class="price">$${price}</span>
                     </div>-->
-                <div class="text-left"><button class="btn btn-success">More Info</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-warning">Contact</button></div>
+                <div class="text-left"><a class="btn btn-success"  href="${url}">More Info</a>&nbsp;&nbsp;&nbsp;<a class="btn btn-warning" href="/contact?user_id=${post.registered_user.id}&post_id=${post.id}">Contact<a/></div>
                 <br>
         </div>`);
         $("#posts").append(html);

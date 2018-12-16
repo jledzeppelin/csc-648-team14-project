@@ -25,8 +25,17 @@
 
     <form class="form-inline  my-2 my-lg-0 ml-auto" method="get" action="/search">
         <div class="text-center">
-            <input class="form-control mx-sm-2 justify-content-center" type="search" placeholder="Search" aria-label="Search" name="name" value ="{{ name }}">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <select class="custom-select category-select" name="category_id">
+                        <option class="" value="0" selected>All</option>
+                    </select>
+                </div>
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="name" value ="{{ name }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </div>
         </div>
     </form>
 

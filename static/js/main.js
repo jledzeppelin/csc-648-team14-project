@@ -4,13 +4,11 @@
 
 function addCategories(categories){
     console.debug("addCategories(categories)", categories)
-    let ele = $("#category_menu")
+    let ele = $(".category-select")
     for(let i in categories)
     {
         let category = categories[i]
-        let html = `<li role="presentation">
-<a role="menuitem" tabindex="-1" href="#" class="text-capitalize" data-id="${category.id}">${category.category_name}</a>
-</li>`
+        let html = `<option value="${category.id}">${category.category_name}</option>`
         ele.append(html)
     }
 
@@ -121,15 +119,4 @@ function onSubmitCreatePost(event){
 function displayCreatePostError(errorMsg){
     console.error(`Create Post error:`, errorMsg)
     $(".createPostError").empty().append(errorMsg).removeClass("d-none")
-}
-
-function populateCategories(categories){
-    for(let cat in categories){
-        cat = categories[cat]
-        $('.category-select').append(`<option value="${cat.id}">${cat.category_name}</option>`)
-    }
-}
-
-if(document.URL.indexOf("/createPost") > -1){
-    GatorTraderAPI.getAllCategories(populateCategories)
 }
