@@ -234,7 +234,7 @@ app.post('/api/register', async function(req, res){
  * @description Login for registered user, returns a confirmation and creates a session
  * @author Juan Ledezma
  */
-app.post('/api/login', async function(req, res){
+app.post('/api/login', upload.array(), async function(req, res){
     let email = req.body.email
     let login_password = req.body.login_password
 
