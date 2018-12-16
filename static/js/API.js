@@ -208,8 +208,8 @@ class GatorTraderAPI {
      * @author Ryan Jin
      * Jack Cole jcole2@mail.sfsu.edu
      */
-    static userLogin(username, password, callback){
-        let url = '/api/login' + params
+    static userLogin(formData, callback){
+        let url = '/api/login'
         return $.ajax({
             type: "POST",
             url: url,

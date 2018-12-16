@@ -18,3 +18,40 @@ $(document).ready(function(){
     GatorTraderAPI.getAllCategories(addCategories)
 
 })
+
+
+//
+// Login and Registration
+//
+
+function onSubmitRegistration(event){
+
+    GatorTraderAPI.registerUser(new FormData(event.target), function(response){
+        console.log(response)
+    })
+
+    event.preventDefault()
+}
+
+
+function onSubmitLogin(event){
+
+    GatorTraderAPI.userLogin(new FormData(event.target), function(response){
+        console.log(response)
+        if(response.status)
+        {
+            window.location.href = "/account"
+        }
+        else
+        {
+            displayLoginError(response.message)
+        }
+    })
+
+    event.preventDefault()
+}
+
+function displayLoginError(errorMsg){
+    console.error(`Login error:`, errorMsg)
+    $(".loginError").empty().append(errorMsg).removeClass("d-none")
+}

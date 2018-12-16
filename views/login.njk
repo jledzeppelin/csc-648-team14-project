@@ -9,16 +9,19 @@
       <div class="d-flex justify-content-center">
         <form
           class="d-flex flex-column justify-content-center align-items-center"
+          method="POST"
+          action="/api/login"
+          onsubmit="onSubmitLogin(event)"
         >
-          <div class="form-group"><h1 class="display-4">Logo</h1></div>
+          <div class="form-group"><h1 class="display-4">Login</h1></div>
           <div class="form-group">
-            {# REVIEW: Should be email, not username. Also, the input elements must have name attributes. Check register.njk #}
-            <label for="usernameInput">Username</label>
+            <label for="emailInput">Email</label>
             <input
               type="text"
               class="form-control"
-              id="usernameInput"
-              placeholder="Enter username"
+              id="emailInput"
+              placeholder="Enter email"
+              name="email"
             />
           </div>
           <div class="form-group">
@@ -28,11 +31,13 @@
               class="form-control"
               id="passwordInput"
               placeholder="Enter Password"
+              name="login_password"
             />
           </div>
-          <button type="submit" class="btn btn-primary">Sign in</button>
+          <div class="alert alert-danger loginError d-none"></div>
+          <button type="submit" class="btn btn-primary btn-login">Sign in</button>
           <div class="form-group">
-            <a href="register.html" class="btn btn-accent"> - Sign up -</a>
+            <a href="/register" class="btn btn-accent"> - Sign up -</a>
           </div>
         </form>
       </div>
