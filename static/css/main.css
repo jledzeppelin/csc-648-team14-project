@@ -83,7 +83,9 @@ button.link  {
     background:none;border:none;
 }
 
-.btn {
+
+
+.btn-custom {
     border: none;
     background-color: inherit;
     padding: 14px 28px;
@@ -92,7 +94,7 @@ button.link  {
     display: inline-block;
 }
 
-.btn:hover {background: #eee;}
+.btn-custom:hover {background: #eee;}
 
 .success {color: green;}
 .info {color: dodgerblue;}
