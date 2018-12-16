@@ -123,7 +123,7 @@ class RegisteredUser extends BaseModel {
                     throw err
                 } else {
                     if (results.length > 0) {
-                        if (RegisteredUser.verifyHash(login_password, results[0].login_password)) {
+                        if (RegisteredUser.verifyHash(login_password, results[0].registered_user.login_password)) {
                             let user = RegisteredUser.objectMapper(results[0])
                             //delete user.login_password
 
