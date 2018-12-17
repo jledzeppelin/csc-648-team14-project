@@ -253,7 +253,10 @@ class Business{
                     sharp(file)
                         .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: "inside"})
                         .toFile(`${location}${(i+1)}t.jpg`, function (err, info) {
-                            if (err) throw err;
+                            if (err)
+                            {   console.error("Error generating thumbnail", err)
+                                throw err;
+                            }
                             console.log("Thumbnail successfully created for post",post.data.insertId, info);
                         });
 
@@ -261,7 +264,11 @@ class Business{
                     sharp(file)
                         .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: "inside"}) //
                         .toFile(`${location}${(i+1)}.jpg`, function (err, info) {
-                            if (err) throw err;
+                            if (err)
+                            {
+                                console.error("Error generating main image", err)
+                                throw err;
+                            }
                             console.log("Image successfully created for post",post.data.insertId, info);
                         });
                 }
