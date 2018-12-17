@@ -213,7 +213,7 @@ class Business{
         }
 
         let filters = [
-           `post_title LIKE '%${name}%' AND post_status IS 'approved'`,
+           `post_title LIKE '%${name}%' AND post_status = 'approved'`,
         ]
 
         // If category is not 0, then apply category filter
