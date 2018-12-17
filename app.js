@@ -206,11 +206,12 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
             "number_of_images":req.files.length,
         }
 
-        let post = await Business.createPost(newPost, req.files)
+        let post = await Business.createPost(newPost, req.files.map((x)=>x.buffer))
         res.json(post)
     } else {
         req.session.createPostData = req.body
-        req.session.createPostData.files = req.files
+        req.session.createPostData.files = req.files.map((x)=>x.buffer.toString("binary"))
+
         res.json({message:"Log in before submitting a post"})
     }
 });
@@ -237,8 +238,9 @@ app.get('/api/post/createStored', upload.array(), async function(req,res){
             "number_of_images":req.session.createPostData.files.length,
         }
 
-        let post = await Business.createPost(newPost, req.session.createPostData.files)
+        let post = await Business.createPost(newPost, req.session.createPostData.files.map((x)=>Buffer.from(x, "binary")))
         delete req.session.createPostData
+        console.log("createStored",post)
         res.json(post)
     } else {
         res.json({message:"Log in before submitting a post"})
@@ -260,6 +262,13 @@ app.post('/api/register', upload.array(), async function(req, res){
     }
 
     let registeredUser = await Business.registerUser(newUser)
+    if(registeredUser.status)
+    {
+        let userLogin = await Business.loginUser(newUser.email, req.body.login_password)
+        if(userLogin.status)
+            req.session.user = userLogin.user
+    }
+
     res.json(registeredUser)
 });
 

@@ -55,9 +55,9 @@ function onSubmitRegistration(event){
 
     GatorTraderAPI.registerUser(new FormData(event.target), function(response){
         console.log(response)
-        if(response.status)
+        if(document.URL.indexOf("creatingPost=true") > -1)
         {
-            window.location.href = "/login"
+            createStoredPost()
         }
         else
         {
@@ -81,10 +81,6 @@ function onSubmitLogin(event){
         {
             createStoredPost()
         }
-        else if(response.status)
-        {
-            window.location.href = "/account"
-        }
         else
         {
             displayLoginError(response.message)
@@ -106,7 +102,7 @@ function createStoredPost(){
             window.location.href = "/login?creatingPost=true"
         }
         else{
-            forwardToCreatePostSuccess(response.id)
+            forwardToCreatePostSuccess(response.data.insertId)
         }
     })
 
