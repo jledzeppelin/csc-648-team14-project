@@ -243,12 +243,12 @@ class Business{
         })
         // If successful, create the images
             .then(function(post){
-                try{
                 // Create each image
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i]
                     let location = `./images/posts/${post.data.insertId}-`
 
+                    console.log("Generating Images")
                     // Thumbnail
                     sharp(file)
                         .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: "inside"})
@@ -272,12 +272,8 @@ class Business{
                             console.log("Image successfully created for post",post.data.insertId, info);
                         });
                 }
-                }catch (e){
-                    console.error(e)
-                    return {message:"Error creating images"}
-                }
                 return post
-            })
+            }).catch(function(err){return {message:"Error creating images"}})
         return post
     }
 
