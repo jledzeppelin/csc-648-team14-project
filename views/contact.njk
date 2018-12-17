@@ -20,7 +20,7 @@
 
             <div class="m-auto">
 
-                <form method="post" action="">
+                <form method="post" action="/api/message/send/" onsubmit="onSubmitMessageForm(event)">
 
                     <!-- "MESSAGES" -->
                     <div class="form-group">
@@ -35,8 +35,7 @@
                         <input type="text" class="form-control" id="title" disabled>
                     </div>
 
-                    <input type="text" class="form-control d-none" id="post_id" name="post_id"  disabled>
-
+                    <input type="text" class="d-none" id="post_id" name="post_id" value="{{ post_id }}">
 
                     <!-- "To Input" -->
                     <div class="form-group">
@@ -44,10 +43,22 @@
                         <input type="text" class="form-control" id="seller" disabled>
                     </div>
 
-                    <input type="text" class="form-control d-none" id="user_id" name="user_id" disabled>
+                    <input type="text" class="d-none" id="recipient_id" name="recipient_id" value="{{ user_id }}">
 
-
-                    {# REVIEW: Needs an element to contain previous messages, and also some example messages #}
+                    <div class="col col-6 previousMessagesContainer">
+                        {#<div class="card" style="width: 18rem;">#}
+                            {#<div class="card-body">#}
+                                {#<h5 class="card-title">Cole</h5>#}
+                                {#<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="card" style="width: 18rem;">#}
+                            {#<div class="card-body">#}
+                                {#<h5 class="card-title">Bill</h5>#}
+                                {#<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    </div>
 
                     <!-- Message Box -->
                     {# REVIEW: Should be titled "message" #}
@@ -56,6 +67,8 @@
                         <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                     </div>
 
+
+                    <div class="alert alert-danger messageError d-none"></div>
 
                     <!-- Buttons -->
                     <div  class="center-block text-center">

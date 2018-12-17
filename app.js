@@ -341,11 +341,12 @@ app.get('/api/message/all', async function(req, res){
  * @description Returns all the messages for a specific post that the user owns, returns messages.njk
  * @author Ryan Jin
  */
-app.post('/api/message/send', async function(req, res){
+app.post('/api/message/send', upload.array() ,async function(req, res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
     // REVIEW: Needs session data. The sender should always be the session's user_id
+    let sender_id = req.session.user.id;
     var messageInfo = {
-        "sender_id":req.body.sender_id,
+        "sender_id":sender_id,
         "recipient_id":req.body.recipient_id,
         "sent_date":dateTime,
         "post_id":req.body.post_id,
@@ -539,12 +540,12 @@ app.get('/help', function(req, res){
 // REVIEW: Missing documentation header
 app.get('/contact', function(req, res){
     let post_id = req.query.post_id
-    let user_id = req.session.user_id
-   // REVIEW: Needs session data
+    let user_id = req.query.user_id
+    let user = req.session.user
     res.render('contact', {
         post_id:post_id,
         user_id:user_id,
-        user:req.session.user,
+        user:user
     });
 
 

@@ -59,6 +59,10 @@ function onSubmitRegistration(event){
         {
             createStoredPost()
         }
+        else if(response.status)
+        {
+            window.location.href = "/account"
+        }
         else
         {
             displayRegisterError(response.message)
@@ -80,6 +84,10 @@ function onSubmitLogin(event){
         if(document.URL.indexOf("creatingPost=true") > -1)
         {
             createStoredPost()
+        }
+        else if(response.status)
+        {
+            window.location.href = "/account"
         }
         else
         {
@@ -146,3 +154,4 @@ function displayCreatePostError(errorMsg){
     console.error(`Create Post error:`, errorMsg)
     $(".createPostError").empty().append(errorMsg).removeClass("d-none")
 }
+

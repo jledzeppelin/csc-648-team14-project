@@ -175,16 +175,21 @@ class GatorTraderAPI {
     }
 
     /**
-     * @description Returns all the messages for a specifc post that the user owns
-     * @param postid
-     * @parma message
-     * @param callback {function} The function to be called after results are found
+     * @description Sends a message to the user under the Post
+     * @param formData {FormData} The data of the message
+     * @param callback {function} The function to be called after sending the message
      * @author Ryan Jin
      */
-    static sendPostMessages(postid, message, callback){
-        let params = $.param({postid: postid, message: message})
-        let url = '/api/message/send/' + params
-        return $.get(url, callback)
+    static sendPostMessages(formData, callback){
+        let url = '/api/message/send/'
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: callback,
+        });
     }
 
     /**
