@@ -100,7 +100,7 @@ class Post extends BaseModel{
     static get __TABLE(){return "post"}
 
     static getAllPending() {
-        let sql = `SELECT * FROM ${this.__TABLE} WHERE post_status = "pending"`
+        let sql = `SELECT * FROM ${this.__TABLE} LEFT JOIN registered_user ON post.user_id = registered_user.id WHERE post_status = "pending"`
         return super.getMultipleBySQL(Post, sql)
     }
 
@@ -158,7 +158,13 @@ class Post extends BaseModel{
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
     static getLatestApprovedPosts(){
-        let latestApprovedPost = super.getMultipleByFilters(Post, {sort: "create_date", table2:"registered_user", table1_col:"user_id", table2_col:"id"} )
+        let latestApprovedPost = super.getMultipleByFilters(Post, {
+            filters : ["post_status = 'approved'"],
+            sort: "create_date",
+            direction: "DESC",
+            table2:"registered_user",
+            table1_col:"user_id",
+            table2_col:"id"} )
         return latestApprovedPost
     }
 
@@ -172,8 +178,12 @@ class Post extends BaseModel{
     static objectMapper(result){
         let newPost = new Post()
         let newRegisteredUser = new RegisteredUser()
-        newRegisteredUser.last_name = result.registered_user.last_name
-        newRegisteredUser.id = result.registered_user.id
+        try{
+            newRegisteredUser.last_name = result.registered_user.last_name
+            newRegisteredUser.id = result.registered_user.id
+        }catch(e){
+            console.error(result, e)
+        }
 
         // Take all the values and put them in the new object
         newPost.id = result.post.id

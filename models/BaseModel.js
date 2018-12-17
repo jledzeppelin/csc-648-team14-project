@@ -220,7 +220,7 @@ class BaseModel{
                     let confirmation = {
                         status:true,
                         data:results,
-                        message:"Record inserted successfully"
+                        message:"Record inserted successfully",
                     }
                     resolve(confirmation)
                 }

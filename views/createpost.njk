@@ -24,7 +24,7 @@
                     <!-- "Title Input" -->
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" id="title" required>
+                        <input name="post_title" type="text" class="form-control" id="title" required>
                     </div>
 
                     <!-- "Price Input" -->
@@ -34,7 +34,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">$</span>
                             </div>
-                            <input type="number" min="0" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" required>
+                            <input name="price" type="number" min="0.00" step="0.01" max="9999.99" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" required>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
-                            <select class="custom-select category-select" id="inputGroupSelect01" required>
+                            <select name="category_id" class="custom-select category-select" id="inputGroupSelect01" required>
                                 <option selected disabled>Choose...</option>
                             </select>
                         </div>
@@ -59,14 +59,12 @@
                         <div class="input-group mb-3">
 
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                <label class="input-group-text" for="inputGroupSelect01">Price is Negotiable</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01" required>
+                            <select name="price_is_negotiable" class="custom-select" id="inputGroupSelect01" required>
                                 <option selected disabled>Choose...</option>
-                                <option value="new">New</option>
-                                <option value="Great">Great</option>
-                                <option value="okay">Okay</option>
-                                <option value="bad">Bad</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
                             </select>
                         </div>
                     </div>
@@ -74,7 +72,7 @@
                     <!-- Description Box -->
                     <div class="form-group">
                         <label for="exampleTextarea">Description:</label>
-                        <textarea class="form-control" id="description" rows="3" required></textarea>
+                        <textarea name="post_description" class="form-control" id="description" rows="3" required></textarea>
                     </div>
 
                     <!-- Picture Input -->

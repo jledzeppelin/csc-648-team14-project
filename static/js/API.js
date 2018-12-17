@@ -68,6 +68,21 @@ class GatorTraderAPI {
     }
 
     /**
+     * @description Attempts to create a post from the stored post data.
+     * @param callback {function} The function to be called after the post is created
+     * @author Juan Ledezma
+     * Jack Cole jcole2@mail.sfsu.edu
+     */
+    static createStoredPost(callback){
+        let url = '/api/post/createStored'
+        return $.ajax({
+            type: "GET",
+            url: url,
+            success: callback,
+        });
+    }
+
+    /**
      * @description Gets all posts with the status "pending"
      * @param callback {function} The function to be called after results are found
      * @author Juan Ledezma

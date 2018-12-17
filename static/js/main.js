@@ -77,7 +77,11 @@ function onSubmitLogin(event){
 
     GatorTraderAPI.userLogin(new FormData(event.target), function(response){
         console.log(response)
-        if(response.status)
+        if(document.URL.indexOf("creatingPost=true") > -1)
+        {
+            createStoredPost()
+        }
+        else if(response.status)
         {
             window.location.href = "/account"
         }
@@ -95,6 +99,19 @@ function displayLoginError(errorMsg){
     $(".loginError").empty().append(errorMsg).removeClass("d-none")
 }
 
+function createStoredPost(){
+    GatorTraderAPI.createStoredPost(function(response){
+        if(response.message === "Log in before submitting a post")
+        {
+            window.location.href = "/login?creatingPost=true"
+        }
+        else{
+            forwardToCreatePostSuccess(response.id)
+        }
+    })
+
+}
+
 //
 // Create Post
 //
@@ -107,6 +124,9 @@ function onSubmitCreatePost(event){
         {
             window.location.href = "/login?creatingPost=true"
         }
+        else if("data" in response){
+            forwardToCreatePostSuccess(response.data.insertId)
+        }
         else
         {
             displayCreatePostError(response.message)
@@ -114,6 +134,16 @@ function onSubmitCreatePost(event){
     })
 
     event.preventDefault()
+}
+
+function onLazyRegister(){
+    GatorTraderAPI.createStoredPost(function(response){
+        console.log("lazy register", response)
+    })
+}
+
+function forwardToCreatePostSuccess(id){
+    window.location.href = "/postSuccess?id="+id
 }
 
 function displayCreatePostError(errorMsg){

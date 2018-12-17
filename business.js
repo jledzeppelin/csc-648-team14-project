@@ -213,7 +213,7 @@ class Business{
         }
 
         let filters = [
-           `post_title LIKE '%${name}%'`,
+           `post_title LIKE '%${name}%' AND post_status IS 'approved'`,
         ]
 
         // If category is not 0, then apply category filter
@@ -221,7 +221,7 @@ class Business{
             filters.push(`category_id = '${category}'`)
 
         // Creates Post Object
-        let searchResults = await Post.getMultipleByFilters(Post, {filters : filters, page: page, sort: sort_column, direction: direction})
+        let searchResults = await Post.getMultipleByFilters(Post, {filters : filters, page: page, sort: sort_column, direction: direction, table2:"registered_user", table1_col:"user_id", table2_col:"id"})
             .catch(function(err){
             console.error(`Business.getCategory() error: ${err}`)
         })
@@ -243,6 +243,7 @@ class Business{
         })
         // If successful, create the images
             .then(function(post){
+                try{
                 // Create each image
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i]
@@ -264,6 +265,11 @@ class Business{
                             console.log(info);
                         });
                 }
+                }catch (e){
+                    console.error(e)
+                    return {message:"Error creating images"}
+                }
+                return post
             })
         return post
     }

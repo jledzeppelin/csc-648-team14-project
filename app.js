@@ -45,12 +45,13 @@ app.use(session({
     secret: "gtrTRDRcsc648", //replace with a random string or env variable
     resave: false,
     saveUninitialized: false,
-    cookie: {expires: 600000}
+    cookie: {maxAge: 600000, },
+
 }));
 
 // log user out if cookie is saved in browser but user is not set
 app.use(function(req, res, next) {
-    if (req.cookies.session_id && !req.session.user) {
+    if (req.cookies.session_id && !req.session.user && !req.session.createPostData) {
         res.clearCookie("session_id")
     }
     next()
@@ -205,7 +206,7 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
             "number_of_images":req.files.length,
         }
 
-        let post = Business.createPost(newPost, req.files)
+        let post = await Business.createPost(newPost, req.files)
         res.json(post)
     } else {
         req.session.createPostData = req.body
@@ -215,11 +216,12 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
 });
 
 /**
- * @description Creates the post from the stored post after failing to create a post from not logging in
- * @author Juan Ledezma
+ * @description Creates the post from the stored post after failing to create a post due
+ * to not being logged in. This is for Lazy Registration
+ * @author Jack Cole jcole2@mail.sfsu.edu
  */
 app.get('/api/post/createStored', upload.array(), async function(req,res){
-    if (req.session.user && req.cookies.session_id) {
+    if (req.session.user && req.cookies.session_id && (typeof req.session.createPostData !== "undefined")) {
         let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
         var newPost={
@@ -235,7 +237,7 @@ app.get('/api/post/createStored', upload.array(), async function(req,res){
             "number_of_images":req.session.createPostData.files.length,
         }
 
-        let post = Business.createPost(newPost, req.session.createPostData.files)
+        let post = await Business.createPost(newPost, req.session.createPostData.files)
         delete req.session.createPostData
         res.json(post)
     } else {
@@ -268,7 +270,6 @@ app.post('/api/register', upload.array(), async function(req, res){
 app.post('/api/login', upload.array(), async function(req, res){
     let email = req.body.email
     let login_password = req.body.login_password
-    let creatingPost = req.body.creatingPost
 
 
     let userLogin = await Business.loginUser(email, login_password)
@@ -495,6 +496,28 @@ app.get('/account', function(req, res){
 })
 
 /**
+ * @description Post Success page. When a user creates a post, this page will appear.
+ * returns postsuccess.njk
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ * xhuang8@mail.sfsu.edu
+ */
+app.get('/postsuccess', async function(req, res){
+    let id = req.query.id
+    let user = req.session.user
+
+    if(typeof user === "undefined")
+        res.redirect('/login')
+    else
+    {
+        let post = await Business.getPost(id)
+
+        let matchingUser = user.id === post.id
+        matchingUser = true
+        res.render('postsuccess', {post:post.toJSON(), matchingUser: matchingUser, user:req.session.user});
+    }
+})
+
+/**
  * @description Help Page, returns help.njk
  * @author XiaoQian Huang
  * xhuang8@mail.sfsu.edu
@@ -512,6 +535,7 @@ app.get('/contact', function(req, res){
     res.render('contact', {
         post_id:post_id,
         user_id:user_id,
+        user:req.session.user,
     });
 
 

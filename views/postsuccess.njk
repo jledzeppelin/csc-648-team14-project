@@ -1,0 +1,70 @@
+{% extends "template.njk" %}
+
+<!-- author: XiaoQian Huang xhuang8@mail.sfsu.edu -->
+{% block title %}
+    Post Successful
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+{% block container %}
+    <div class="container">
+        <!--product page-->
+
+    {% if matchingUser %}
+        <div class="row">
+            <div class="col col-6 mx-auto text-center"><h2 class="alert alert-success">You successfully created a Post!</h2></div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col col-md-6 mx-auto text-right">
+                <a href="#"><img src="{{ post.thumbnail_URL[0] }}" class="post-img" id="post_image"></a>
+            </div>
+
+
+            <div class="col col-md-6 mx-auto ">
+                <div class="text-left">
+                    <h1 id="post_title" class="text-capitalize">{{ post.post_title }}
+                    </h1>
+                </div>
+
+                <div class="text-left">
+                    <h5><span id="price">${{ post.price }}</span></h5>
+                </div>
+
+                <div class="text-left">
+                    <div>
+                        <h6 class="text-capitalize text-muted">Seller: <a href="#" class="text-muted text-capitalize" id="_user">{{ post.registered_user.last_name }}</a></h6>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="text-left">
+                    <p class="text-capitalize"><em>description:</em></p>
+                </div>
+
+                <div class="text-left">
+                    <div class="w-100" id="post_description">
+                        <p>{{ post.post_description }}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col col-md-8 mx-auto text-center">
+            <span class="alert alert-warning">Please wait up to 24 hours for your Post to be approved by an admin</span>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col col-6 mx-auto text-center"><h3 class="alert alert-danger">Error: his is not your post</h3></div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
