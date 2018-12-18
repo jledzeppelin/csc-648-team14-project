@@ -179,7 +179,7 @@ class Post extends BaseModel{
         let newPost = new Post()
         let newRegisteredUser = new RegisteredUser()
         try{
-            newRegisteredUser.last_name = result.registered_user.last_name
+            newRegisteredUser.first_name = result.registered_user.first_name
             newRegisteredUser.id = result.registered_user.id
         }catch(e){
             console.error(result, e)

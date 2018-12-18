@@ -32,7 +32,7 @@ function populateMessages(messages){
 
 GatorTraderAPI.getPostDetails(CONSTANT_SEARCH.post_id,function(post){
     $("#title").val(post.post_title)
-    $("#seller").val(post.registered_user.last_name)
+    $("#seller").val(post.registered_user.first_name)
 })
 
 GatorTraderAPI.getPostMessages(CONSTANT_SEARCH.post_id, populateMessages)

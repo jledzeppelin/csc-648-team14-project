@@ -240,15 +240,15 @@ class BaseModel{
      */
     static updateSingleRecordByID(model, record_id, attribute, newValue) {
         let table = model.__TABLE
-        let sql = `UPDATE ${table} SET ${attribute} = ${newValue} WHERE id = ${record_id};`
+        let sql = `UPDATE ${table} SET ${attribute} = '${newValue}' WHERE id = ${record_id};`
         console.log("updateSingleRecordByID() SQL: ", sql)
 
         return new Promise(function(resolve, reject) {
             let connection = BaseModel.__connect()
 
-            connection.query({sql:sqlCommand,nestTables: true}, function(err, results, fields) {
+            connection.query({sql:sql,nestTables: true}, function(err, results, fields) {
                 if (err) {
-                    throw err 
+                    reject(err)
                 } else {
                     let confirmation = {
                         status:true,

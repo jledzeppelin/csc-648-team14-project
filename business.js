@@ -7,10 +7,10 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 
-const THUMBNAIL = {height:200, width:200}
+const THUMBNAIL = {height:150, width:150}
 const MAIN_IMAGE = {height:800, width:800}
 
-const IMAGE_SIZE_LIMIT = 2000000 // 2MB
+const IMAGE_SIZE_LIMIT = 15000000 // 15MB
 const SETTINGS = require('./settings')
 
 //****** IMAGE UPLOAD *********
@@ -110,9 +110,9 @@ class Business{
      * @author Juan Ledezma
      */
     static async changePostStatus(post_id, status) {
-        post_id = parseInt(post_id)
-        if (!Number.isInteger(post_id)) {
-            throw `Invalid argument in Business.changePostStatus():  ${post_id}. Must be an integer`
+        let statuses = new Set( ["pending","approved", "rejected"])
+        if (!statuses.has(status)) {
+            throw `Invalid argument in Business.changePostStatus():  ${post_id}. Must one of the following: ${Array.from(statuses)}`
         }
 
         let post = await Post.changeStatus(post_id, status).catch(function(err) {
