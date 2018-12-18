@@ -16,7 +16,7 @@ function addPostsToPage(posts){
             image_url = post.thumbnail_URL[0]
         let html = $(`
             <div class="col-md-4 offset-md-1 post">
-                <div class="text-left"><a href="${url}"><img src="${image_url}" class="post-img-thumb"></a></div>
+                <div class="text-left"><div class="thumbnail"><a href="${url}"><img src="${image_url}"></a></div></div>
                 
                 <div><h4 class="text-capitalize text-left">${post.post_title}</h4></div>
                 <div class="text-left"><h5><span class="price">$${price}</span></div>

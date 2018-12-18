@@ -15,7 +15,7 @@ function setAdminPagePosts(posts){
             <td>${post.post_title}</td>
 
             <td>${post.post_description}</td>
-            <td><img src = "${post.thumbnail_URL[0]}">    </td>
+            <td><div class="thumbnail"><img src="${post.thumbnail_URL[0]}"></div></td>
             <td>${post.registered_user.first_name}</td>
         </tr>`)
     })

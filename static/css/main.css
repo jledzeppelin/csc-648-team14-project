@@ -36,7 +36,7 @@
     height: 200px;
 }
 
-.post-img{
+.main-image{
     max-height: 500px;
     max-width: 500px;
 }
@@ -109,9 +109,16 @@ div.item {
     width: 150px;
     padding-right: 10px;
 }
-img {
+.thumbnail{
     width: 150px;
     height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.thumbnail img {
+    max-width: 150px;
+    max-height: 150px;
     background-color: grey;
 
 
