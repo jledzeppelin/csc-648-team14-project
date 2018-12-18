@@ -35,7 +35,7 @@ function verifyCaptcha(token, ip){
         `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}&remoteip=${ip}`;
     // Hitting GET request to the URL, Google will respond with success or error scenario.
     return new Promise((resolve, reject)=> {
-        https.get(verificationUrl, function (http_res) {
+        https_port.get(verificationUrl, function (http_res) {
             var data = "";
 
             http_res.on("data", function (chunk) {

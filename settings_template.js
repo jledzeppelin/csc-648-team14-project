@@ -1,7 +1,7 @@
 var settings = {}
 
 settings.web = {}
-settings.web.port = process.env.PORT || 8080
+settings.web.http_port = process.env.PORT || 8080
 
 settings.db = {
     host     : "",
@@ -11,5 +11,8 @@ settings.db = {
 }
 
 settings.CAPTCHA_SECRET = ""
+
+settings.PRIVATE_KEY = "privkey.pem"
+settings.FULL_CHAIN = "fullchain.pem"
 
 module.exports = settings

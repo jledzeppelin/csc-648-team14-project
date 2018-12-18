@@ -14,6 +14,7 @@ const bodyParser = require('body-parser')
 const multer  = require('multer')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const https = require("https");
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -29,7 +30,11 @@ const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
 const IMAGE_SIZE_LIMIT = 2000000 // 2MB
 
-let port = SETTINGS.web.port
+const LOCAL_KEY_VERIFICATION_FOLDER_PATH = path.join(__dirname, '/key_verifications')
+const REMOTE_KEY_VERIFICATION_FOLDER = '.well-known'
+
+let http_port = SETTINGS.web.http_port
+let https_port = SETTINGS.web.https_port
 
 // initialize body-parser to parse requests to req.body
 app.use(bodyParser.urlencoded({extended:true, limit: "100mb"}))
@@ -612,9 +617,22 @@ app.use('/static',express.static(STATIC_PATH))
  */
 app.use('/images',express.static(IMAGE_PATH))
 
+
+
+
+
+// HTTPS
+app.use(REMOTE_KEY_VERIFICATION_FOLDER, express.static(LOCAL_KEY_VERIFICATION_FOLDER_PATH))
+
+https.createServer({
+    key: SETTINGS.PRIVATE_KEY,
+    cert: SETTINGS.FULL_CHAIN
+}, app).listen(https_port, () => console.log(`HTTPS Server running on ${https_port}`));
+
+
 /**
- * @description Initializes the application to listen on the HTTP port
+ * @description Initializes the application to listen on the HTTP http_port
  */
-app.listen(port, () => {
-    console.log('Server running on port ' + port)
+app.listen(http_port, () => {
+    console.log('HTTP Server running on http_port ' + http_port)
 })
