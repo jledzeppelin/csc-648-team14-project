@@ -24,7 +24,7 @@
                     <!-- "Title Input" -->
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input name="post_title" type="text" class="form-control" id="title" required>
+                        <input name="post_title" minlength="5" maxlength="40" type="text" class="form-control" id="title" required>
                     </div>
 
                     <!-- "Price Input" -->
@@ -46,8 +46,8 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
-                            <select name="category_id" class="custom-select category-select" id="inputGroupSelect01" required>
-                                <option selected disabled>Choose...</option>
+                            <select name="category_id" class="form-control custom-select category-select" id="inputGroupSelect01" required>
+                                <option selected disabled value="">Choose...</option>
                             </select>
                         </div>
                     </div>
@@ -61,8 +61,8 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Price is Negotiable</label>
                             </div>
-                            <select name="price_is_negotiable" class="custom-select" id="inputGroupSelect01" required>
-                                <option selected disabled>Choose...</option>
+                            <select name="price_is_negotiable" class="form-control custom-select" id="inputGroupSelect01" required>
+                                <option selected disabled value="">Choose...</option>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
@@ -78,11 +78,11 @@
                     <!-- Picture Input -->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Upload</span>
+                            <span class="input-group-text">Image</span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01" name="files" required>
-                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            <input type="file" class="form-control-file custom-file-input" id="image-upload" name="files" required>
+                            <label class="custom-file-label" for="image-upload">Upload</label>
                         </div>
                     </div>
 

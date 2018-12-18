@@ -168,3 +168,8 @@ function displayCreatePostError(errorMsg){
     $(".createPostError").empty().append(errorMsg).removeClass("d-none")
 }
 
+// Fixes issue with filename in the form not updating when selecting a file
+$('input[type="file"]').change(function(e){
+    let fileName = e.target.files[0].name;
+    $('.custom-file-label').html(fileName);
+});

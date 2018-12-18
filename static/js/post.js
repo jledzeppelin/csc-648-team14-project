@@ -12,7 +12,7 @@ function addProductName(post){
     $("#price").empty().append("$"+ post.price.toFixed(2));
     $("#post_title").empty().append(post.post_title);
     $('#post_image').attr("src", post.image_location[0])
-    $('#contact_seller a').attr("href", `/contact?user_id=${post.registered_user.id}&post_id=${post.id}`)
+    $('a#contact_seller').attr("href", `/contact?user_id=${post.registered_user.id}&post_id=${post.id}`)
     $('#bookmark_post').attr("href", "#") // TODO: Replace with Bookmark Post URL
 }
 
