@@ -101,6 +101,21 @@ function checkFileType(file, callback) {
 // -------
 
 /**
+ * @description Returns all posts by the logged in user, and their messages
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
+app.get('/api/post/self',async function(req,res){
+    if (typeof req.session.user !== "undefined") {
+        let user_id = req.session.user.id
+        let userPosts = await Business.getUserPosts(user_id)
+        res.json(userPosts)
+    }
+    else
+        res.json({message:"User not logged in"})
+
+});
+
+/**
  * @description Returns all recently approved Posts
  * @author Anthony Carrasco acarras4@mail.sfsu.edu
  */

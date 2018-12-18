@@ -1,5 +1,6 @@
 const BaseModel = require('./BaseModel')
 const RegisteredUser = require('./RegisteredUser')
+const Message = require('./Message')
 
 /**
  * @description The model for a Post. It inherits the BaseModel's generic functionality.
@@ -151,6 +152,18 @@ class Post extends BaseModel{
         console.log("thumbnailURL: ", thumbnailURL)
         return thumbnailURL
     }
+    /**
+     * @descirption Returns posts under the specified user id, with messages attached
+     * @param user_id {Number} The user ID
+     * @author Jack Cole jcole@mail.sfsu.edu
+     */
+    static getUserPosts(user_id){
+        let userPosts = super.getMultipleByFilters(Post, {
+            filters : [`user_id = '${user_id}'`],
+            sort: "create_date",
+            direction: "DESC",})
+        return userPosts
+    }
 
 
     /**
@@ -177,17 +190,21 @@ class Post extends BaseModel{
      */
     static objectMapper(result){
         let newPost = new Post()
-        let newRegisteredUser = new RegisteredUser()
-        try{
-            newRegisteredUser.first_name = result.registered_user.first_name
-            newRegisteredUser.id = result.registered_user.id
-        }catch(e){
-            console.error(result, e)
+
+        if(typeof result.registered_user !== "undefined"){
+            try{
+                let newRegisteredUser = new RegisteredUser()
+                newRegisteredUser.first_name = result.registered_user.first_name
+                newRegisteredUser.id = result.registered_user.id
+                newPost.registered_user = newRegisteredUser
+            }catch(e){
+                console.error(result, e)
+            }
         }
 
         // Take all the values and put them in the new object
         newPost.id = result.post.id
-        newPost.registered_user = newRegisteredUser
+
         newPost.category_id = result.post.category_id
         newPost.create_date = result.post.create_date
         newPost.post_title = result.post.post_title

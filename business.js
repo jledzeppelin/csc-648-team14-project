@@ -162,6 +162,32 @@ class Business{
     }
 
     /**
+     * @descirption Returns posts under the specified user id, with messages attached
+     * @param user_id {Number} The user ID
+     * @author Jack Cole jcole@mail.sfsu.edu
+     */
+    static async getUserPosts(user_id){
+
+        user_id = parseInt(user_id)
+
+        if(!Number.isInteger(user_id))
+        {
+            console.error(`Invalid argument for controller.getUserPosts() "${user_id}". Must be an integer`)
+            return []
+        }
+
+        let userPosts = await Post.getUserPosts(user_id).catch(function(err){
+            console.error(`Business.getUserPosts() error: ${err}`)
+        })
+
+        let postIds = userPosts.map((post)=>post.id)
+
+        let userMessages = await Message.getAllMessages(postIds)
+
+        return {posts: userPosts, messages: userMessages}
+    }
+
+    /**
      * @description Returns all recent approved post
      * @author Anthony Carrasco acarras4@mail.sfsu.edu
      */
@@ -312,7 +338,7 @@ class Business{
      * @author Ryan Jin
      */
     static async getAllMessages(post_id){
-        let getMessage = Message.getAllMessages(post_id).catch(function(err){
+        let getMessage = Message.getAllMessages([post_id]).catch(function(err){
             console.error(`Business.getAllMessages() error: ${err}`)
         })
 

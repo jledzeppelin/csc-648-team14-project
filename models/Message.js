@@ -90,11 +90,13 @@ class Message extends BaseModel{
 
     /**
      * @description Returns all messages based on Post_ID
+     * @param post_ids {Array} An array of post_ids
      * @returns
      * @author Ryan Jin
      */
-    static getAllMessages(post_id){
-        let sql_command = `SELECT * FROM ${this.__TABLE} WHERE post_id = ${post_id}`
+    static getAllMessages(post_ids){
+
+        let sql_command = `SELECT * FROM ${this.__TABLE} WHERE post_id in ('${post_ids.join(",")}')`
         return super.getMultipleBySQL(Message, sql_command)
     }
 
