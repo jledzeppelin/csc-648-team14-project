@@ -313,38 +313,47 @@ class Business{
             console.error(`Business.createPost() error: ${err}`)
         })
         // If successful, create the images
-            .then(function(post){
+            .then( async function(post){
                 // Create each image
+                let images = []
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i]
                     let location = `./images/posts/${post.data.insertId}-`
 
                     console.log("Generating Images")
                     // Thumbnail
-                    sharp(file)
-                        .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: "inside"})
-                        .toFile(`${location}${(i+1)}t.jpg`, function (err, info) {
-                            if (err)
-                            {   console.error("Error generating thumbnail", err)
-                                throw err;
-                            }
-                            console.log("Thumbnail successfully created for post",post.data.insertId, info);
-                        });
+
+                    images.push(new Promise((resolve,reject)=>
+                    {
+                        sharp(file)
+                            .resize({width: THUMBNAIL.width, height: THUMBNAIL.height, fit: "inside"})
+                            .toFile(`${location}${(i + 1)}t.jpg`, function (err, info) {
+                                if (err) {
+                                    console.error("Error generating thumbnail", err)
+                                    reject(err);
+                                }
+                                console.log("Thumbnail successfully created for post", post.data.insertId, info);
+                                resolve(file)
+                            });
+                    }))
 
                     // Main Image
-                    sharp(file)
-                        .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: "inside"}) //
-                        .toFile(`${location}${(i+1)}.jpg`, function (err, info) {
-                            if (err)
-                            {
-                                console.error("Error generating main image", err)
-                                throw err;
-                            }
-                            console.log("Image successfully created for post",post.data.insertId, info);
-                        });
+                    images.push(new Promise((resolve,reject)=>
+                    {
+                        sharp(file)
+                            .resize({width: MAIN_IMAGE.width, height: MAIN_IMAGE.height, fit: "inside"}) //
+                            .toFile(`${location}${(i + 1)}.jpg`, function (err, info) {
+                                if (err) {
+                                    console.error("Error generating main image", err)
+                                    reject(err)
+                                }
+                                console.log("Image successfully created for post", post.data.insertId, info);
+                                resolve(file)
+                            });
+                    }))
                 }
-                return post
-            }).catch(function(err){return {message:"Error creating images"}})
+                return {post: post, promises:images}
+            })
         return post
     }
 

@@ -227,7 +227,14 @@ app.post('/api/post/create', upload.array('files', 5), async function(req,res){
         }
 
         let post = await Business.createPost(newPost, req.files.map((x)=>x.buffer))
-        res.json(post)
+            .catch(_=>{
+                res.json({status: false, "message" : "error creating post"})
+            })
+        console.log("createPost",post)
+        await Promise.all(post.promises)
+        res.json(post.post)
+
+
     } else {
         req.session.createPostData = req.body
         req.session.createPostData.files = req.files.map((x)=>x.buffer.toString("binary"))
@@ -259,9 +266,12 @@ app.get('/api/post/createStored', upload.array(), async function(req,res){
         }
 
         let post = await Business.createPost(newPost, req.session.createPostData.files.map((x)=>Buffer.from(x, "binary")))
-        delete req.session.createPostData
-        console.log("createStored",post)
-        res.json(post)
+        .catch({status: false, "message" : "error creating post"})
+            delete req.session.createPostData
+            await Promise.all(post.promises)
+            console.log("createStored",post)
+            res.json(post.post)
+
     } else {
         res.json({message:"Log in before submitting a post"})
     }
@@ -389,17 +399,22 @@ app.get('/api/message/allLatest', async function(req, res){
 app.post('/api/message/send', upload.array() ,async function(req, res){
     let dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
     // REVIEW: Needs session data. The sender should always be the session's user_id
-    let sender_id = req.session.user.id;
-    var messageInfo = {
-        "sender_id":sender_id,
-        "recipient_id":req.body.recipient_id,
-        "sent_date":dateTime,
-        "post_id":req.body.post_id,
-        "message":req.body.message
-    }
 
-    let sendMessage = await Business.sendMessage(messageInfo)
-    res.json(sendMessage)
+    if(typeof req.session.user === "undefined" || req.session.user.id === "undefined")
+        res.json({status:false})
+    else{
+        let sender_id = req.session.user.id;
+        var messageInfo = {
+            "sender_id":sender_id,
+            "recipient_id":req.body.recipient_id,
+            "sent_date":dateTime,
+            "post_id":req.body.post_id,
+            "message":req.body.message
+        }
+
+        let sendMessage = await Business.sendMessage(messageInfo)
+        res.json(sendMessage)
+    }
 });
 
 // -------
