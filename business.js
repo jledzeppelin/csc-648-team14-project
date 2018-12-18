@@ -162,7 +162,7 @@ class Business{
      * @author Juan Ledezma
      */
     static async registerUser(newUser, ip, token){
-        let captchaResponse = await verifyCaptcha("abc", "192.168.1.1")
+        let captchaResponse = await verifyCaptcha(token, ip)
 
         if(typeof captchaResponse.success === "undefined" || captchaResponse.success !== true)
         {
