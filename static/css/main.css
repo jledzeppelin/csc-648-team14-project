@@ -115,6 +115,7 @@ div.item {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: auto;
 }
 .thumbnail img {
     max-width: 150px;
