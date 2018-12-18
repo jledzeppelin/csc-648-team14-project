@@ -12,6 +12,9 @@ function addCategories(categories){
         ele.append(html)
     }
 
+    if(typeof search !== "undefined" && typeof search.category_id !== "undefined")
+        $(".category-select").val(search.category_id)
+
 }
 
 $(document).ready(function(){
