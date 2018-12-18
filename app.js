@@ -30,7 +30,7 @@ const STATIC_PATH = path.join(__dirname, '/static')
 const IMAGE_PATH = path.join(__dirname, '/images')
 const IMAGE_SIZE_LIMIT = 2000000 // 2MB
 
-const LOCAL_KEY_VERIFICATION_FOLDER_PATH = path.join(__dirname, '/key_verifications')
+const LOCAL_KEY_VERIFICATION_FOLDER_PATH = path.join(__dirname, '/.well-known')
 const REMOTE_KEY_VERIFICATION_FOLDER = '.well-known'
 
 let http_port = SETTINGS.web.http_port
