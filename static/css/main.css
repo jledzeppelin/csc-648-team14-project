@@ -24,6 +24,7 @@
 
 .post-img-thumb{
     max-height: 300px;
+    max-width: 300px;
 }
 
 .post-result-count{
@@ -35,6 +36,120 @@
     height: 200px;
 }
 
-.post-img{
-    height: 300px;
+.account-img{
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.createPostContainer{
+    margin-top:20px;
+}
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+
+.footer {
+    position: static;
+    bottom: 0;
+    width: 100%;
+    line-height: 60px;
+}
+
+button.link  {
+    background:none;border:none;
+}
+
+
+
+.btn-custom {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-custom:hover {background: #eee;}
+
+.success {color: green;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+.default {color: black;}
+
+div.front-page-item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 150px;
+    padding-right: 10px;
+    margin: 0 5px;
+}
+.thumbnail{
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: auto;
+}
+.thumbnail img {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+
+
+}
+
+.main-image{
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+    flex: auto;
+}
+.main-image img {
+    max-height: 500px;
+    max-width: 500px;
+    width: auto;
+    height: auto;
+
+
+}
+.caption {
+    display: block;
+}
+
+.post-status-pending{
+    color: #ffc107;
+}
+
+.post-status-approved{
+    color: #28a745;
+}
+
+.post-status-rejected{
+    color: #dc3545;
 }

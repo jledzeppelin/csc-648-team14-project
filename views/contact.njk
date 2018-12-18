@@ -1,0 +1,82 @@
+{% extends "template.njk" %}
+
+
+{% block js %}
+<script>
+    const CONSTANT_SEARCH = {
+        user_id:"{{ user_id }}",
+        post_id:"{{ post_id }}",
+    }
+</script>
+<script src="/static/js/contact.js"></script>
+{% endblock %}
+
+{% block title %}contact{% endblock %}
+
+{% block container %}
+    <div class="createMessageContainer">
+
+        <div class="d-flex">
+
+            <div class="m-auto">
+
+                <form method="post" action="/api/message/send/" onsubmit="onSubmitMessageForm(event)">
+
+                    <!-- "MESSAGES" -->
+                    <div class="form-group">
+                        <h2 class="login-header">Contact:</h2>
+                    </div>
+
+
+                    <!-- "Title Input" -->
+                    {# REVIEW: Title of what? Should be "Post Title" #}
+                    <div class="form-group">
+                        <label for="title">Post Title:</label>
+                        <input type="text" class="form-control" id="title" disabled>
+                    </div>
+
+                    <input type="text" class="d-none" id="post_id" name="post_id" value="{{ post_id }}">
+
+                    <!-- "To Input" -->
+                    <div class="form-group">
+                        <label for="To">To:</label>
+                        <input type="text" class="form-control" id="seller" disabled>
+                    </div>
+
+                    <input type="text" class="d-none" id="recipient_id" name="recipient_id" value="{{ user_id }}">
+
+                    <div class="col col-6 previousMessagesContainer">
+                        {#<div class="card" style="width: 18rem;">#}
+                            {#<div class="card-body">#}
+                                {#<h5 class="card-title">Cole</h5>#}
+                                {#<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="card" style="width: 18rem;">#}
+                            {#<div class="card-body">#}
+                                {#<h5 class="card-title">Bill</h5>#}
+                                {#<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    </div>
+
+                    <!-- Message Box -->
+                    {# REVIEW: Should be titled "message" #}
+                    <div class="form-group">
+                        <label for="exampleTextarea">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                    </div>
+
+
+                    <div class="alert alert-danger messageError d-none"></div>
+
+                    <!-- Buttons -->
+                    <div  class="center-block text-center">
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+{% endblock %}

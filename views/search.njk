@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 
+<!-- author: XiaoQian Huang xhuang8@mail.sfsu.edu -->
 {% block title %}
 {# Displays the name and page number if name is defined #}
 - Search {% if name %} "{{ name }}" Page {{page}} {% endif %}
@@ -9,16 +10,19 @@
 {% endblock %}
 
 {% block js %}
-<script src="/static/js/search.js"></script>
 <script>
     search = {}
+    search.category_id = "{{ category_id }}"
     {% if name %}
     search.name = "{{ name }}"
     search.page = "{{ page }}"
     search.sort = "{{ sort }}"
+    search.direction = "{{ direction }}"
     search.category = "{{ category }}"
     {% endif %}
 </script>
+<script src="/static/js/search.js"></script>
+
 {% endblock %}
 
 {% block container %}
@@ -26,40 +30,38 @@
 
 
     <div class="row justify-content-start">
-        <div class="col-lg-8"></div>
+        <div class="col-md-8"></div>
 
-        <div class="pages col-lg-4">
-            <ol class="list-unstyled list-inline pagination pagination-sm">
-                <li class="list-unstyled list-inline pre-pager active"><a href="#" class="previous i-previous text-capitalize">prev</a></li>
-                <li class="list-unstyled list-inline current"><a href="#">1</a></li>
-                <li class="list-unstyled list-inline"><a href="#">2</a></li>
-                <li class="list-unstyled list-inline"><a href="#">3</a></li>
-                <li>
-                    <a class="next_jump" href="#">...</a>
-                </li>
-                <li class="list-unstyled list-inline next-pager"><a href="#" class="next i-next text-capitalize">next</a></li>
-            </ol>
+        <div class="col-md-4">
+            <a href="#" class="previous i-previous text-capitalize">prev</a>
+            &nbsp;&nbsp;
+            <a href="#">1</a>
+            &nbsp;&nbsp;
+            <a href="#">2</a>
+            &nbsp;&nbsp;
+            <a href="#">3</a>
+            &nbsp;&nbsp;
+            <a class="#" href="#">...</a>
+            &nbsp;&nbsp;
+            <a href="#" class="next i-next text-capitalize">next</a>
         </div>
     </div>
 
 
-
     <div class="row justify-content-start">
-        <div class="col-lg-4">
+        <div class="col-md-3">
             <!-- Number of results -->
-            <div class="span8 spacing-none post-result-count">
+            <div class="span8 spacing-none post-result-count text-center">
                 <div class="section spacing-small spacing-top-small">
-                    <h4><span class="badge badge-secondary post-result-count-text"><span>
-                    <span class="text-danger">" "</span>
-                    </span>
-                </span></h4>
+                    <p><span class="post-result-count-text"><span><strong>" "</strong></span>
+                </span></p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4"></div>
+        <div class="col-md-3"></div>
 
-        <div class="row col-lg-2"><div class="dropdown">
+        <div class="col-md-3"><!--<div class="dropdown">
             <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu1" data-toggle="dropdown">filter
                 <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
@@ -76,10 +78,10 @@
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">camera</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="text-capitalize">video</a></li>
             </ul>
-        </div>
+        </div>-->
         </div>
 
-        <div class="col-lg-2"><div class="dropdown">
+        <div class="col-md-3"><div class="dropdown">
             <button class="btn btn-default dropdown-toggle text-capitalize" type="button" id="menu2" data-toggle="dropdown">sort by
                 <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">

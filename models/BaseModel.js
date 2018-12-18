@@ -64,17 +64,29 @@ class BaseModel{
      * to pass in the super class in the argument "model".
      * @param model {BaseModel} The model of the object that is being created
      * @param id The id of the row as it appears in the database. Must be an integer.
+     * @param table2 {String} Table with certain information
+     * @param table1_col {String} Specific column in table we would like to access.
+     * @param table2_cpl {String} Specific column in table we would like to access.
      * @returns {Promise} The instantiated object of this class
      * @author Jack Cole jcole2@mail.sfsu.edu
      */
-    static getSingleRowById(model, {id}){
+    static getSingleRowById(model, {id, table2, table1_col, table2_col}){
       let table = model.__TABLE
-      let sqlCommand = `SELECT * FROM ${table} WHERE id = ${id}`
+
+
+
+        let joinClause = ""
+        if(typeof table2 !== "undefined" && typeof table1_col !== "undefined" && typeof table2_col !== "undefined")
+            joinClause = `LEFT JOIN ${table2} ON ${table}.${table1_col} = ${table2}.${table2_col}`
+
+        let sqlCommand = `SELECT * FROM ${table} ${joinClause} WHERE ${table}.id = ${id}`
+
         console.log("getSingleRowById() SQL:", sqlCommand)
+
       return new Promise(function(resolve, reject){
         let connection = BaseModel.__connect();
 
-        BaseModel.__query(connection, sqlCommand, function (err, rows, fields) {
+        BaseModel.__query(connection, {sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
           if (err) throw err
           let data = {}
           if(rows.length !== 0)
@@ -98,7 +110,7 @@ class BaseModel{
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
 
-            connection.query(sqlCommand, function (err, rows, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
                 if (err) throw err
                 let newObjects = rows.map(model.objectMapper)
                 resolve(newObjects)
@@ -116,16 +128,27 @@ class BaseModel{
      * @param page {Number} The page to view
      * @param count {Number} The number of entries to get. By default, will only get 25
      * @param sort {String} The column to sort by
-     * @param sort_desc {boolean} The direction to sort. By default, ascending. If true, then descending
+     * @param direction {String} The direction to sort. By default, ascending. If true, then descending
+     * @param table2 {String} Table with certain information
+     * @param table1_col {String} Specific column in table we would like to access.
+     * @param table2_cpl {String} Specific column in table we would like to access.
      * @returns {Promise} The resulting rows mapped to the passed in model
      * @author Jack Cole jcole2@mail.sfsu.edu
+     * Anthony Carrasco acarras4@mail.sfsu.edu
+     * Ryan Jin
      */
-    static getMultipleByFilters(model, {filters, page, limit, sort, sort_desc}){
+    static getMultipleByFilters(model, {filters, page, limit, sort, direction, table2, table1_col, table2_col}){
+        //console.log('direction ', direction)
+        if(direction === undefined) direction = "ASC"
         let table = model.__TABLE
         let whereClause = ""
         let orderByClause = ""
         let offset = 0
         let limitClause = `LIMIT ${offset},${BaseModel.BASE_LIMIT_OF_RESULTS}`
+
+        let joinClause = ""
+        if(typeof table2 !== "undefined" && typeof table1_col !== "undefined" && typeof table2_col !== "undefined")
+            joinClause = `LEFT JOIN ${table2} ON ${table}.${table1_col} = ${table2}.${table2_col}`
 
         // If filters is an array
         if(typeof filters !== "undefined" && Array.isArray(filters))
@@ -149,19 +172,18 @@ class BaseModel{
 
         }
 
-        // Use the sort to dtermine the column to sort by, and sort_desc (if set) will determine the direction
+        // check for joinClause
+
+        // Use the sort to determine the column to sort by
         if(typeof sort === "string"){
-            let sort_direction = "ASC"
-            if(typeof sort_desc === "boolean" && sort_desc)
-                sort_direction = "DESC"
-            orderByClause = `ORDER BY ${sort} ${sort_direction}`
+            orderByClause = `ORDER BY ${sort} ${direction}`
         }
 
-        let sqlCommand = `SELECT * FROM ${table} ${whereClause} ${orderByClause} ${limitClause}`
+        let sqlCommand = `SELECT * FROM ${table} ${joinClause} ${whereClause} ${orderByClause} ${limitClause}`
         console.log("getMultipleByFilters() SQL:", sqlCommand)
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
-            connection.query(sqlCommand, function (err, rows, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, function (err, rows, fields) {
                 if (err) throw err
                 let newObjects = rows.map(model.objectMapper)
                 resolve(newObjects)
@@ -178,7 +200,7 @@ class BaseModel{
      * @returns {Promise} The instantiated object of this class
      * @author Juan Ledezma
      */
-    static insertNewRecord(model, newRecord){
+    static insertNewRecord(model, newRecord) {
         let table = model.__TABLE
         let sqlCommand = `INSERT INTO ${table} SET ?`
         console.log("insertNewRecord() SQL:", sqlCommand)
@@ -186,20 +208,58 @@ class BaseModel{
         return new Promise(function(resolve, reject){
             let connection = BaseModel.__connect();
 
-            connection.query(sqlCommand, newRecord, function (err, results, fields) {
+            connection.query({sql:sqlCommand,nestTables: true}, newRecord, function (err, results, fields) {
                 if (err) {
-                    throw err
+                    console.log(err) //can't throw error because a duplicate email should just notify 
+                                     //user that the email already exists
+                    resolve({
+                        status:false,
+                        message:"Error: could not create new record."
+                    })
                 } else {
                     let confirmation = {
                         status:true,
                         data:results,
-                        message:"Record inserted successfully"
+                        message:"Record inserted successfully",
                     }
                     resolve(confirmation)
                 }
             })
 
             connection.end();
+        })
+    }
+
+    /**
+     * @description Updates the value of an attribute for a single record identified by its id
+     * @param model To obtain table
+     * @param record_id 
+     * @param attribute Attribute to change
+     * @param newValue New value to change attribute to
+     * @author Juan Ledezma
+     */
+    static updateSingleRecordByID(model, record_id, attribute, newValue) {
+        let table = model.__TABLE
+        let sql = `UPDATE ${table} SET ${attribute} = '${newValue}' WHERE id = ${record_id};`
+        console.log("updateSingleRecordByID() SQL: ", sql)
+
+        return new Promise(function(resolve, reject) {
+            let connection = BaseModel.__connect()
+
+            connection.query({sql:sql,nestTables: true}, function(err, results, fields) {
+                if (err) {
+                    reject(err)
+                } else {
+                    let confirmation = {
+                        status:true,
+                        message:`Updated record id: ${record_id}, attribute: ${attribute}, to new value: ${newValue}`,
+                        data:results
+                    }
+                    resolve(confirmation)
+                }
+            })
+
+            connection.end()
         })
     }
 

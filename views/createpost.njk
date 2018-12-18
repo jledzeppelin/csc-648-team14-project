@@ -1,0 +1,105 @@
+{% extends "template.njk" %}
+
+
+{% block title %}CreatePost{% endblock %}
+
+{% block container %}
+    <div class="createPostContainer">
+
+        <div class="d-flex">
+
+            <div class="m-auto">
+
+                <form method="post"
+                      action="/api/post/create"
+                      enctype="multipart/form-data"
+                        onsubmit="onSubmitCreatePost(event)"
+                >
+
+                    <!-- "CREATE POST" -->
+                    <div class="form-group">
+                        <h2 class="login-header">CREATE POST:</h2>
+                    </div>
+
+                    <!-- "Title Input" -->
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input name="post_title" minlength="5" maxlength="40" type="text" class="form-control" id="title" required>
+                    </div>
+
+                    <!-- "Price Input" -->
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input name="price" type="number" min="0.00" step="0.01" max="9999.99" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" required>
+                        </div>
+                    </div>
+
+                    <!-- "Category Input" -->
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                            </div>
+                            <select name="category_id" class="form-control custom-select category-select" id="inputGroupSelect01" required>
+                                <option selected disabled value="">Choose...</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <!-- "Condition Input" -->
+                    <div class="form-group">
+                        <label for="category">Condition:</label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Price is Negotiable</label>
+                            </div>
+                            <select name="price_is_negotiable" class="form-control custom-select" id="inputGroupSelect01" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Description Box -->
+                    <div class="form-group">
+                        <label for="exampleTextarea">Description:</label>
+                        <textarea name="post_description" class="form-control" id="description" rows="3" required></textarea>
+                    </div>
+
+                    <!-- Picture Input -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Image</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="form-control-file custom-file-input" id="image-upload" name="files" required>
+                            <label class="custom-file-label" for="image-upload">Upload</label>
+                        </div>
+                    </div>
+
+                    <!-- Warning box -->
+                    <div class="alert alert-danger">
+                        <strong>NOTE!</strong> Please allow for up to 24 hours for the post to be approved!
+                    </div>
+                    <div class="alert alert-danger createPostError d-none"></div>
+                    <!-- Buttons -->
+                    <div  class="center-block text-center">
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">Post</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+    </div>
+{% endblock %}

@@ -3,54 +3,40 @@
 <!-- author: XiaoQian Huang xhuang8@mail.sfsu.edu -->
 {% block title %}Account{% endblock %}
 
+{% block css %}
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/account.js"></script>
+    <script>
+        GLOBAL_USER_ID = "{{ user.id }}"
+    </script>
+{% endblock %}
+
 {% block container %}
     <div class="container">
 
-        <br>
-
         <div class="row">
-            <div class="col col-md-4 mx-auto text-left">
-                <p class="text-capitalize"><em>your items for sale:</em></p>
-            </div>
+            <h1 class="text-capitalize"><strong>welcome <a href="#" class="text-muted text-capitalize" id="_user">user</a></strong></h1>
+        </div>
 
-            <div class="col col-md-4 mx-auto text-left">
-                <p class="text-capitalize"><em>mail:</em></p>
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="messages-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Messages</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="col-6 mx-auto tab-pane fade account-posts-tab show active" id="home" role="tabpanel" aria-labelledby="posts-tab">
+            </div>
+            <div class="col-6 mx-auto tab-pane fade account-messages-tab" id="profile" role="tabpanel" aria-labelledby="messages-tab">
             </div>
         </div>
 
 
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="/images/accounts/iPhone%20xs.jpg" class="post-img w-100"></a>
-            </div>
-
-            <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="/images/accounts/mail.jpg" class="post-img w-100"></a>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-left">
-                <p class="text-capitalize"><em><span class="glyphicon glyphicon-bookmark"></span>bookmark:</em></p>
-            </div>
-
-            <div class="col col-md-4 mx-auto text-left">
-                <p class="text-capitalize"><em>your profile:</em></p>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="/images/accounts/bookmarks.png" class="post-img w-100"></a>
-            </div>
-
-            <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="/images/accounts/profile.png" class="post-img w-100"></a>
-            </div>
-        </div>
 
 
     </div>

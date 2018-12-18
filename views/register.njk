@@ -1,0 +1,95 @@
+{% extends "template.njk" %}
+
+{% block js %}
+  <script src='https://www.google.com/recaptcha/api.js?render=6LcE-4IUAAAAAH0xgp3klPw-sVsd76X2axtTJp-Z'></script>
+{% endblock %}
+
+{% block title %}
+  Register Page
+{% endblock %}
+
+{% block container %}
+<div class="container">
+      <div class="d-flex justify-content-center">
+        {# REVIEW: A form element should have action and method attributes. Action is the URL the request is being sent to, and method is the type (POST/GET/etc..).
+
+        e.g. <form action="/somepage.php" method="GET">
+        #}
+
+
+        <form
+          class="d-flex flex-column justify-content-center align-items-center"
+          method="POST"
+          action="/api/register"
+          onsubmit="onSubmitRegistration(event)"
+        >
+          <div class="form-group"><h1 class="display-4"><b>Register</b></h1></div>
+          {% if creatingPost %}
+            <div class="alert alert-warning">Please register to create your Post</div>
+          {% endif %}
+          <div class="form-group">
+            <label for="firstNameInput">First Name</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="firstNameInput"
+                    placeholder="First name"
+                    name="first_name"
+                    minlength="1"
+            />
+          </div>
+          <div class="form-group">
+            <label for="lastNameInput">Last Name</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="lastNameInput"
+                    placeholder="Last name"
+                    name="last_name"
+                    minlength="1"
+            />
+          </div>
+          <div class="form-group">
+            <label for="emailInput">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="emailInput"
+              placeholder="Email"
+              name="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="passwordInput"
+              placeholder="Password"
+              name="login_password"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPasswordInput">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmPasswordInput"
+              placeholder="Confirm Password"
+              name="login_password_confirm"
+            />
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="check" />
+            <label class="form-check-label" for="check">I Agree</label>
+          </div>
+          <input class="d-none" name="creatingPost" value="{{ creatingPost }}">
+          <div class="alert alert-danger registerError d-none"></div>
+          <button type="submit" class="btn btn-primary btn-register">Register</button>
+          <div class="form-group">
+            Already a user? <a href="/login" class="btn btn-accent">Sign in</a>
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}

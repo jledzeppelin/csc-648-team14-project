@@ -6,12 +6,13 @@
 {% endblock %}
 
 {% block js %}
-    <script src="/static/js/post.js"></script>
+
     <script>
         Post = {
             id: {{ id }},
         }
     </script>
+    <script src="/static/js/post.js"></script>
 {% endblock %}
 
 
@@ -21,70 +22,57 @@
         <br>
 
         <div class="row">
-            <div class="col col-md-4 mx-auto text-center">
-                <h1>
-                    <a href="#" id="post_title" class="text-capitalize">Product name
-                    </a>
-                </h1>
+
+            <div class="col col-md-6 mx-auto text-right">
+                <div class="main-image"><a href="#"><img src="" class="" id="post_image"></a></div>
             </div>
-        </div>
 
 
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-center">
-                <h5 class="text-capitalize text-muted">sold by: <a href="#" class="text-muted text-capitalize" id="_user">user</a></h5>
-            </div>
-        </div>
-
-
-        <div class="row align-items-center">
-            <div class="col col-md-4 mx-auto text-center">
-                <a href="#"><img src="" class="post-img w-100" id="post_image"></a>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-center">
-                <span id="price">$--</span>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col col-md-4 mx-auto text-left">
-                <p class="text-capitalize"><em>description:</em></p>
-            </div>
-        </div>
-
-
-        <div class="row align-items-center">
-            <div class="col col-md-4 mx-auto text-center">
-                <div class="jumbotron w-100" id="post_description">
-                    <p>This is product's description.</p>
+            <div class="col col-md-6 mx-auto ">
+                <div class="text-left">
+                    <h1 id="post_title" class="text-capitalize">
+                    </h1>
                 </div>
+
+                <div class="text-left">
+                    <h5><span id="price">$--.--</span></h5>
+                </div>
+
+                <div class="text-left">
+                <div>
+                    <h6 class="text-capitalize text-muted">Seller: <a href="#" class="text-muted text-capitalize" id="_user"></a></h6></div>
+                    <div><a class="btn btn-warning" id="contact_seller">Contact Seller</a></div>
+                </div>
+
+                <br>
+                <br>
+
+
+                <div class="text-left">
+                    <div class="w-100" id="post_description">
+                        <p></p>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
+            <!--<div class="col col-md-4 mx-auto">
+                <div class="text-left">
+                    <button type="button" class="btn btn-light w-100">
+                        <a href="#" class="text-capitalize" id="contact_seller">contact  seller</a>
+                    </button>
+                </div>
 
-        <div class="row align-items-center">
-            <div class="col col-md-4 mx-auto text-center">
-                <button type="button" class="btn btn-light w-100">
-                    <a href="#" class="text-capitalize" id="contact_seller">contact  seller</a>
-                </button>
-            </div>
-        </div>
+                <br>
 
-        <br>
+                <div class="text-left">
+                    <button type="button" class="btn btn-light w-100">
+                        <a href="#" class="text-capitalize icon-bookmark" id="bookmark_post">
+                            <span class="glyphicon glyphicon-bookmark"></span>bookmark</a>
+                    </button>
+                </div>
+            </div>-->
 
-        <div class="row align-items-center">
-            <div class="col col-md-4 mx-auto text-center">
-                <button type="button" class="btn btn-light w-100">
-                    <a href="#" class="text-capitalize icon-bookmark" id="bookmark_post">
-                        <span class="glyphicon glyphicon-bookmark"></span>
-                        bookmark</a>
-                </button>
-            </div>
         </div>
 
     </div>
