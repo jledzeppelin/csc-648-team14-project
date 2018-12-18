@@ -624,6 +624,7 @@ app.use('/images',express.static(IMAGE_PATH))
 // HTTPS
 app.use(REMOTE_KEY_VERIFICATION_FOLDER, express.static(LOCAL_KEY_VERIFICATION_FOLDER_PATH))
 
+if(false)
 https.createServer({
     key: SETTINGS.PRIVATE_KEY,
     cert: SETTINGS.FULL_CHAIN
