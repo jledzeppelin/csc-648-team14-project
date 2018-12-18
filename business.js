@@ -164,10 +164,11 @@ class Business{
     static async registerUser(newUser, ip, token){
         let captchaResponse = await verifyCaptcha("abc", "192.168.1.1")
 
-        if(captchaResponse.success !== true)
+        if(typeof captchaResponse.success === "undefined" || captchaResponse.success !== true)
         {
-            console.error(`Business.registerUser() error: invalid captcha ${captchaResponse['error-codes']}`)
-            return
+            console.error(`Business.registerUser() error: invalid captcha. RESPONSE:`,captchaResponse, "IP:", ip, "TOKEN:", token)
+
+            return {}
         }
 
 
