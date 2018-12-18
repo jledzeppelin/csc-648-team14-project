@@ -168,13 +168,17 @@ class Business{
         {
             console.error(`Business.registerUser() error: invalid captcha. RESPONSE:`,captchaResponse, "IP:", ip, "TOKEN:", token)
 
-            return {}
+            return {status:false, message: "reCAPTCHA invalid"}
         }
 
 
         let user = await RegisteredUser.insertNewRecord(newUser).catch(function(err) {
             console.error(`Business.registerUser() error: ${err}`)
+            return {status:false}
         })
+
+        if(user.status !== true)
+            user.message = "Could not register user"
         return user
     }
 
