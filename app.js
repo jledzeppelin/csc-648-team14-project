@@ -528,6 +528,21 @@ app.get('/postsuccess', async function(req, res){
 })
 
 /**
+ * @description Admin page  admin.njk
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
+app.get('/admin', async function(req, res){
+    let user = req.session.user
+
+    // if(typeof user === "undefined")
+    //     res.redirect('/login')
+    // else
+    // {
+      res.render('admin');
+    // }
+})
+
+/**
  * @description Help Page, returns help.njk
  * @author XiaoQian Huang
  * xhuang8@mail.sfsu.edu
