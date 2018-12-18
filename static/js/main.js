@@ -45,7 +45,7 @@ function addRecentPostsToFrontPage(posts){
         let post = posts[p]
         container.append(
             `<div class="item">
-            <div class="thumbnail"><a href="/post?id=${post.id}"><img src="${post.thumbnail_URL[0]}" class="img-list-item img-thumbnail m" alt="${post.post_title} Image"></a></div>
+            <div class="thumbnail"><a href="/post?id=${post.id}"><img src="${post.thumbnail_URL[0]}" class="img-list-item img-thumbnail" alt="${post.post_title} Image"></a></div>
             <button class="link"></button><button class="btn default"><span class="caption"><b>$${post.price.toFixed(2)}</b></span></button>
             </div>`
         )
