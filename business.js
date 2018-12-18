@@ -176,15 +176,12 @@ class Business{
             return []
         }
 
-        let userPosts = await Post.getUserPosts(user_id).catch(function(err){
+        let userPosts = Post.getUserPosts(user_id).catch(function(err){
             console.error(`Business.getUserPosts() error: ${err}`)
         })
 
-        let postIds = userPosts.map((post)=>post.id)
 
-        let userMessages = await Message.getAllMessages(postIds)
-
-        return {posts: userPosts, messages: userMessages}
+        return userPosts
     }
 
     /**

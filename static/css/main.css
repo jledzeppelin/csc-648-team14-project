@@ -102,12 +102,13 @@ button.link  {
 .danger {color: red;}
 .default {color: black;}
 
-div.item {
+div.front-page-item {
     vertical-align: top;
     display: inline-block;
     text-align: center;
     width: 150px;
     padding-right: 10px;
+    margin: 0 5px;
 }
 .thumbnail{
     width: 150px;
@@ -120,6 +121,8 @@ div.item {
 .thumbnail img {
     max-width: 150px;
     max-height: 150px;
+    width: auto;
+    height: auto;
 
 
 }

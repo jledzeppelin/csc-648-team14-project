@@ -40,7 +40,8 @@ $(document).ready(function(){
 
 function getAccountMessages(messages){
     let ele = $('.account-messages-tab').empty()
-
+    if(messages.length ===0)
+        ele.append(`<span class="alert alert-warning">You have no messages</span>`)
     messages.forEach(function(m){
         let otherUserId = parseInt(GLOBAL_USER_ID) !== m.sender.id ? m.sender.id : m.recipient.id
         let html = `<div class="card" style="width: 18rem;">
@@ -60,4 +61,36 @@ function getAccountMessages(messages){
 GatorTraderAPI.getLatestMessages(function(response){
     console.log(response)
     getAccountMessages(response)
+})
+
+
+function getAccountPosts(posts){
+    let ele = $('.account-posts-tab').empty()
+    if(posts.length ===0)
+        ele.append(`<span class="alert alert-warning">You have no Posts</span>`)
+    posts.forEach(function(p){
+        let html = `<div class="col col-md-4 mx-auto">
+
+                    <h4>${p.post_title}</h4>
+                    Status <span class=" post-status-${p.post_status}">${p.post_status}</span>
+
+                    <div class="text-right">
+                        <a href="/post?id=${p.id}"><img src="${p.image_location[0]}" class="account-img" id="post_image"></a>
+                    </div>
+
+
+                    <div class="text-right" id="price">
+                        <p>$${p.price}</p>
+                    </div>
+                    
+                    
+
+                </div>`
+        ele.append(html)
+    })
+}
+
+GatorTraderAPI.getAllPosts(function(response){
+    console.log(response)
+    getAccountPosts(response)
 })
