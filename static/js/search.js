@@ -66,35 +66,33 @@ function clearAllPosts(){
  * @author Jack Cole jcole2@mail.sfsu.edu
  */
 // get search data if search made
-if(search.name)
-    GatorTraderAPI.searchPosts(search.name, search.category, search.page, search.sort, search.direction, function(results){
-        //when search no results, get recent posts.
-        //XiaoQian Huang (xhuang8@mail.sfsu.edu)
-        if(results.length === 0)
-        {
-            GatorTraderAPI.getRecentPosts(function(results){
-                addPostsToPage(results);
-                setResultCount(0, 0, 0, search.name)
-                console.log("Fetched results", results);
-            }).catch(function(err){
-                console.error("Could not get posts", err);
-            })
-        }
-        //else show the results if it has results.
-        else{
+if(typeof search === "undefined"){
+    search = {}
+}
+
+if(typeof search === "undefined"){
+    search = {}
+}
+
+GatorTraderAPI.searchPosts(search.name, search.category_id, search.page, search.sort, search.direction, function(results){
+    //when search no results, get recent posts.
+    //XiaoQian Huang (xhuang8@mail.sfsu.edu)
+    if(results.length === 0)
+    {
+        GatorTraderAPI.getRecentPosts(function(results){
             addPostsToPage(results);
-            setResultCount(0, results.length, results.length, search.name)
-        }
-        console.log("Fetched results", results);
-    }).catch(function(err){
-        console.error("Could not get posts", err);
-    })
-// Get any posts if no search has been made
-else
-    GatorTraderAPI.getRecentPosts(function(results){
+            setResultCount(0, 0, 0, search.name)
+            console.log("Fetched results", results);
+        }).catch(function(err){
+            console.error("Could not get posts", err);
+        })
+    }
+    //else show the results if it has results.
+    else{
         addPostsToPage(results);
-        setResultCount(0, results.length, results.length, "")
-        console.log("Fetched results", results);
-    }).catch(function(err){
-        console.error("Could not get posts", err);
-    })
+        setResultCount(0, results.length, results.length, search.name)
+    }
+    console.log("Fetched results", results);
+}).catch(function(err){
+    console.error("Could not get posts", err);
+})

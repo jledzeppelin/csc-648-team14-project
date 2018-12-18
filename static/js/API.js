@@ -16,10 +16,10 @@ class GatorTraderAPI {
      * Anthony Carrasco acarras4@mail.sfsu.edu
      */
     static searchPosts(name, category, page, sort, direction, callback){
-        if(category.length === 0) category = "0"
-        if(page.length === 0) page = "1"
-        if(sort.length === 0) sort = "default"
-        if(direction.length === 0) direction = "ASC"
+        if(typeof category === "undefined" || category.length === 0) category = "0"
+        if(typeof page === "undefined" || page.length === 0) page = "1"
+        if(typeof sort === "undefined" || sort.length === 0) sort = "price"
+        if(typeof direction === "undefined" || direction.length === 0) direction = "ASC"
         let params = $.param({name:name, category:category, page:page, sort:sort, direction: direction})
         let url = '/api/post/search?'+params
         return $.get(url,callback)
