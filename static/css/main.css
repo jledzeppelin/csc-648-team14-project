@@ -120,3 +120,14 @@ img {
     display: block;
 }
 
+.post-status-pending{
+    color: #ffc107;
+}
+
+.post-status-approved{
+    color: #28a745;
+}
+
+.post-status-rejected{
+    color: #dc3545;
+}

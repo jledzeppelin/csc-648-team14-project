@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block js %}
-
+<script src="/static/js/admin.js"></script>
 {% endblock %}
 
 {% block container %}
@@ -23,34 +23,34 @@
             <th scope="col">First Name</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>
-            <button type="button" class="btn btn-danger">Reject</button>
-            <button type="button" class="btn btn-success">Approve</button>
+        <tbody class="admin-pending-posts">
+        {#<tr>#}
+            {#<th scope="row">1</th>#}
+            {#<td>#}
+            {#<button type="button" class="btn btn-danger">Reject</button>#}
+            {#<button type="button" class="btn btn-success">Approve</button>#}
 
-                </td>
-            <td>Not accepted</td>
-            <td>Taco</td>
+                {#</td>#}
+            {#<td>Not accepted</td>#}
+            {#<td>Taco</td>#}
 
-            <td>Fishy</td>
-            <td><img src = "https://www.tacobueno.com/assets/food/tacos/Taco_Crispy_Beef_990x725.jpg">    </td>
-            <td>Bob</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Book</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+            {#<td>Fishy</td>#}
+            {#<td><img src = "https://www.tacobueno.com/assets/food/tacos/Taco_Crispy_Beef_990x725.jpg">    </td>#}
+            {#<td>Bob</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th scope="row">2</th>#}
+            {#<td>Book</td>#}
+            {#<td>Jacob</td>#}
+            {#<td>Thornton</td>#}
+            {#<td>@fat</td>#}
+        {#</tr>#}
+        {#<tr>#}
+            {#<th scope="row">3</th>#}
+            {#<td>Larry</td>#}
+            {#<td>the Bird</td>#}
+            {#<td>@twitter</td>#}
+        {#</tr>#}
         </tbody>
     </table>
 {% endblock %}
