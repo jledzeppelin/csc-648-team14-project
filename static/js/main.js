@@ -66,6 +66,13 @@ if(location.pathname === "/"){
 
 function onSubmitRegistration(event){
 
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LcE-4IUAAAAAH0xgp3klPw-sVsd76X2axtTJp-Z', {action: 'action_name'})
+            .then(function(token) {
+                console.log(token)
+            });
+    });
+    return
     GatorTraderAPI.registerUser(new FormData(event.target), function(response){
         console.log(response)
         if(document.URL.indexOf("creatingPost=true") > -1)
