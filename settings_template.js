@@ -10,4 +10,6 @@ settings.db = {
     database : "",
 }
 
+settings.CAPTCHA_SECRET = ""
+
 module.exports = settings

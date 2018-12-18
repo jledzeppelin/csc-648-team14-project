@@ -273,10 +273,13 @@ app.post('/api/register', upload.array(), async function(req, res){
         "last_name":req.body.last_name,
         "email":req.body.email,
         "login_password":req.body.login_password,
-        "is_banned":0
+        "is_banned":0,
     }
 
-    let registeredUser = await Business.registerUser(newUser)
+    let token = req.body.token
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+    let registeredUser = await Business.registerUser(newUser, ip, token)
     if(registeredUser.status)
     {
         let userLogin = await Business.loginUser(newUser.email, req.body.login_password)

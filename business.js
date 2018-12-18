@@ -6,6 +6,7 @@ const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const https = require("https");
 
 const THUMBNAIL = {height:150, width:150}
 const MAIN_IMAGE = {height:800, width:800}
@@ -25,6 +26,36 @@ const storage = multer.diskStorage({
         callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); //temporary name
     }
 });
+
+function verifyCaptcha(token, ip){
+
+    var secret = SETTINGS.CAPTCHA_SECRET;
+    // req.connection.remoteAddress will provide IP address of connected user.
+    var verificationUrl =
+        `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}&remoteip=${ip}`;
+    // Hitting GET request to the URL, Google will respond with success or error scenario.
+    return new Promise((resolve, reject)=> {
+        https.get(verificationUrl, function (http_res) {
+            var data = "";
+
+            http_res.on("data", function (chunk) {
+                // append this chunk to our growing `data` var
+                data += chunk;
+            });
+
+            http_res.on("end", function () {
+                // you can use res.send instead of console.log to output via express
+                try {
+                    resolve(JSON.parse(data));
+                }
+                catch(e){
+                    reject(e)
+                }
+            });
+        })
+    })
+}
+
 
 /**
  * @description Configures the multer upload middleware
@@ -124,10 +155,22 @@ class Business{
     /**
      * @description Registers a new user, returns a confirmation
      * @param newUser Full details of a new user
+     *
+     * @param ip {String} The IP address of the user registering
+     * @param token {String} The recapcha token
      * @returns {RegisteredUser}
      * @author Juan Ledezma
      */
-    static async registerUser(newUser){
+    static async registerUser(newUser, ip, token){
+        let captchaResponse = await verifyCaptcha("abc", "192.168.1.1")
+
+        if(captchaResponse.success !== true)
+        {
+            console.error(`Business.registerUser() error: invalid captcha ${captchaResponse['error-codes']}`)
+            return
+        }
+
+
         let user = await RegisteredUser.insertNewRecord(newUser).catch(function(err) {
             console.error(`Business.registerUser() error: ${err}`)
         })

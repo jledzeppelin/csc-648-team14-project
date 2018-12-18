@@ -66,28 +66,30 @@ if(location.pathname === "/"){
 
 function onSubmitRegistration(event){
 
+    let data = new FormData(event.target)
     grecaptcha.ready(function() {
         grecaptcha.execute('6LcE-4IUAAAAAH0xgp3klPw-sVsd76X2axtTJp-Z', {action: 'action_name'})
             .then(function(token) {
-                console.log(token)
+                data.append("token",token)
+                GatorTraderAPI.registerUser(data, function(response){
+                    console.log(response)
+                    if(document.URL.indexOf("creatingPost=true") > -1)
+                    {
+                        createStoredPost()
+                    }
+                    else if(response.status)
+                    {
+                        window.location.href = "/account"
+                    }
+                    else
+                    {
+                        displayRegisterError(response.message)
+                    }
+                })
             });
     });
-    return
-    GatorTraderAPI.registerUser(new FormData(event.target), function(response){
-        console.log(response)
-        if(document.URL.indexOf("creatingPost=true") > -1)
-        {
-            createStoredPost()
-        }
-        else if(response.status)
-        {
-            window.location.href = "/account"
-        }
-        else
-        {
-            displayRegisterError(response.message)
-        }
-    })
+
+
 
     event.preventDefault()
 }
