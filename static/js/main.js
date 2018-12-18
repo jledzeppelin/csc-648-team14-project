@@ -1,4 +1,3 @@
-
 function convertTimeToBetterFormat(time){
     let date = new Date(time)
 
@@ -21,7 +20,7 @@ function addCategories(categories){
     }
 
     if(typeof search !== "undefined" && typeof search.category_id !== "undefined")
-        $(".category-select").val(search.category_id)
+        ele.val(search.category_id)
 
 }
 
@@ -67,29 +66,31 @@ if(location.pathname === "/"){
 function onSubmitRegistration(event){
 
     let data = new FormData(event.target)
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LcE-4IUAAAAAH0xgp3klPw-sVsd76X2axtTJp-Z', {action: 'action_name'})
-            .then(function(token) {
-                data.append("token",token)
-                GatorTraderAPI.registerUser(data, function(response){
-                    console.log(response)
-                    if(document.URL.indexOf("creatingPost=true") > -1)
-                    {
-                        createStoredPost()
-                    }
-                    else if(response.status)
-                    {
-                        window.location.href = "/account"
-                    }
-                    else
-                    {
-                        displayRegisterError(response.message)
-                    }
-                })
-            });
-    });
+    if(data.get("login_password") !== data.get("login_password_confirm"))
+        displayRegisterError("Passwords do not match")
+    else
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LcE-4IUAAAAAH0xgp3klPw-sVsd76X2axtTJp-Z', {action: 'action_name'})
+                .then(function(token) {
+                    data.append("token",token)
 
-
+                    GatorTraderAPI.registerUser(data, function(response){
+                        console.log(response)
+                        if(document.URL.indexOf("creatingPost=true") > -1)
+                        {
+                            createStoredPost()
+                        }
+                        else if(response.status)
+                        {
+                            window.location.href = "/account"
+                        }
+                        else
+                        {
+                            displayRegisterError(response.message)
+                        }
+                    })
+                });
+        });
 
     event.preventDefault()
 }

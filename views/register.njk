@@ -35,6 +35,7 @@
                     id="firstNameInput"
                     placeholder="First name"
                     name="first_name"
+                    minlength="1"
             />
           </div>
           <div class="form-group">
@@ -45,12 +46,13 @@
                     id="lastNameInput"
                     placeholder="Last name"
                     name="last_name"
+                    minlength="1"
             />
           </div>
           <div class="form-group">
             <label for="emailInput">Email</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               id="emailInput"
               placeholder="Email"
@@ -85,7 +87,7 @@
           <div class="alert alert-danger registerError d-none"></div>
           <button type="submit" class="btn btn-primary btn-register">Register</button>
           <div class="form-group">
-            <a href="/login" class="btn btn-accent"> - Sign in -</a>
+            Already a user? <a href="/login" class="btn btn-accent">Sign in</a>
           </div>
         </form>
       </div>
