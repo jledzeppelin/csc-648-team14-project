@@ -150,6 +150,11 @@ class GatorTraderAPI {
         return $.get(url, callback)
     }
 
+    static getLatestMessages(callback){
+        let url = '/api/message/allLatest'
+        return $.get(url, callback)
+    }
+
     /**
      * @description Gets the details of a single message, using the message id
      * @param message_id 
@@ -168,8 +173,8 @@ class GatorTraderAPI {
      * @param callback {function} The function to be called after results are found
      * @author Ryan Jin
      */
-    static getPostMessages(post_id, callback){
-        let params = $.param({post_id: post_id})
+    static getPostMessages(post_id, user_id,callback){
+        let params = $.param({post_id: post_id, user_id: user_id})
         let url = '/api/message/all?' + params
         return $.get(url, callback)
     }

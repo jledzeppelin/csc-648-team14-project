@@ -9,7 +9,7 @@
 {% block js %}
     <script src="/static/js/account.js"></script>
     <script>
-        message
+        GLOBAL_USER_ID = "{{ user.id }}"
     </script>
 {% endblock %}
 
@@ -20,7 +20,44 @@
             <h1 class="text-capitalize"><strong>welcome <a href="#" class="text-muted text-capitalize" id="_user">user</a></strong></h1>
         </div>
 
-        <br>
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="messages-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Messages</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="col-6 mx-auto tab-pane fade account-posts-tab show active" id="home" role="tabpanel" aria-labelledby="posts-tab">
+                <div class="col col-md-4 mx-auto">
+
+                    <div class="text-right">
+                        <a href="#"><img src="#" class="account-img" id="post_image"></a>
+                    </div>
+
+                    <div class="text-right">
+                        <h6 class="text-capitalize" id="post_title"><a href="#">product name</a></h6>
+                    </div>
+
+                    <div class="text-right" id="price">
+                        <p>$--</p>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-6 mx-auto tab-pane fade account-messages-tab" id="profile" role="tabpanel" aria-labelledby="messages-tab">
+                <div class="account-message">
+                    <div class="text-left"><h5>Xbox Controller</h5></div>
+                    <div class="text-left">Hey I would like to purchase this product</div>
+                    <div class="text-left"><a href="#" class="text-muted text-capitalize" id="_user">user</a> <a href="#" class="text-muted text-capitalize">12 am</a></div>
+                </div>
+
+            </div>
+        </div>
 
         <div class="row">
             <div class="col col-md-4 mx-auto text-left">

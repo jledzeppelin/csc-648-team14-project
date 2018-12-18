@@ -37,3 +37,27 @@ $(document).ready(function(){
             console.error("Could not get posts", err);
         })
 })*/
+
+function getAccountMessages(messages){
+    let ele = $('.account-messages-tab').empty()
+
+    messages.forEach(function(m){
+        let otherUserId = parseInt(GLOBAL_USER_ID) !== m.sender.id ? m.sender.id : m.recipient.id
+        let html = `<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${m.post.post_title}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">${convertTimeToBetterFormat(m.sent_date)}</h6>
+    <p class="card-text">${m.message} <span class="text-muted text-capitalize"> - ${m.sender.first_name}</span></p>
+
+    <span href="#" class="text-muted text-capitalize"></span>
+        <a href="/contact?user_id=${otherUserId}&post_id=${m.post.id}" class="card-link">Continue Conversation</a>
+  </div>
+</div>`
+        ele.append(html)
+    })
+}
+
+GatorTraderAPI.getLatestMessages(function(response){
+    console.log(response)
+    getAccountMessages(response)
+})

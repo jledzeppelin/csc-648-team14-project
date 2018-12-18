@@ -334,11 +334,57 @@ class Business{
     /**
      * @description Gets all the messages for a specific post_id
      * @param post_id
+     * @param user_id
+     * @param other_user_id
      * @returns {Message}
      * @author Ryan Jin
+     * Jack Cole jcole2@mail.sfsu.edu
      */
-    static async getAllMessages(post_id){
-        let getMessage = Message.getAllMessages([post_id]).catch(function(err){
+    static async getAllMessages(post_id, user_id,other_user_id){
+        user_id = parseInt(user_id)
+        other_user_id = parseInt(other_user_id)
+        post_id = parseInt(post_id)
+
+        if(!Number.isInteger(user_id))
+        {
+            console.error(`Invalid argument for controller.getAllMessages() "${user_id}". Must be an integer`)
+            return []
+        }
+
+        if(!Number.isInteger(post_id))
+        {
+            console.error(`Invalid argument for controller.getAllMessages() "${post_id}". Must be an integer`)
+            return []
+        }
+
+        if(!Number.isInteger(other_user_id))
+        {
+            console.error(`Invalid argument for controller.getAllMessages() "${other_user_id}". Must be an integer`)
+            return []
+        }
+        let getMessage = Message.getAllMessages(post_id, user_id, other_user_id).catch(function(err){
+            console.error(`Business.getAllMessages() error: ${err}`)
+        })
+
+        return getMessage
+    }
+
+    /**
+     * @description Gets all the latest messages for each post
+     * @param user_id {String}
+     * @returns {Message}
+     * @author Jack Cole jcole2@mail.sfsu.edu
+     */
+    static async getLatestMessages(user_id){
+
+        user_id = parseInt(user_id)
+
+        if(!Number.isInteger(user_id))        {
+            console.error(`Invalid argument for controller.getLatestMessages() "${user_id}". Must be an integer`)
+            return []
+        }
+
+        let getMessage = Message.getLatestMessages([user_id]).catch(function(err){
             console.error(`Business.getAllMessages() error: ${err}`)
         })
 

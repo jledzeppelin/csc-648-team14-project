@@ -2,7 +2,7 @@ function onSubmitMessageForm(event){
     GatorTraderAPI.sendPostMessages(new FormData(event.target), function(response){
         console.log(response)
         if(response.status){
-            GatorTraderAPI.getPostMessages(CONSTANT_SEARCH.post_id, populateMessages)
+            GatorTraderAPI.getPostMessages(CONSTANT_SEARCH.post_id, CONSTANT_SEARCH.user_id, populateMessages)
             $('textarea#message').val("")
         }
         else {
@@ -20,13 +20,16 @@ function displayMessageError(error){
 function populateMessages(messages){
     let container = $(".previousMessagesContainer")
     container.empty();
-    messages.forEach(function(message){
-        container.append(`
-<div class="card" style="width: 18rem;">
-<div class="card-body">
-<h5 class="card-title">${message.sender_id === CONSTANT_SEARCH.user_id ? "Received" : "Sent"}</h5>
-<p class="card-text">${message.message}</p>
-</div>`)
+    messages.forEach(function(m){
+        let otherUserId = m.post.user_id !== m.sender.id ? m.sender.id : m.recipient.id
+        let html = `<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">${convertTimeToBetterFormat(m.sent_date)}</h6>
+    <p class="card-text">${m.message} <span class="text-muted text-capitalize"> - ${m.sender.first_name}</span></p>
+
+    </div>
+</div>`
+        container.append(html)
     })
 }
 
@@ -35,4 +38,4 @@ GatorTraderAPI.getPostDetails(CONSTANT_SEARCH.post_id,function(post){
     $("#seller").val(post.registered_user.first_name)
 })
 
-GatorTraderAPI.getPostMessages(CONSTANT_SEARCH.post_id, populateMessages)
+GatorTraderAPI.getPostMessages(CONSTANT_SEARCH.post_id, CONSTANT_SEARCH.user_id, populateMessages)

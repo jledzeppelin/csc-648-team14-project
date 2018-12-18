@@ -345,10 +345,32 @@ app.get('/api/message', async function(req, res){
  * @author Ryan Jin
  */
 app.get('/api/message/all', async function(req, res){
-    let post_id = req.query.post_id
-    // REVIEW: Needs session data. Only the messages to and from this user should be gathered
-    let message = await Business.getAllMessages(post_id)
-    res.json(message)
+    if(typeof req.session.user === "undefined")
+        res.json({message: "not logged in"})
+    else {
+        let post_id = req.query.post_id
+        let user_id = req.session.user.id
+
+        let other_user_id = req.query.user_id
+        let message = await Business.getAllMessages(post_id, user_id,other_user_id)
+        res.json(message)
+    }
+
+});
+
+/**
+ * @description Returns all the latest messages per post for an account
+ * @author Jack Cole jcole2@mail.sfsu.edu
+ */
+app.get('/api/message/allLatest', async function(req, res){
+    if(typeof req.session.user === "undefined")
+        res.json({message: "not logged in"})
+    else{
+        let user_id = req.session.user.id;
+        // REVIEW: Needs session data. Only the messages to and from this user should be gathered
+        let messages = await Business.getLatestMessages(user_id)
+        res.json(messages)
+    }
 
 });
 
