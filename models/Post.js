@@ -137,7 +137,7 @@ class Post extends BaseModel{
     getImageLocations(){
             var imageLocations = []
             for(var i =1; i<=this.number_of_images;i++) imageLocations.push(`/images/posts/${this.id}-${i}.jpg`)
-            console.log("imageLocations: ", imageLocations)
+            // console.log("imageLocations: ", imageLocations)
             return imageLocations
     }
 
@@ -149,7 +149,7 @@ class Post extends BaseModel{
     getThumbnailURL(){
         var thumbnailURL = []
         for(var i =1; i<=this.number_of_images;i++) thumbnailURL.push(`/images/posts/${this.id}-${i}t.jpg`)
-        console.log("thumbnailURL: ", thumbnailURL)
+        // console.log("thumbnailURL: ", thumbnailURL)
         return thumbnailURL
     }
     /**
