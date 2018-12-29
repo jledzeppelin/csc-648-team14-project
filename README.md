@@ -1,10 +1,12 @@
-# csc648-fa18-Team14
+# SFSU Fall 2018 CSC-648 Team 14 Project
+### *[Gator Trader](http://sfsu-list.us.to/)*
 
-## Please do the following steps before completing Milestone 0.
-1. Change the name of the repo from csc648-fa18-TeamNN. All that needs to chanage is the NN to your respective team number. Team numbers whos value is less than 10, please pad with a 0. Ex team 1 is Team01 team 11 is Team11. Please make sure to also remove the username from the repo as well.
+My role in the team: Backend Lead 
 
-1. PLEASE REMOVE THE USERNAME FROM THE REPO!!!
+The purpose of this project was to introduce students to the full lifecycle of software development, from the beginning
+with the creation of high level requirements and use cases, to testing and quality assurance of a deliverable product. 
 
-2. Add ALL members of your team to this repo. For it to count, they must ACCEPT the invite.
+In its current state, the application does not have all the envisioned functionality / features implemented, and the user
+interface needs polishing.
 
-
+**_To view the steps taken throughout the development of this web application look at the documentation inside Milestones folders_**
